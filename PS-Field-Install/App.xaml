@@ -1,0 +1,6 @@
+﻿<Application x:Class="PS_Field_Install.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:PS_Field_Install"
+             StartupUri="Search.xaml">
+</Application>

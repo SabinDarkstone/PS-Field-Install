@@ -1,0 +1,81 @@
+﻿<Page x:Class="PS_Field_Install.Update"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:PS_Field_Install"
+      mc:Ignorable="d" 
+      d:DesignHeight="595" d:DesignWidth="840"
+      Title="Admin Update">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="346*"/>
+            <RowDefinition Height="249*"/>
+        </Grid.RowDefinitions>
+        <Rectangle Margin="0,40,0,0" Fill="White" Grid.RowSpan="2"/>
+        <Grid Margin="0,0,0,306">
+            <Rectangle Fill="#FF2C4164" Height="40" VerticalAlignment="Top" Width="{DynamicResource {x:Static SystemParameters.PrimaryScreenWidthKey}}"/>
+            <Image x:Name="image" HorizontalAlignment="Left" Height="36" Margin="10,2,0,0" VerticalAlignment="Top" Width="35" Source="Assets/Icon.png"/>
+            <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="50,9,0,0" TextWrapping="Wrap" Text="Power Sentry Field Install Tool" VerticalAlignment="Top" Width="290" FontSize="18.667" Foreground="White" FontFamily="Mangal"/>
+            <Label x:Name="linkSearch" Content="Search" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="White" Margin="630,6,0,0" MouseLeave="linkSearch_MouseLeave" MouseLeftButtonDown="linkSearch_MouseLeftButtonDown" MouseLeftButtonUp="linkSearch_MouseLeftButtonUp" MouseEnter="linkSearch_MouseEnter"/>
+            <Label x:Name="linkLogin" Content="Admin Settings" HorizontalAlignment="Left" Margin="687,6,0,0" VerticalAlignment="Top" Background="#00000000" Foreground="#FFFFD100"/>
+            <Label x:Name="linkHelp" Content="Help" HorizontalAlignment="Left" Margin="790,6,0,0" VerticalAlignment="Top" Background="#00000000" Foreground="White" MouseEnter="linkHelp_MouseEnter" MouseLeave="linkHelp_MouseLeave" MouseLeftButtonDown="linkHelp_MouseLeftButtonDown" MouseLeftButtonUp="linkHelp_MouseLeftButtonUp"/>
+        </Grid>
+        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="405" Margin="114,115,0,0" VerticalAlignment="Top" Width="615" Grid.RowSpan="2">
+            <TabItem Header="Image Importer">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                        <GradientStop Color="#00E5E5E5" Offset="1"/>
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid Background="White" HorizontalAlignment="Left" Width="609">
+                    <TextBlock x:Name="textBlock3" HorizontalAlignment="Left" Margin="28,11,0,0" TextWrapping="Wrap" Text="Product Name / Family" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtProduct" HorizontalAlignment="Left" Height="23" Margin="28,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="250"/>
+                    <TextBlock x:Name="textBlock4" HorizontalAlignment="Left" Margin="28,147,0,0" TextWrapping="Wrap" Text="Select Type of Image" VerticalAlignment="Top"/>
+                    <RadioButton x:Name="radioLuminaire" Content="Luminaire / Fixture" HorizontalAlignment="Left" Margin="43,168,0,0" VerticalAlignment="Top" GroupName="groupImageType"/>
+                    <RadioButton x:Name="radioPowerSentry" Content="Power Sentry" HorizontalAlignment="Left" Margin="43,188,0,0" VerticalAlignment="Top" GroupName="groupImageType"/>
+                    <Button x:Name="btnOpen" Content="Browse" HorizontalAlignment="Left" Margin="373,310,0,0" VerticalAlignment="Top" Width="75" Click="btnOpen_Click"/>
+                    <TextBlock x:Name="textBlock5" HorizontalAlignment="Left" Margin="28,67,0,0" TextWrapping="Wrap" Text="Image Path" VerticalAlignment="Top"/>
+                    <TextBox x:Name="txtImageFile" HorizontalAlignment="Left" Height="46" Margin="28,88,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="250" IsEnabled="False"/>
+                    <Button x:Name="btnUploadImage" Content="Upload" HorizontalAlignment="Left" Margin="453,310,0,0" VerticalAlignment="Top" Width="75" Click="btnUploadImage_Click"/>
+                    <Border Margin="343,81,51,81" BorderBrush="Black" BorderThickness="1">
+                        <Image x:Name="picPreview"/>
+                    </Border>
+                    <ListBox x:Name="listCurrentImageFiles" HorizontalAlignment="Left" Height="132" Margin="28,235,0,0" VerticalAlignment="Top" Width="133"/>
+                    <TextBlock x:Name="textBlock5_Copy" HorizontalAlignment="Left" Margin="28,214,0,0" TextWrapping="Wrap" Text="Current Files" VerticalAlignment="Top"/>
+                    <Button x:Name="btnPreview" Content="Preview Image" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="166,260,0,0" Click="btnPreview_Click"/>
+                    <Button x:Name="btnClear" Content="Clear Preview" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="166,235,0,0" Click="btnClear_Click"/>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Database Update">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FFF0F0F0" Offset="0"/>
+                        <GradientStop Color="#00E5E5E5" Offset="1"/>
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid Background="#00000000">
+                    <Grid Margin="103,20,0,32" HorizontalAlignment="Left" Width="424">
+                        <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Filename" VerticalAlignment="Bottom" Margin="0,0,0,298"/>
+                        <TextBox x:Name="txtFilename" HorizontalAlignment="Left" Height="23" Margin="0,0,0,270" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="265"/>
+                        <Button x:Name="btnChooseFile" Content="Choose File" HorizontalAlignment="Left" Margin="270,0,0,271" VerticalAlignment="Bottom" Width="75" Click="btnChooseFile_Click"/>
+                        <ListBox x:Name="listHeadings" HorizontalAlignment="Left" Height="135" Margin="0,0,0,60" VerticalAlignment="Bottom" Width="235" MouseLeftButtonUp="listHeadings_MouseLeftButtonUp"/>
+                        <RadioButton x:Name="radioNone" Content="Do Not Use" HorizontalAlignment="Left" Margin="305,0,0,180" VerticalAlignment="Bottom" Checked="radioButtons_Checked" GroupName="columns"/>
+                        <RadioButton x:Name="radioCICode" Content="CI Code" HorizontalAlignment="Left" Margin="305,0,0,160" VerticalAlignment="Bottom" Checked="radioButtons_Checked" GroupName="columns"/>
+                        <RadioButton x:Name="radioDescription" Content="Description" HorizontalAlignment="Left" Margin="305,0,0,140" VerticalAlignment="Bottom" Checked="radioButtons_Checked" GroupName="columns"/>
+                        <RadioButton x:Name="radioPowerSentrySolution" Content="PS Solution" HorizontalAlignment="Left" Margin="305,0,0,120" VerticalAlignment="Bottom" Checked="radioButtons_Checked" GroupName="columns"/>
+                        <RadioButton x:Name="radioMounting" Content="Mounting Option" HorizontalAlignment="Left" Margin="305,0,0,100" VerticalAlignment="Bottom" Checked="radioButtons_Checked" GroupName="columns"/>
+                        <RadioButton x:Name="radioWiringDiagram" Content="Wiring Diagram" HorizontalAlignment="Left" Margin="305,0,0,80" VerticalAlignment="Bottom" Checked="radioButtons_Checked" GroupName="columns"/>
+                        <RadioButton x:Name="radioComment" Content="Comment" HorizontalAlignment="Left" Margin="305,0,0,60" VerticalAlignment="Bottom" Checked="radioButtons_Checked" GroupName="columns"/>
+                        <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Margin="0,0,0,200" TextWrapping="Wrap" Text="Excel Column Headings" VerticalAlignment="Bottom"/>
+                        <TextBlock x:Name="textBlock2_Copy" HorizontalAlignment="Left" Margin="288,0,0,200" TextWrapping="Wrap" Text="Map Column To..." VerticalAlignment="Bottom"/>
+                        <Button x:Name="btnReset" Content="Reset" HorizontalAlignment="Left" Margin="65,0,0,0" VerticalAlignment="Bottom" Width="75" Click="btnReset_Click"/>
+                        <Button x:Name="btnConfirm" Content="Confirm &amp; Upload" HorizontalAlignment="Left" Margin="145,0,0,0" VerticalAlignment="Bottom" Width="110" Click="btnConfirm_Click"/>
+                        <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="260,0,0,0" VerticalAlignment="Bottom" Width="75" IsCancel="True" Click="btnCancel_Click"/>
+                    </Grid>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Page>
