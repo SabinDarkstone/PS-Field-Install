@@ -8,7 +8,6 @@ using Excel = Microsoft.Office.Interop.Excel;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Forms;
-using System.Threading.Tasks;
 using PS_Field_Install.Scripts;
 
 namespace PS_Field_Install {
@@ -20,6 +19,7 @@ namespace PS_Field_Install {
 		private bool itemSelected = false;
 
 		private Hashtable columnAllocation;
+		private Hashtable images;
 
 		private enum ColTypes {
 			DoNotUse, pCICode, pDescription, pPowerSentrySolution, pMounting, pWiringDiagram, pComment
@@ -32,7 +32,7 @@ namespace PS_Field_Install {
 			InitializeUploader();
 		}
 
-		private async void InitializeUploader() {
+		private void InitializeUploader() {
 			radioCICode.Tag = ColTypes.pCICode;
 			radioComment.Tag = ColTypes.pComment;
 			radioDescription.Tag = ColTypes.pDescription;
@@ -41,7 +41,7 @@ namespace PS_Field_Install {
 			radioPowerSentrySolution.Tag = ColTypes.pPowerSentrySolution;
 			radioWiringDiagram.Tag = ColTypes.pWiringDiagram;
 
-			await InitializeCurrentImages();
+			InitializeCurrentImages();
 		}
 
 		#region Help Link Events
@@ -267,23 +267,61 @@ namespace PS_Field_Install {
 			}
 
 			if (txtImageFile.Text != null) {
-				await DropboxHelper.SendFileToDropbox(txtImageFile.Text, "/Images", txtProduct.Text);
+				if (radioLuminaire.IsChecked == true) {
+					await DropboxHelper.SendFileToDropbox(txtImageFile.Text, "/Images/Lithonia", txtProduct.Text + ".png");
+				} else if (radioPowerSentry.IsChecked == true) {
+					await DropboxHelper.SendFileToDropbox(txtImageFile.Text, "/Images/Power Sentry", txtProduct.Text + ".png");
+				} else {
+					System.Windows.MessageBox.Show("Please select the type of product.");
+				}
 			} else {
 				System.Windows.MessageBox.Show("Please select a new file to upload by using the 'Browse' button");
 				return;
 			}
 
-			await InitializeCurrentImages();  // Reload image list
+			System.Windows.MessageBox.Show("Image successfully uploaded");
+
+			Waiting waiting = new Waiting();
+			waiting.Show();
+			await DataHandler.DownloadImages();
+			waiting.Close();
+
+			InitializeCurrentImages();  // Reload image list
 		}
 
 		// TODO: Finish retrieving files from "Lithonia" and "Power Sentry" directories and showing them in the listbox
-		private async Task<string[]> InitializeCurrentImages() {
-			int fileNum = 0;
-			// string[] fileList = new string[System.IO.Directory.GetFiles(TextTools.MyRelativePath(@"Temp/Lithonia")).Length + System.IO.Directory.GetFiles(TextTools.MyRelativePath(@"Temp/Power Sentry")).Length];
-			List<string> fileList = new List<string>();
+		private void InitializeCurrentImages() {
+			IEnumerable<string> imagesLithonia = System.IO.Directory.EnumerateFiles(TextTools.MyRelativePath(@"Temp\Lithonia"));
+			IEnumerable<string> imagesPowerSentry = System.IO.Directory.EnumerateFiles(TextTools.MyRelativePath(@"Temp\Power Sentry"));
 
-			for (int i = 0; i < System.IO.Directory.GetFiles(TextTools.MyRelativePath(@"Temp/Lithonia")).Length; i++) {
-				fileNum++;
+			if (images == null) {
+				images = new Hashtable();
+			} else {
+				images.Clear();
+			}
+
+			int i = 0;
+			foreach (string s in imagesLithonia) {
+				images.Add(i, s);
+					i++;
+			}
+			foreach (string s in imagesPowerSentry) {
+				images.Add(i, s);
+				i++;
+			}
+
+			listCurrentImageFiles.Items.Clear();
+
+			foreach (string str in imagesLithonia) {
+				var product = str.Substring(str.IndexOf("Lithonia") + 9);
+				product = product.Substring(0, product.IndexOf("."));
+				listCurrentImageFiles.Items.Add(product);
+			}
+
+			foreach (string str in imagesPowerSentry) {
+				var product = str.Substring(str.IndexOf("Power Sentry") + 13);
+				product = product.Substring(0, product.IndexOf("."));
+				listCurrentImageFiles.Items.Add(product);
 			}
 		}
 
@@ -292,7 +330,7 @@ namespace PS_Field_Install {
 		}
 
 		private void btnPreview_Click(object sender, RoutedEventArgs e) {
-
+			picPreview.Source = new BitmapImage(new Uri(images[listCurrentImageFiles.SelectedIndex].ToString(), UriKind.Absolute));
 		}
 		#endregion
 

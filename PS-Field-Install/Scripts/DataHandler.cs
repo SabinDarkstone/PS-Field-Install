@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Data;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -67,12 +68,16 @@ namespace PS_Field_Install.Scripts {
 			var filesLithonia = await DropboxHelper.GetFolderContents("/Images/Lithonia");
 
 			foreach (var item in filesPowerSentry.Entries.Where(i => i.IsFile)) {
-				var file = item.AsFile;
+				if (File.Exists(TextTools.MyRelativePath(@"Temp\Power Sentry\" + item.Name))) {
+					continue;
+				}
 				await DropboxHelper.GetFileFromDropbox("/Images/Power Sentry", item.Name, TextTools.MyRelativePath(@"Temp\Power Sentry"), item.Name);
 			}
 
 			foreach (var item2 in filesLithonia.Entries.Where(j => j.IsFile)) {
-				var file2 = item2.AsFile;
+				if (File.Exists(TextTools.MyRelativePath(@"Temp\Lithonia\" + item2.Name))) {
+					continue;
+				}
 				await DropboxHelper.GetFileFromDropbox("/Images/Lithonia", item2.Name, TextTools.MyRelativePath(@"Temp\Lithonia"), item2.Name);
 			}
 
