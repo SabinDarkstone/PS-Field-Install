@@ -43,7 +43,7 @@
             <TextBlock x:Name="txtLabelComments" HorizontalAlignment="Left" Margin="0,285,0,0" TextWrapping="Wrap" Text="Comments" VerticalAlignment="Top" Width="215" FontSize="14.667" FontWeight="Bold"/>
             <TextBlock x:Name="txtResultComments" HorizontalAlignment="Left" Margin="20,305,0,0" TextWrapping="Wrap" Text="txtResultComments" VerticalAlignment="Top" Height="64" Width="375"/>
         </Grid>
-        <Image x:Name="imageProduct" HorizontalAlignment="Left" Height="175" Margin="530,195,0,0" VerticalAlignment="Top" Width="175"/>
+        <Image x:Name="imageProduct" HorizontalAlignment="Left" Height="175" Margin="530,187,0,0" VerticalAlignment="Top" Width="175"/>
         <controls:CycleImageBox x:Name="cycleBatteries" Height="200" Margin="515,375,0,20" HorizontalAlignment="Left" Width="200"/>
     </Grid>
 </Page>

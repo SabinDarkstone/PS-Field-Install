@@ -35,6 +35,11 @@ namespace PS_Field_Install.Controls {
 		}
 
 		private void image_UpdateImage(object sender, EventArgs e) {
+			if (Images == null) {
+				image.Source = null;
+				return;
+			}
+
 			image.Source = Images[index];
 			index++;
 

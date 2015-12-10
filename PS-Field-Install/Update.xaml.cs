@@ -273,6 +273,7 @@ namespace PS_Field_Install {
 					await DropboxHelper.SendFileToDropbox(txtImageFile.Text, "/Images/Power Sentry", txtProduct.Text + ".png");
 				} else {
 					System.Windows.MessageBox.Show("Please select the type of product.");
+					return;
 				}
 			} else {
 				System.Windows.MessageBox.Show("Please select a new file to upload by using the 'Browse' button");

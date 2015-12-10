@@ -133,7 +133,7 @@ namespace PS_Field_Install {
 					if (partials == true) {
 						return DataHandler.productData.Tables[0].Select("pDescription LIKE '%" + findText + "%'");
 					} else {
-						return DataHandler.productData.Tables[0].Select("pDescription LIKE '" + findText + " (%'");
+						return DataHandler.productData.Tables[0].Select("pDescription='" + findText + "'");
 					}
 
 				default:
@@ -149,6 +149,9 @@ namespace PS_Field_Install {
 			txtResultPowerSentry.Text = "";
 			txtResultWiringDiagram.Text = "";
 			txtResultComments.Text = "";
+
+			imageProduct.Source = null;
+			cycleBatteries.Images = null;
 
 			if (row == null) {
 				return;
