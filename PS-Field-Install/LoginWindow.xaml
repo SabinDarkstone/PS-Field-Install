@@ -5,16 +5,22 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PS_Field_Install"
         mc:Ignorable="d"
-        Title="Login" Height="167" Width="249">
+        Title="Login" Height="167" Width="249" Icon="Icon.png" WindowStartupLocation="CenterScreen">
     <Grid>
+        <Grid.Background>
+            <RadialGradientBrush>
+                <GradientStop Color="#FFE4E4E4" Offset="0"/>
+                <GradientStop Color="#FFC5C5C5" Offset="1"/>
+            </RadialGradientBrush>
+        </Grid.Background>
         <Border Margin="17,20,26,21">
             <Grid Margin="10,10,-10,-10">
-                <PasswordBox x:Name="txtPassword" HorizontalAlignment="Left" Margin="58,23,0,0" VerticalAlignment="Top" Width="125"/>
-                <TextBox x:Name="txtUsername" HorizontalAlignment="Left" Height="18" Margin="58,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="125"/>
+                <PasswordBox x:Name="txtPassword" HorizontalAlignment="Left" Margin="58,23,0,0" VerticalAlignment="Top" Width="125" TabIndex="1"/>
+                <TextBox x:Name="txtUsername" HorizontalAlignment="Left" Height="18" Margin="58,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="125" TabIndex="0"/>
                 <TextBlock x:Name="textBlock" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Username" VerticalAlignment="Top" Height="18"/>
                 <TextBlock x:Name="textBlock_Copy" HorizontalAlignment="Left" Margin="3,23,0,0" TextWrapping="Wrap" Text="Password" VerticalAlignment="Top" Height="18"/>
-                <Button x:Name="btnLogin" Content="Login" Margin="12,55,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75" Click="btnLogin_Click"/>
-                <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="97,55,0,0" VerticalAlignment="Top" Width="75" Click="btnCancel_Click"/>
+                <Button x:Name="btnLogin" Content="Login" Margin="12,55,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="75" Click="btnLogin_Click" Background="#FFB4B4B4" TabIndex="2"/>
+                <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="97,55,0,0" VerticalAlignment="Top" Width="75" Click="btnCancel_Click" Background="#FFB4B4B4" IsCancel="True" TabIndex="3"/>
 
             </Grid>
         </Border>

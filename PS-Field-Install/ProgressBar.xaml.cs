@@ -4,11 +4,8 @@ using System.ComponentModel;
 using System.Windows;
 using System.Data;
 using Excel = Microsoft.Office.Interop.Excel;
-using System.Threading.Tasks;
 using PS_Field_Install.Scripts;
 using System.IO;
-using System.Text;
-using Dropbox.Api.Files;
 
 namespace PS_Field_Install {
 	/// <summary>
@@ -19,7 +16,16 @@ namespace PS_Field_Install {
 		#region Objects
 		Hashtable columns;
 		string filename;
-		private enum ColTypes { DoNotUse, pCICode, pDescription, pPowerSentrySolution, pMounting, pWiring, pComment };
+
+		private enum ColTypes {
+			Do_Not_Use,
+			CICodes,
+			Descriptions,
+			Power_Sentry_Solutions,
+			Mounting_Options,
+			Wiring_Diagrams,
+			Comments
+		};
 		#endregion
 
 		#region Progress Bar Handling
@@ -63,37 +69,49 @@ namespace PS_Field_Install {
 			range = excelWorksheet.UsedRange;
 			#endregion
 
+			table.Columns.Clear();
 			table.Rows.Clear();
+			table.Clear();
+			table.AcceptChanges();
+
+			// Assign columns to table
+			table.Columns.Add("CICodes", typeof(string));
+			table.Columns.Add("Descriptions", typeof(string));
+			table.Columns.Add("Power_Sentry_Solutions", typeof(string));
+			table.Columns.Add("Mounting_Options", typeof(string));
+			table.Columns.Add("Wiring_Diagrams", typeof(string));
+			table.Columns.Add("Comments", typeof(string));
 			table.AcceptChanges();
 
 			for (rCnt = 2; rCnt < range.Rows.Count + 1; rCnt++) {
 				DataRow dr = table.NewRow();
 				for (cCnt = 1; cCnt < range.Columns.Count + 1; cCnt++) {
 					object currColType = columns[(string)(range.Cells[1, cCnt] as Excel.Range).Value];
-					if (currColType.ToString() != ColTypes.DoNotUse.ToString()) {
+					// MessageBox.Show(currColType.ToString());
+					if (currColType.ToString() != ColTypes.Do_Not_Use.ToString()) {
 						object currCell = (range.Cells[rCnt, cCnt] as Excel.Range).Value2;
 						if (currCell != null) {
 							#region Switch Stuff
 							switch (currColType.ToString()) {
-								case "pCICode":
-									dr[ColTypes.pCICode.ToString()] = currCell.ToString();
+								case "CICodes":
+									dr[ColTypes.CICodes.ToString()] = currCell;
 									break;
-								case "pDescription":
-									var desc = currCell.ToString();
-									desc = desc.Substring(0, currCell.ToString().IndexOf("(CI-") - 1);
-									dr[ColTypes.pDescription.ToString()] = desc;
+								case "Descriptions":
+									var desc = (string)currCell;
+									desc = desc.Substring(0, desc.IndexOf("(CI-") - 1);
+									dr[ColTypes.Descriptions.ToString()] = desc;
 									break;
-								case "pPowerSentrySolution":
-									dr[ColTypes.pPowerSentrySolution.ToString()] += ((range.Cells[1, cCnt] as Excel.Range).Value2).ToString() + ", ";
+								case "Power_Sentry_Solutions":
+									dr[ColTypes.Power_Sentry_Solutions.ToString()] += ((range.Cells[1, cCnt] as Excel.Range).Value2).ToString() + ", ";
 									break;
-								case "pMounting":
-									dr[ColTypes.pMounting.ToString()] += ((range.Cells[1, cCnt] as Excel.Range).Value2).ToString() + ", ";
+								case "Mounting_Options":
+									dr[ColTypes.Mounting_Options.ToString()] += ((range.Cells[1, cCnt] as Excel.Range).Value2).ToString() + ", ";
 									break;
-								case "pWiringDiagram":
-									dr[ColTypes.pWiring.ToString()] += ((range.Cells[1, cCnt] as Excel.Range).Value2).ToString() + ", ";
+								case "Wiring_Diagrams":
+									dr[ColTypes.Wiring_Diagrams.ToString()] += ((range.Cells[1, cCnt] as Excel.Range).Value2).ToString() + ", ";
 									break;
-								case "pComment":
-									dr[ColTypes.pComment.ToString()] += currCell.ToString();
+								case "Comments":
+									dr[ColTypes.Comments.ToString()] += currCell.ToString();
 									break;
 								default:
 									break;
@@ -106,10 +124,13 @@ namespace PS_Field_Install {
 
 				(sender as BackgroundWorker).ReportProgress(rCnt);
 				this.Dispatcher.Invoke((Action)(() => {
-					txtCurrRecordCICode.Text = dr[ColTypes.pCICode.ToString()].ToString();
-					// txtCurrRecordDescription.Text = dr[ColTypes.pDescription.ToString()].ToString().Substring(0, dr[ColTypes.pDescription.ToString()].ToString().IndexOf("(CI-") - 1);
+					txtCurrRecordCICode.Text = dr[ColTypes.CICodes.ToString()].ToString();
 				}));
 			} // End reading excel file
+
+			this.Dispatcher.Invoke(() => {
+				Close();
+			});
 
 			table.AcceptChanges();  // Save the table to dataset
 
@@ -120,7 +141,6 @@ namespace PS_Field_Install {
 			for (int row = 0; row < table.Rows.Count; row++) {
 				foreach (DataColumn col in table.Columns) {
 					checkCell = table.Rows[row][col].ToString();
-					// MessageBox.Show(checkCell);
 					if (checkCell.EndsWith(", ")) {
 						table.Rows[row][col] = checkCell.Substring(0, checkCell.Length - 2);
 					}
@@ -160,14 +180,6 @@ namespace PS_Field_Install {
 			ReleaseObject(excelWorkbook);
 			ReleaseObject(excelApp);
 			#endregion
-
-			try {
-				this.Dispatcher.Invoke(() => {
-					Close();
-				});
-			} catch (Exception exc) {
-				MessageBox.Show(exc.ToString());
-			}
 		}
 
 		private void ReleaseObject(object obj) {

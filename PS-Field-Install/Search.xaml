@@ -8,40 +8,171 @@
       mc:Ignorable="d" 
       d:DesignHeight="595" d:DesignWidth="840"
       Title="Product Search" Loaded="Page_Loaded">
+    <Page.Resources>
+        <Storyboard x:Key="OnMouseEnter1">
+            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="linkLogin">
+                <EasingPointKeyFrame KeyTime="0" Value="0.5,0.5"/>
+                <EasingPointKeyFrame KeyTime="0:0:0.2" Value="0.5,0.5"/>
+            </PointAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="linkLogin">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.2"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="linkLogin">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.2"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="linkLogin">
+                <EasingColorKeyFrame KeyTime="0" Value="White"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.2" Value="#FF9EEDFF"/>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="OnMouseLeave1">
+            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="linkLogin">
+                <EasingPointKeyFrame KeyTime="0" Value="0.5,0.5"/>
+                <EasingPointKeyFrame KeyTime="0:0:0.2" Value="0.5,0.5"/>
+            </PointAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="linkLogin">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1.2"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="linkLogin">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1.2"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="linkLogin">
+                <EasingColorKeyFrame KeyTime="0" Value="#FF9EEDFF"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.2" Value="White"/>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="OnMouseLeftButtonUp1">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="linkLogin">
+                <EasingColorKeyFrame KeyTime="0" Value="#FF00FF3A"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.2" Value="#FF9EEDFF"/>
+            </ColorAnimationUsingKeyFrames>
+            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="linkLogin">
+                <EasingPointKeyFrame KeyTime="0" Value="0.5,0.5"/>
+                <EasingPointKeyFrame KeyTime="0:0:0.2" Value="0.5,0.5"/>
+            </PointAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="linkLogin">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1.2"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.2"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="linkLogin">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1.2"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.2"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="OnMouseLeftButtonDown1">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="linkLogin">
+                <EasingColorKeyFrame KeyTime="0" Value="#FF9EEDFF"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.2" Value="#FF00FF3A"/>
+            </ColorAnimationUsingKeyFrames>
+            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="linkLogin">
+                <EasingPointKeyFrame KeyTime="0" Value="0.5,0.5"/>
+                <EasingPointKeyFrame KeyTime="0:0:0.2" Value="0.5,0.5"/>
+            </PointAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="linkLogin">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1.2"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.2"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="linkLogin">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1.2"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.2"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="UIElement.MouseEnter" SourceName="linkLogin">
+            <BeginStoryboard Storyboard="{StaticResource OnMouseEnter1}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseLeave" SourceName="linkLogin">
+            <BeginStoryboard x:Name="OnMouseLeave1_BeginStoryboard" Storyboard="{StaticResource OnMouseLeave1}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseLeftButtonUp" SourceName="linkLogin">
+            <BeginStoryboard x:Name="OnMouseLeftButtonUp1_BeginStoryboard" Storyboard="{StaticResource OnMouseLeftButtonUp1}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseLeftButtonDown" SourceName="linkLogin">
+            <BeginStoryboard x:Name="OnMouseLeftButtonDown1_BeginStoryboard" Storyboard="{StaticResource OnMouseLeftButtonDown1}"/>
+        </EventTrigger>
+    </Page.Triggers>
     <Grid>
-        <Rectangle Margin="0,40,0,0" Fill="White"/>
+        <Rectangle Margin="0,40,0,0">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFC5C5C5" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle Margin="0,40,0,0" Opacity="0.12" StrokeThickness="0">
+            <Rectangle.Effect>
+                <BlurEffect Radius="10"/>
+            </Rectangle.Effect>
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="AcuityLogo.png" Stretch="UniformToFill"/>
+            </Rectangle.Fill>
+        </Rectangle>
         <Grid Margin="0,0,0,555">
-            <Rectangle Fill="#FF2C4164" Height="40" VerticalAlignment="Top" Width="{DynamicResource {x:Static SystemParameters.PrimaryScreenWidthKey}}"/>
-            <Image x:Name="image" HorizontalAlignment="Left" Height="36" Margin="10,2,0,0" VerticalAlignment="Top" Width="35" Source="Assets/Icon.png"/>
-            <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="50,9,0,0" TextWrapping="Wrap" Text="Power Sentry Field Install Tool" VerticalAlignment="Top" Width="290" FontSize="18.667" Foreground="White" FontFamily="Mangal"/>
+            <Rectangle Height="40" VerticalAlignment="Top">
+                <Rectangle.Fill>
+                    <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                        <LinearGradientBrush.RelativeTransform>
+                            <TransformGroup>
+                                <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                                <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                                <RotateTransform Angle="270" CenterY="0.5" CenterX="0.5"/>
+                                <TranslateTransform/>
+                            </TransformGroup>
+                        </LinearGradientBrush.RelativeTransform>
+                        <GradientStop Color="#FF002B85" Offset="0"/>
+                        <GradientStop Color="Black" Offset="1"/>
+                    </LinearGradientBrush>
+                </Rectangle.Fill>
+            </Rectangle>
+            <Image x:Name="image" HorizontalAlignment="Left" Height="36" Margin="10,2,0,0" VerticalAlignment="Top" Width="35" Source="AcuityLogo.png" Stretch="UniformToFill"/>
+            <TextBlock x:Name="textBlock" Margin="50,9,359,-13.2" TextWrapping="Wrap" Text="Power Sentry Field Install Tool" VerticalAlignment="Top" FontSize="21.333" Foreground="White" FontFamily="BankGothic" TextDecorations="{x:Null}">
+                <TextBlock.Effect>
+                    <DropShadowEffect ShadowDepth="2"/>
+                </TextBlock.Effect>
+            </TextBlock>
             <Label x:Name="linkSearch" Content="Search" VerticalAlignment="Top" Background="#00000000" Foreground="#FFFFD100" Margin="630,6,0,0" HorizontalAlignment="Left" Width="45"/>
-            <Label x:Name="linkLogin" Content="Admin Settings" Margin="687,6,0,0" VerticalAlignment="Top" Background="#00000000" Foreground="White" MouseLeftButtonDown="linkLogin_MouseLeftButtonDown" MouseLeftButtonUp="linkLogin_MouseLeftButtonUp" MouseEnter="linkLogin_MouseEnter" MouseLeave="linkLogin_MouseLeave" HorizontalAlignment="Left" Width="91"/>
-            <Label x:Name="linkHelp" Content="Help" Margin="790,6,0,0" VerticalAlignment="Top" Background="#00000000" MouseLeftButtonDown="linkHelp_MouseLeftButtonDown" MouseEnter="linkHelp_MouseEnter" MouseLeave="linkHelp_MouseLeave" MouseLeftButtonUp="linkHelp_MouseLeftButtonUp" Foreground="White" HorizontalAlignment="Left" Width="35"/>
+            <Label x:Name="linkLogin" Content="Admin Settings" Margin="687,6,0,0" VerticalAlignment="Top" Background="#00000000" Foreground="White" HorizontalAlignment="Left" Width="91" MouseLeftButtonUp="linkLogin_MouseLeftButtonUp">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
+            <Label x:Name="linkHelp" Content="Help" Margin="790,6,0,0" VerticalAlignment="Top" Background="#00000000" Foreground="White" HorizontalAlignment="Left" Width="35"/>
         </Grid>
         <Grid Margin="148,60,0,0" Height="122" VerticalAlignment="Top" HorizontalAlignment="Left" Width="544">
-            <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Search Terms" VerticalAlignment="Top" Margin="-1,2,0,0"/>
-            <Button x:Name="btnRunSearch" Content="Find" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="469,2,0,0" Click="btnRunSearch_Click"/>
+            <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Search Terms" VerticalAlignment="Top" Margin="9.77,4,0,0" FontWeight="Bold"/>
+            <Button x:Name="btnRunSearch" Content="Find" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75" Margin="469,2,0,0" Click="btnRunSearch_Click" UseLayoutRounding="False" Background="#FFDDDDDD"/>
             <TextBlock x:Name="textBlock2" TextWrapping="Wrap" Text="Find Within" VerticalAlignment="Top" Margin="133,46,0,0" HorizontalAlignment="Left" Width="63"/>
             <RadioButton x:Name="radioAutoDetect" Content="Auto-Detect" HorizontalAlignment="Left" VerticalAlignment="Top" GroupName="searchMode" Margin="149,67,0,0" IsChecked="True"/>
             <RadioButton x:Name="radioCICodeOnly" Content="CI-Code Only" VerticalAlignment="Bottom" GroupName="searchMode" HorizontalAlignment="Left" Width="90" Margin="149,0,0,20"/>
             <RadioButton x:Name="radioDescriptionOnly" Content="Description Only" VerticalAlignment="Top" GroupName="searchMode" Margin="149,107,0,0" HorizontalAlignment="Left" Width="107"/>
             <CheckBox x:Name="chkbxAllowPartial" Content="Allow Partial Matches" Margin="293,67,0,40" HorizontalAlignment="Left" Width="133"/>
             <CheckBox x:Name="chkbxAutoComplete" Content="Enable Suggestions" Margin="294,87,0,20" IsEnabled="False" HorizontalAlignment="Left" Width="123"/>
-            <TextBox x:Name="txtSearchBox" HorizontalAlignment="Left" Height="23" Margin="76,1,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="388"/>
+            <TextBox x:Name="txtSearchBox" HorizontalAlignment="Left" Height="23" Margin="89,1,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375"/>
         </Grid>
         <Grid Margin="65,215,0,0" Height="370" VerticalAlignment="Top" HorizontalAlignment="Left" Width="395">
             <TextBlock x:Name="txtLabelCICode" HorizontalAlignment="Left" TextWrapping="Wrap" Text="CI Code:" VerticalAlignment="Top" Width="215" FontSize="14.667" FontWeight="Bold"/>
-            <TextBlock x:Name="txtResultCICode" HorizontalAlignment="Left" Margin="20,20,0,0" TextWrapping="Wrap" Text="txtResultCICode" VerticalAlignment="Top" Height="32" Width="375"/>
+            <TextBlock x:Name="txtResultCICode" HorizontalAlignment="Left" Margin="0,20,0,0" TextWrapping="Wrap" Text="txtResultCICode" VerticalAlignment="Top" Height="32" Width="375"/>
             <TextBlock x:Name="txtLabelDescription" HorizontalAlignment="Left" Margin="0,57,0,0" TextWrapping="Wrap" Text="Description:" VerticalAlignment="Top" Width="215" FontSize="14.667" FontWeight="Bold"/>
-            <TextBlock x:Name="txtResultDescription" HorizontalAlignment="Left" Margin="20,77,0,0" TextWrapping="Wrap" Text="txtResultDescription" VerticalAlignment="Top" Height="32" Width="375"/>
+            <TextBlock x:Name="txtResultDescription" HorizontalAlignment="Left" Margin="0,77,0,0" TextWrapping="Wrap" Text="txtResultDescription" VerticalAlignment="Top" Height="32" Width="375"/>
             <TextBlock x:Name="txtLabelPowerSentry" HorizontalAlignment="Left" Margin="0,114,0,0" TextWrapping="Wrap" Text="Power Sentry Solution:" VerticalAlignment="Top" Width="215" FontSize="14.667" FontWeight="Bold"/>
-            <TextBlock x:Name="txtResultPowerSentry" HorizontalAlignment="Left" Margin="20,134,0,0" TextWrapping="Wrap" Text="txtResultPowerSentry" VerticalAlignment="Top" Height="32" Width="375"/>
+            <TextBlock x:Name="txtResultPowerSentry" HorizontalAlignment="Left" Margin="0,133.507,0,0" TextWrapping="Wrap" Text="txtResultPowerSentry" VerticalAlignment="Top" Height="32" Width="375"/>
             <TextBlock x:Name="txtLabelMountingOption" HorizontalAlignment="Left" Margin="0,171,0,0" TextWrapping="Wrap" Text="Mounting Options:" VerticalAlignment="Top" Width="215" FontSize="14.667" FontWeight="Bold"/>
-            <TextBlock x:Name="txtResultMountingOption" HorizontalAlignment="Left" Margin="20,191,0,0" TextWrapping="Wrap" Text="txtResultMountingOption" VerticalAlignment="Top" Height="32" Width="375"/>
+            <TextBlock x:Name="txtResultMountingOption" HorizontalAlignment="Left" Margin="0,191,0,0" TextWrapping="Wrap" Text="txtResultMountingOption" VerticalAlignment="Top" Height="32" Width="375"/>
             <TextBlock x:Name="txtLabelWiringDiagram" HorizontalAlignment="Left" Margin="0,228,0,0" TextWrapping="Wrap" Text="Wiring Diagram:" VerticalAlignment="Top" Width="215" FontSize="14.667" FontWeight="Bold"/>
-            <TextBlock x:Name="txtResultWiringDiagram" HorizontalAlignment="Left" Margin="20,248,0,0" TextWrapping="Wrap" Text="txtResultWiringDiagram" VerticalAlignment="Top" Height="32" Width="375"/>
+            <TextBlock x:Name="txtResultWiringDiagram" HorizontalAlignment="Left" Margin="0,248,0,0" TextWrapping="Wrap" Text="txtResultWiringDiagram" VerticalAlignment="Top" Height="32" Width="375"/>
             <TextBlock x:Name="txtLabelComments" HorizontalAlignment="Left" Margin="0,285,0,0" TextWrapping="Wrap" Text="Comments" VerticalAlignment="Top" Width="215" FontSize="14.667" FontWeight="Bold"/>
-            <TextBlock x:Name="txtResultComments" HorizontalAlignment="Left" Margin="20,305,0,0" TextWrapping="Wrap" Text="txtResultComments" VerticalAlignment="Top" Height="64" Width="375"/>
+            <TextBlock x:Name="txtResultComments" HorizontalAlignment="Left" Margin="0,304.507,0,0" TextWrapping="Wrap" Text="txtResultComments" VerticalAlignment="Top" Height="64" Width="375"/>
         </Grid>
         <Image x:Name="imageProduct" HorizontalAlignment="Left" Height="175" Margin="530,187,0,0" VerticalAlignment="Top" Width="175"/>
         <controls:CycleImageBox x:Name="cycleBatteries" Height="200" Margin="515,375,0,20" HorizontalAlignment="Left" Width="200"/>

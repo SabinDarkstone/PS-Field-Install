@@ -5,7 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PS_Field_Install"
         mc:Ignorable="d"
-        Title="MultipleResults" Height="316" Width="474" ResizeMode="NoResize" Topmost="True" WindowStartupLocation="CenterScreen" ShowInTaskbar="False">
+        Title="MultipleResults" Height="316" Width="474" ResizeMode="NoResize" Topmost="True" WindowStartupLocation="CenterScreen" ShowInTaskbar="False" Icon="Icon.png">
+    <Window.Background>
+        <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+            <GradientStop Color="#FFD6D6D6" Offset="0"/>
+            <GradientStop Color="White" Offset="1"/>
+        </LinearGradientBrush>
+    </Window.Background>
     <Grid Height="271" VerticalAlignment="Top">
         <ListBox x:Name="listResults" HorizontalAlignment="Left" Height="165" Margin="10,40,0,0" VerticalAlignment="Top" Width="446"/>
         <Grid Margin="135,220,153,29">

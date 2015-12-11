@@ -2,10 +2,10 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Data;
 using PS_Field_Install.Scripts;
 using System.Windows.Media.Imaging;
+using System.Windows.Forms;
 
 namespace PS_Field_Install {
 
@@ -24,6 +24,13 @@ namespace PS_Field_Install {
 			txtResultMountingOption.Text = "";
 			txtResultPowerSentry.Text = "";
 			txtResultWiringDiagram.Text = "";
+
+			txtLabelCICode.Opacity = 0;
+			txtLabelComments.Opacity = 0;
+			txtLabelDescription.Opacity = 0;
+			txtLabelMountingOption.Opacity = 0;
+			txtLabelPowerSentry.Opacity = 0;
+			txtLabelWiringDiagram.Opacity = 0;
 		}
 
 		private async void Page_Loaded(object sender, RoutedEventArgs e) {
@@ -39,46 +46,12 @@ namespace PS_Field_Install {
 
 		#region Help Link Events
 		private void linkHelp_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
-			linkHelp.Foreground = Brushes.Red;
 			Help helpWindow = new Help();
 			helpWindow.ShowDialog();
 		}
 
 		private void linkHelp_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
-			linkHelp.Foreground = Brushes.White;
-		}
 
-		private void linkHelp_MouseEnter(object sender, MouseEventArgs e) {
-			linkHelp.Foreground = Brushes.LightBlue;
-		}
-
-		private void linkHelp_MouseLeave(object sender, MouseEventArgs e) {
-			linkHelp.Foreground = Brushes.White;
-		}
-		#endregion
-
-		#region Admin Login Link Events
-		private void linkLogin_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
-			linkLogin.Foreground = Brushes.Red;
-			Login loginWindow = new Login();
-			loginWindow.ShowDialog();
-
-			if (loginWindow.DialogResult == true) {
-				Uri uri = new Uri("Update.xaml", UriKind.Relative);
-				this.NavigationService.Navigate(uri);
-			}
-		}
-
-		private void linkLogin_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
-			linkLogin.Foreground = Brushes.White;
-		}
-
-		private void linkLogin_MouseEnter(object sender, MouseEventArgs e) {
-			linkLogin.Foreground = Brushes.LightBlue;
-		}
-
-		private void linkLogin_MouseLeave(object sender, MouseEventArgs e) {
-			linkLogin.Foreground = Brushes.White;
 		}
 		#endregion
 
@@ -89,14 +62,14 @@ namespace PS_Field_Install {
 			if (radioCICodeOnly.IsChecked == true) {
 				foundRows = RunQuery("CICode", txtSearchBox.Text, chkbxAllowPartial.IsChecked);
 				if (foundRows.Length == 0) {
-					MessageBox.Show("Could not find specified product.");
+					System.Windows.MessageBox.Show("Could not find specified product.");
 					DisplayResults(null);
 					return;
 				}
 			} else if (radioDescriptionOnly.IsChecked == true) {
 				foundRows = RunQuery("Description", txtSearchBox.Text, chkbxAllowPartial.IsChecked);
 				if (foundRows.Length == 0) {
-					MessageBox.Show("Could not find specified product.");
+					System.Windows.MessageBox.Show("Could not find specified product.");
 					DisplayResults(null);
 					return;
 				}
@@ -105,7 +78,7 @@ namespace PS_Field_Install {
 				if (foundRows.Length == 0) {
 					foundRows = RunQuery("Description", txtSearchBox.Text, chkbxAllowPartial.IsChecked);
 					if (foundRows.Length == 0) {
-						MessageBox.Show("Could not find specified product.");
+						System.Windows.MessageBox.Show("Could not find specified product.");
 						DisplayResults(null);
 						return;
 					}
@@ -127,17 +100,17 @@ namespace PS_Field_Install {
 		private DataRow[] RunQuery(string mode, string findText, bool? partials) {
 			switch (mode) {
 				case "CICode":
-					return DataHandler.productData.Tables[0].Select("pCICode='" + findText + "'");
+					return DataHandler.productData.Tables[0].Select("CICodes='" + findText + "'");
 
 				case "Description":
 					if (partials == true) {
-						return DataHandler.productData.Tables[0].Select("pDescription LIKE '%" + findText + "%'");
+						return DataHandler.productData.Tables[0].Select("Descriptions LIKE '%" + findText + "%'");
 					} else {
-						return DataHandler.productData.Tables[0].Select("pDescription='" + findText + "'");
+						return DataHandler.productData.Tables[0].Select("Descriptions='" + findText + "'");
 					}
 
 				default:
-					MessageBox.Show("An unknown error occured while searching");
+					System.Windows.MessageBox.Show("An unknown error occured while searching");
 					return null;
 			}
 		}
@@ -150,6 +123,13 @@ namespace PS_Field_Install {
 			txtResultWiringDiagram.Text = "";
 			txtResultComments.Text = "";
 
+			txtLabelCICode.Opacity = 0;
+			txtLabelComments.Opacity = 0;
+			txtLabelDescription.Opacity = 0;
+			txtLabelMountingOption.Opacity = 0;
+			txtLabelPowerSentry.Opacity = 0;
+			txtLabelWiringDiagram.Opacity = 0;
+
 			imageProduct.Source = null;
 			cycleBatteries.Images = null;
 
@@ -157,12 +137,19 @@ namespace PS_Field_Install {
 				return;
 			}
 
-			txtResultCICode.Text = row["pCICode"].ToString();
-			txtResultDescription.Text = row["pDescription"].ToString();
-			txtResultMountingOption.Text = row["pMounting"].ToString();
-			txtResultPowerSentry.Text = row["pPowerSentrySolution"].ToString();
-			txtResultWiringDiagram.Text = row["pWiring"].ToString();
-			txtResultComments.Text = row["pComment"].ToString();
+			txtLabelCICode.Opacity = 100;
+			txtLabelComments.Opacity = 100;
+			txtLabelDescription.Opacity = 100;
+			txtLabelMountingOption.Opacity = 100;
+			txtLabelPowerSentry.Opacity = 100;
+			txtLabelWiringDiagram.Opacity = 100;
+
+			txtResultCICode.Text = row["CICodes"].ToString();
+			txtResultDescription.Text = row["Descriptions"].ToString();
+			txtResultMountingOption.Text = row["Mounting_Options"].ToString();
+			txtResultPowerSentry.Text = row["Power_Sentry_Solutions"].ToString();
+			txtResultWiringDiagram.Text = row["Wiring_Diagrams"].ToString();
+			txtResultComments.Text = row["Comments"].ToString();
 
 			GetImages(row);
 			cycleBatteries.Initiate();
@@ -174,7 +161,7 @@ namespace PS_Field_Install {
 			int i = 0;
 
 			// Start with the Power Sentry product image
-			string strPS = row["pPowerSentrySolution"].ToString();
+			string strPS = row["Power_Sentry_Solutions"].ToString();
 			psImageName = TextTools.SplitToArray(strPS, "and");
 			batteryCount = psImageName.Length;
 			bmpPSimg = new BitmapImage[batteryCount];
@@ -187,10 +174,18 @@ namespace PS_Field_Install {
 			cycleBatteries.Images = bmpPSimg;
        
 			// Next grab the image for the product
-			string strLL = TextTools.GetProductFamily(row["pDescription"].ToString());
+			string strLL = TextTools.GetProductFamily(row["Descriptions"].ToString());
 
-			imageProduct.Source = new BitmapImage(new Uri(TextTools.MyRelativePath(@"Temp\Lithonia\" + TextTools.GetProductFamily(row["pDescription"].ToString()) + ".png")));
+			imageProduct.Source = new BitmapImage(new Uri(TextTools.MyRelativePath(@"Temp\Lithonia\" + TextTools.GetProductFamily(row["Descriptions"].ToString()) + ".png")));
 		}
 
+		private void linkLogin_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
+			Login login = new Login();
+			login.ShowDialog();
+			if (login.DialogResult == true) {
+				Uri uri = new Uri("Update.xaml", UriKind.Relative);
+				this.NavigationService.Navigate(uri);
+			}
+		}
 	}
 }

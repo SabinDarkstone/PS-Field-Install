@@ -30,12 +30,12 @@ namespace PS_Field_Install.Scripts {
 				// productData.AcceptChanges();
 				SaveDatabase();
 
-				productData.Tables["Products"].Columns.Add("pCICode", typeof(string));
-				productData.Tables["Products"].Columns.Add("pDescription", typeof(string));
-				productData.Tables["Products"].Columns.Add("pPowerSentrySolution", typeof(string));
-				productData.Tables["Products"].Columns.Add("pMounting", typeof(string));
-				productData.Tables["Products"].Columns.Add("pWiring", typeof(string));
-				productData.Tables["Products"].Columns.Add("pComment", typeof(string));
+				productData.Tables["Products"].Columns.Add("CICodes", typeof(string));
+				productData.Tables["Products"].Columns.Add("Descriptions", typeof(string));
+				productData.Tables["Products"].Columns.Add("Power_Sentry_Solutions", typeof(string));
+				productData.Tables["Products"].Columns.Add("Mounting_Options", typeof(string));
+				productData.Tables["Products"].Columns.Add("Wiring_Diagrams", typeof(string));
+				productData.Tables["Products"].Columns.Add("Comments", typeof(string));
 			}
 
 			// MessageBox.Show("Database successfully loaded.\n\nNumber of tables found: " + productData.Tables.Count + "\nNumber of records found: " + productData.Tables[0].Rows.Count);

@@ -22,7 +22,13 @@ namespace PS_Field_Install {
 		private Hashtable images;
 
 		private enum ColTypes {
-			DoNotUse, pCICode, pDescription, pPowerSentrySolution, pMounting, pWiringDiagram, pComment
+			Do_Not_Use,
+			CICodes,
+			Descriptions,
+			Power_Sentry_Solutions,
+			Mounting_Options,
+			Wiring_Diagrams,
+			Comments
 		};
 
 		private int rows;
@@ -33,55 +39,52 @@ namespace PS_Field_Install {
 		}
 
 		private void InitializeUploader() {
-			radioCICode.Tag = ColTypes.pCICode;
-			radioComment.Tag = ColTypes.pComment;
-			radioDescription.Tag = ColTypes.pDescription;
-			radioMounting.Tag = ColTypes.pMounting;
-			radioNone.Tag = ColTypes.DoNotUse;
-			radioPowerSentrySolution.Tag = ColTypes.pPowerSentrySolution;
-			radioWiringDiagram.Tag = ColTypes.pWiringDiagram;
+			radioCICode.Tag = ColTypes.CICodes;
+			radioComment.Tag = ColTypes.Comments;
+			radioDescription.Tag = ColTypes.Descriptions;
+			radioMounting.Tag = ColTypes.Mounting_Options;
+			radioNone.Tag = ColTypes.Do_Not_Use;
+			radioPowerSentrySolution.Tag = ColTypes.Power_Sentry_Solutions;
+			radioWiringDiagram.Tag = ColTypes.Wiring_Diagrams;
 
 			InitializeCurrentImages();
 		}
 
 		#region Help Link Events
 		private void linkHelp_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e) {
-			linkHelp.Foreground = System.Windows.Media.Brushes.LightBlue;
+
 		}
 
 		private void linkHelp_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e) {
-			linkHelp.Foreground = System.Windows.Media.Brushes.White;
+
 		}
 
 		private void linkHelp_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
-			linkHelp.Foreground = System.Windows.Media.Brushes.Red;
 			Help helpWindow = new Help();
 			helpWindow.ShowDialog();
 		}
 
 		private void linkHelp_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
-			linkHelp.Foreground = System.Windows.Media.Brushes.White;
+
 		}
 		#endregion
 
 		#region Search Link Events
 		private void linkSearch_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e) {
-			linkSearch.Foreground = System.Windows.Media.Brushes.White;
+
 		}
 
 		private void linkSearch_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
-			linkSearch.Foreground = System.Windows.Media.Brushes.Red;
-
 			Uri uri = new Uri("Search.xaml", UriKind.Relative);
 			this.NavigationService.Navigate(uri);
 		}
 
 		private void linkSearch_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
-			linkSearch.Foreground = System.Windows.Media.Brushes.White;
+
 		}
 
 		private void linkSearch_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e) {
-			linkSearch.Foreground = System.Windows.Media.Brushes.LightBlue;
+
 		}
 		#endregion
 
@@ -104,7 +107,7 @@ namespace PS_Field_Install {
 				columnAllocation = new Hashtable();
 
 				foreach (object col in listHeadings.Items) {
-					columnAllocation.Add(col, ColTypes.DoNotUse.ToString());
+					columnAllocation.Add(col, ColTypes.Do_Not_Use.ToString());
 				}
 			}
 		}
@@ -114,7 +117,6 @@ namespace PS_Field_Install {
 			Excel.Workbook excelWorkbook;
 			Excel.Worksheet excelWorksheet;
 			Excel.Range range;
-
 
 			string str;
 			int rCnt, cCnt;
@@ -134,7 +136,7 @@ namespace PS_Field_Install {
 				headings.Add(str);
 			}
 
-			excelWorkbook.Close(true, null, null);
+			excelWorkbook.Close(false, null, null);
 			excelApp.Quit();
 
 			ReleaseObject(excelWorksheet);
@@ -163,25 +165,25 @@ namespace PS_Field_Install {
 					string heading = columnAllocation[listHeadings.SelectedItem].ToString();
 					if (heading != null) {
 						switch (heading) {
-							case "DoNotUse":
+							case "Do_Not_Use":
 								radioNone.IsChecked = true;
 								break;
-							case "pCICode":
+							case "CICodes":
 								radioCICode.IsChecked = true;
 								break;
-							case "pDescription":
+							case "Descriptions":
 								radioDescription.IsChecked = true;
 								break;
-							case "pPowerSentrySolution":
+							case "Power_Sentry_Solutions":
 								radioPowerSentrySolution.IsChecked = true;
 								break;
-							case "pMounting":
+							case "Mounting_Options":
 								radioMounting.IsChecked = true;
 								break;
-							case "pWiringDiagram":
+							case "Wiring_Diagrams":
 								radioWiringDiagram.IsChecked = true;
 								break;
-							case "pComment":
+							case "Comments":
 								radioComment.IsChecked = true;
 								break;
 							default:
@@ -205,7 +207,6 @@ namespace PS_Field_Install {
 			if (itemSelected && columnEditMode) {
 				object heading = listHeadings.SelectedItem;
 				columnAllocation[heading] = rb.Tag;
-				// System.Windows.MessageBox.Show(columnAllocation[heading].ToString());
 			} else {
 				return;
 			}
@@ -216,11 +217,25 @@ namespace PS_Field_Install {
 			// Confirm with the user that their settings are correct
 			string verifyMe = "";
 
+			/* UNDONE to make this easier for user
 			foreach (DictionaryEntry de in columnAllocation) {
 				verifyMe += string.Format("Column {0} is a {1}\n", de.Key, de.Value);
 			}
+			*/
 
-			MessageBoxResult result = System.Windows.MessageBox.Show("Please verfiy the settings you chose are correct:\n" + verifyMe, "Verify Information", MessageBoxButton.YesNo);
+			// Builds verifyMe string
+			var coltypes = TextTools.GetValues<ColTypes>();
+			foreach (ColTypes type in coltypes) {
+				verifyMe += type.ToString() + ":\n";
+				foreach (DictionaryEntry de in columnAllocation) {
+					if (de.Value.ToString() == type.ToString()) {
+						verifyMe += "     " + de.Key + "\n";
+					}
+				}
+				verifyMe += "\n";
+			}
+
+			MessageBoxResult result = System.Windows.MessageBox.Show("Please verfiy the settings you chose are correct:\n\n" + verifyMe, "Verify Information", MessageBoxButton.YesNo);
 
 			if (result == MessageBoxResult.Yes) {
 				ProgressBar pBar = new ProgressBar(ref columnAllocation, txtFilename.Text, rows);

@@ -5,9 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PS_Field_Install"
         mc:Ignorable="d"
-        Title="Help" Height="202" Width="414">
+        Title="Help" Height="238" Width="487.782" Icon="Icon.png">
     <Grid>
-        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="10,10,0,0" TextWrapping="Wrap" Text="This tool is designed to identify what Power Sentry product can be used with a given fixture as well as the wiring diagrams that go along with the field installation and the options for mounting.  If the CI-Code for the fixture is known, simply enter the six alphanumeric code into the search box, choose &quot;CI-Code Only&quot; from the options and press Find.  In the case the CI-Code is not known, a search on the description may also be performed for both the entire product description as well as partial matches.  Simply enter in the entire description or part of it and choose whether you want partial matches to be found and then press Find." VerticalAlignment="Top" Height="150" Width="401"/>
+        <Grid.Background>
+            <RadialGradientBrush>
+                <GradientStop Color="LightGray" Offset="0.992"/>
+                <GradientStop Color="#FFECECEC"/>
+            </RadialGradientBrush>
+        </Grid.Background>
+        <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="42,27,0,0" TextWrapping="Wrap" Text="This tool is designed to identify what Power Sentry product can be used with a given fixture as well as the wiring diagrams that go along with the field installation and the options for mounting.  If the CI-Code for the fixture is known, simply enter the six alphanumeric code into the search box, choose &quot;CI-Code Only&quot; from the options and press Find.  In the case the CI-Code is not known, a search on the description may also be performed for both the entire product description as well as partial matches.  Simply enter in the entire description or part of it and choose whether you want partial matches to be found and then press Find." VerticalAlignment="Top" Height="150" Width="401"/>
 
     </Grid>
 </Window>

@@ -233,6 +233,8 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Icon.png" />
+    <Resource Include="AcuityLogo.png" />
     <Content Include="Assets\AcuityLogo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>

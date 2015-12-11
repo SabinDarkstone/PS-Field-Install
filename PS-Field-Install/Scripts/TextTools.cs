@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace PS_Field_Install.Scripts {
 
@@ -106,6 +108,10 @@ namespace PS_Field_Install.Scripts {
 			}
 
 			return family;
+		}
+
+		public static IEnumerable<T> GetValues<T>() {
+			return Enum.GetValues(typeof(T)).Cast<T>();
 		}
 
 	}

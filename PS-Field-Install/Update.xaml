@@ -7,21 +7,242 @@
       mc:Ignorable="d" 
       d:DesignHeight="595" d:DesignWidth="840"
       Title="Admin Update">
+    <Page.Resources>
+        <Storyboard x:Key="OnMouseEnter1">
+            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="linkSearch">
+                <EasingPointKeyFrame KeyTime="0" Value="0.5,0.5"/>
+                <EasingPointKeyFrame KeyTime="0:0:0.2" Value="0.5,0.5"/>
+            </PointAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="linkSearch">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.2"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="linkSearch">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.2"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="linkSearch">
+                <EasingColorKeyFrame KeyTime="0" Value="White"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.2" Value="#FF9EEDFF"/>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="OnMouseLeave1">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="linkSearch">
+                <EasingColorKeyFrame KeyTime="0" Value="#FF9EEDFF"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.2" Value="White"/>
+            </ColorAnimationUsingKeyFrames>
+            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="linkSearch">
+                <EasingPointKeyFrame KeyTime="0" Value="0.5,0.5"/>
+                <EasingPointKeyFrame KeyTime="0:0:0.2" Value="0.5,0.5"/>
+            </PointAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="linkSearch">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1.2"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="linkSearch">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1.2"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="OnMouseLeftButtonDown1">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="linkSearch">
+                <EasingColorKeyFrame KeyTime="0" Value="#FF9EEDFF"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.2" Value="#FF00FF3A"/>
+            </ColorAnimationUsingKeyFrames>
+            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="linkSearch">
+                <EasingPointKeyFrame KeyTime="0" Value="0.5,0.5"/>
+                <EasingPointKeyFrame KeyTime="0:0:0.2" Value="0.5,0.5"/>
+            </PointAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="linkSearch">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1.44"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.44"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="linkSearch">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1.44"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.44"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="OnMouseLeftButtonUp1">
+            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="linkSearch">
+                <EasingPointKeyFrame KeyTime="0" Value="0.5,0.5"/>
+            </PointAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="linkSearch">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1.2"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="linkSearch">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1.2"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="linkSearch">
+                <EasingColorKeyFrame KeyTime="0" Value="#FF00FF3A"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.2" Value="#FF9EEDFF"/>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="OnMouseEnter2">
+            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="linkHelp">
+                <EasingPointKeyFrame KeyTime="0" Value="0.5,0.5"/>
+                <EasingPointKeyFrame KeyTime="0:0:0.2" Value="0.5,0.5"/>
+            </PointAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="linkHelp">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.2"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="linkHelp">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.2"/>
+            </DoubleAnimationUsingKeyFrames>
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="linkHelp">
+                <EasingColorKeyFrame KeyTime="0" Value="White"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.2" Value="#FF9EEDFF"/>
+            </ColorAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="OnMouseLeave2">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="linkHelp">
+                <EasingColorKeyFrame KeyTime="0" Value="#FF9EEDFF"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.2" Value="White"/>
+            </ColorAnimationUsingKeyFrames>
+            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="linkHelp">
+                <EasingPointKeyFrame KeyTime="0" Value="0.5,0.5"/>
+                <EasingPointKeyFrame KeyTime="0:0:0.2" Value="0.5,0.5"/>
+            </PointAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="linkHelp">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1.2"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="linkHelp">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1.2"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="OnMouseLeftButtonDown2">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="linkHelp">
+                <EasingColorKeyFrame KeyTime="0" Value="#FF9EEDFF"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.2" Value="#FF00FF3A"/>
+            </ColorAnimationUsingKeyFrames>
+            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="linkHelp">
+                <EasingPointKeyFrame KeyTime="0" Value="0.5,0.5"/>
+                <EasingPointKeyFrame KeyTime="0:0:0.2" Value="0.5,0.5"/>
+            </PointAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="linkHelp">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1.2"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.2"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="linkHelp">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1.2"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.2"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+        <Storyboard x:Key="OnMouseLeftButtonUp2">
+            <ColorAnimationUsingKeyFrames Storyboard.TargetProperty="(TextElement.Foreground).(SolidColorBrush.Color)" Storyboard.TargetName="linkHelp">
+                <EasingColorKeyFrame KeyTime="0" Value="#FF00FF3A"/>
+                <EasingColorKeyFrame KeyTime="0:0:0.2" Value="#FF9EEDFF"/>
+            </ColorAnimationUsingKeyFrames>
+            <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="linkHelp">
+                <EasingPointKeyFrame KeyTime="0" Value="0.5,0.5"/>
+                <EasingPointKeyFrame KeyTime="0:0:0.2" Value="0.5,0.5"/>
+            </PointAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleX)" Storyboard.TargetName="linkHelp">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1.2"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.2"/>
+            </DoubleAnimationUsingKeyFrames>
+            <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[0].(ScaleTransform.ScaleY)" Storyboard.TargetName="linkHelp">
+                <EasingDoubleKeyFrame KeyTime="0" Value="1.2"/>
+                <EasingDoubleKeyFrame KeyTime="0:0:0.2" Value="1.2"/>
+            </DoubleAnimationUsingKeyFrames>
+        </Storyboard>
+    </Page.Resources>
+    <Page.Triggers>
+        <EventTrigger RoutedEvent="UIElement.MouseEnter" SourceName="linkSearch">
+            <BeginStoryboard Storyboard="{StaticResource OnMouseEnter1}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseLeave" SourceName="linkSearch">
+            <BeginStoryboard x:Name="OnMouseLeave1_BeginStoryboard" Storyboard="{StaticResource OnMouseLeave1}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseLeftButtonDown" SourceName="linkSearch">
+            <BeginStoryboard x:Name="OnMouseLeftButtonDown1_BeginStoryboard" Storyboard="{StaticResource OnMouseLeftButtonDown1}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseLeftButtonUp" SourceName="linkSearch">
+            <BeginStoryboard x:Name="OnMouseLeftButtonUp1_BeginStoryboard" Storyboard="{StaticResource OnMouseLeftButtonUp1}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseEnter" SourceName="linkHelp">
+            <BeginStoryboard x:Name="OnMouseEnter2_BeginStoryboard" Storyboard="{StaticResource OnMouseEnter2}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseLeave" SourceName="linkHelp">
+            <BeginStoryboard x:Name="OnMouseLeave2_BeginStoryboard" Storyboard="{StaticResource OnMouseLeave2}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseLeftButtonDown" SourceName="linkHelp">
+            <BeginStoryboard x:Name="OnMouseLeftButtonDown2_BeginStoryboard" Storyboard="{StaticResource OnMouseLeftButtonDown2}"/>
+        </EventTrigger>
+        <EventTrigger RoutedEvent="UIElement.MouseLeftButtonUp" SourceName="linkHelp">
+            <BeginStoryboard x:Name="OnMouseLeftButtonUp2_BeginStoryboard" Storyboard="{StaticResource OnMouseLeftButtonUp2}"/>
+        </EventTrigger>
+    </Page.Triggers>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="346*"/>
-            <RowDefinition Height="249*"/>
+            <RowDefinition Height="346"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
-        <Rectangle Margin="0,40,0,0" Fill="White" Grid.RowSpan="2"/>
+        <Rectangle Margin="0,40,0,0" Grid.RowSpan="2">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <GradientStop Color="#FFC5C5C5" Offset="0"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle Margin="0,40,0,0" Opacity="0.12" StrokeThickness="0" Grid.RowSpan="2">
+            <Rectangle.Effect>
+                <BlurEffect Radius="10"/>
+            </Rectangle.Effect>
+            <Rectangle.Fill>
+                <ImageBrush ImageSource="AcuityLogo.png" Stretch="UniformToFill"/>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Rectangle Height="40" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment">
+            <Rectangle.Fill>
+                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                    <LinearGradientBrush.RelativeTransform>
+                        <TransformGroup>
+                            <ScaleTransform CenterY="0.5" CenterX="0.5"/>
+                            <SkewTransform CenterY="0.5" CenterX="0.5"/>
+                            <RotateTransform Angle="270" CenterY="0.5" CenterX="0.5"/>
+                            <TranslateTransform/>
+                        </TransformGroup>
+                    </LinearGradientBrush.RelativeTransform>
+                    <GradientStop Color="#FF002B85" Offset="0"/>
+                    <GradientStop Color="Black" Offset="1"/>
+                </LinearGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <TextBlock x:Name="textBlock" Margin="50,9,359,0" TextWrapping="Wrap" Text="Power Sentry Field Install Tool" VerticalAlignment="Top" FontSize="21.333" Foreground="White" FontFamily="BankGothic" TextDecorations="{x:Null}" d:LayoutOverrides="VerticalAlignment">
+            <TextBlock.Effect>
+                <DropShadowEffect ShadowDepth="2"/>
+            </TextBlock.Effect>
+        </TextBlock>
         <Grid Margin="0,0,0,306">
-            <Rectangle Fill="#FF2C4164" Height="40" VerticalAlignment="Top" Width="{DynamicResource {x:Static SystemParameters.PrimaryScreenWidthKey}}"/>
-            <Image x:Name="image" HorizontalAlignment="Left" Height="36" Margin="10,2,0,0" VerticalAlignment="Top" Width="35" Source="Assets/Icon.png"/>
-            <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="50,9,0,0" TextWrapping="Wrap" Text="Power Sentry Field Install Tool" VerticalAlignment="Top" Width="290" FontSize="18.667" Foreground="White" FontFamily="Mangal"/>
-            <Label x:Name="linkSearch" Content="Search" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="White" Margin="630,6,0,0" MouseLeave="linkSearch_MouseLeave" MouseLeftButtonDown="linkSearch_MouseLeftButtonDown" MouseLeftButtonUp="linkSearch_MouseLeftButtonUp" MouseEnter="linkSearch_MouseEnter"/>
+            <Image x:Name="image" HorizontalAlignment="Left" Height="36" Margin="10,2,0,0" VerticalAlignment="Top" Width="35" Source="AcuityLogo.png" Stretch="UniformToFill"/>
+            <Label x:Name="linkSearch" Content="Search" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="White" Margin="630,6,0,0" MouseLeave="linkSearch_MouseLeave" MouseLeftButtonDown="linkSearch_MouseLeftButtonDown" MouseLeftButtonUp="linkSearch_MouseLeftButtonUp" MouseEnter="linkSearch_MouseEnter">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
             <Label x:Name="linkLogin" Content="Admin Settings" HorizontalAlignment="Left" Margin="687,6,0,0" VerticalAlignment="Top" Background="#00000000" Foreground="#FFFFD100"/>
-            <Label x:Name="linkHelp" Content="Help" HorizontalAlignment="Left" Margin="790,6,0,0" VerticalAlignment="Top" Background="#00000000" Foreground="White" MouseEnter="linkHelp_MouseEnter" MouseLeave="linkHelp_MouseLeave" MouseLeftButtonDown="linkHelp_MouseLeftButtonDown" MouseLeftButtonUp="linkHelp_MouseLeftButtonUp"/>
+            <Label x:Name="linkHelp" Content="Help" HorizontalAlignment="Left" Margin="790,6,0,0" VerticalAlignment="Top" Background="#00000000" Foreground="White" MouseEnter="linkHelp_MouseEnter" MouseLeave="linkHelp_MouseLeave" MouseLeftButtonDown="linkHelp_MouseLeftButtonDown" MouseLeftButtonUp="linkHelp_MouseLeftButtonUp">
+                <Label.RenderTransform>
+                    <TransformGroup>
+                        <ScaleTransform/>
+                        <SkewTransform/>
+                        <RotateTransform/>
+                        <TranslateTransform/>
+                    </TransformGroup>
+                </Label.RenderTransform>
+            </Label>
         </Grid>
-        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="405" Margin="114,115,0,0" VerticalAlignment="Top" Width="615" Grid.RowSpan="2">
+        <TabControl x:Name="tabControl" HorizontalAlignment="Left" Height="405" Margin="114,115,0,0" VerticalAlignment="Top" Width="615" Grid.RowSpan="2" Background="{x:Null}">
             <TabItem Header="Image Importer">
                 <TabItem.Background>
                     <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
@@ -29,7 +250,7 @@
                         <GradientStop Color="#00E5E5E5" Offset="1"/>
                     </LinearGradientBrush>
                 </TabItem.Background>
-                <Grid Background="White" HorizontalAlignment="Left" Width="609">
+                <Grid HorizontalAlignment="Left" Width="609">
                     <TextBlock x:Name="textBlock3" HorizontalAlignment="Left" Margin="28,11,0,0" TextWrapping="Wrap" Text="Product Name / Family" VerticalAlignment="Top"/>
                     <TextBox x:Name="txtProduct" HorizontalAlignment="Left" Height="23" Margin="28,32,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="250"/>
                     <TextBlock x:Name="textBlock4" HorizontalAlignment="Left" Margin="28,147,0,0" TextWrapping="Wrap" Text="Select Type of Image" VerticalAlignment="Top"/>
