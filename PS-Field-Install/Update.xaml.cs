@@ -227,6 +227,10 @@ namespace PS_Field_Install {
 			var coltypes = TextTools.GetValues<ColTypes>();
 			foreach (ColTypes type in coltypes) {
 				verifyMe += type.ToString() + ":\n";
+				if (columnAllocation == null) {
+					System.Windows.MessageBox.Show("An error occured while building column allocation list.");
+					return;
+				}
 				foreach (DictionaryEntry de in columnAllocation) {
 					if (de.Value.ToString() == type.ToString()) {
 						verifyMe += "     " + de.Key + "\n";

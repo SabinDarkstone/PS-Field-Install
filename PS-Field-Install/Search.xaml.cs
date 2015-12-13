@@ -5,7 +5,6 @@ using System.Windows.Input;
 using System.Data;
 using PS_Field_Install.Scripts;
 using System.Windows.Media.Imaging;
-using System.Windows.Forms;
 
 namespace PS_Field_Install {
 
@@ -18,6 +17,10 @@ namespace PS_Field_Install {
 		public Search() {
 			InitializeComponent();
 
+			ClearText();
+		}
+
+		private void ClearText() {
 			txtResultCICode.Text = "";
 			txtResultComments.Text = "";
 			txtResultDescription.Text = "";
@@ -62,14 +65,14 @@ namespace PS_Field_Install {
 			if (radioCICodeOnly.IsChecked == true) {
 				foundRows = RunQuery("CICode", txtSearchBox.Text, chkbxAllowPartial.IsChecked);
 				if (foundRows.Length == 0) {
-					System.Windows.MessageBox.Show("Could not find specified product.");
+					MessageBox.Show("Could not find specified product.");
 					DisplayResults(null);
 					return;
 				}
 			} else if (radioDescriptionOnly.IsChecked == true) {
 				foundRows = RunQuery("Description", txtSearchBox.Text, chkbxAllowPartial.IsChecked);
 				if (foundRows.Length == 0) {
-					System.Windows.MessageBox.Show("Could not find specified product.");
+					MessageBox.Show("Could not find specified product.");
 					DisplayResults(null);
 					return;
 				}
@@ -78,7 +81,7 @@ namespace PS_Field_Install {
 				if (foundRows.Length == 0) {
 					foundRows = RunQuery("Description", txtSearchBox.Text, chkbxAllowPartial.IsChecked);
 					if (foundRows.Length == 0) {
-						System.Windows.MessageBox.Show("Could not find specified product.");
+						MessageBox.Show("Could not find specified product.");
 						DisplayResults(null);
 						return;
 					}
@@ -110,25 +113,13 @@ namespace PS_Field_Install {
 					}
 
 				default:
-					System.Windows.MessageBox.Show("An unknown error occured while searching");
+					MessageBox.Show("An unknown error occured while searching");
 					return null;
 			}
 		}
 
 		private void DisplayResults(DataRow row) {
-			txtResultCICode.Text = "";
-			txtResultDescription.Text = "";
-			txtResultMountingOption.Text = "";
-			txtResultPowerSentry.Text = "";
-			txtResultWiringDiagram.Text = "";
-			txtResultComments.Text = "";
-
-			txtLabelCICode.Opacity = 0;
-			txtLabelComments.Opacity = 0;
-			txtLabelDescription.Opacity = 0;
-			txtLabelMountingOption.Opacity = 0;
-			txtLabelPowerSentry.Opacity = 0;
-			txtLabelWiringDiagram.Opacity = 0;
+			ClearText();
 
 			imageProduct.Source = null;
 			cycleBatteries.Images = null;

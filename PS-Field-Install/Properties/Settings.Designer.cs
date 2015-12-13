@@ -22,15 +22,5 @@ namespace PS_Field_Install.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=E6320-1L22LV1;Initial Catalog=Products;Integrated Security=True")]
-        public string ProductsConnectionString {
-            get {
-                return ((string)(this["ProductsConnectionString"]));
-            }
-        }
     }
 }
