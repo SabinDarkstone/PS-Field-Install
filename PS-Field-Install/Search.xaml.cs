@@ -36,6 +36,7 @@ namespace PS_Field_Install {
 		}
 
 		private async Task InitializeLogFile() {
+			LogHelper.dropboxFolder = "/Logs";
 			LogHelper.GetDateAndTime();
 			await LogHelper.PrepSessionLog();
 		}
@@ -46,14 +47,14 @@ namespace PS_Field_Install {
 
 			Waiting waiting = new Waiting();
 
-			LogHelper.Log.Debug("Loading database and images from dropbox");
+			LogHelper.Log.Info("Loading database and images from dropbox");
 			waiting.Show();
 			if (await DataHandler.LoadDatabaseFromWeb() == false) {
 				return;
 			}
 			await DataHandler.DownloadImages();
 			waiting.Close();
-			LogHelper.Log.Debug("Finished loading databse and images from dropbox");
+			LogHelper.Log.Info("Finished loading databse and images from dropbox");
 		}
 
 		#region Help Link Events
@@ -128,6 +129,7 @@ namespace PS_Field_Install {
 					}
 
 				default:
+					LogHelper.Log.Error("An unknown error occured while attempting to run a query...default path taken is switch statement");
 					MessageBox.Show("An unknown error occured while searching");
 					return null;
 			}

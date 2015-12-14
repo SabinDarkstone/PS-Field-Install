@@ -17,7 +17,7 @@ namespace PS_Field_Install.Scripts {
 			EXCEPTION
 		};
 
-		private static string dropboxFolder = "/Logs";
+		public static string dropboxFolder = "/Logs";
 		private static string localFolder = @"Temp\Logs";
 		private static string filename = "";
 
