@@ -119,8 +119,22 @@ namespace PS_Field_Install.Scripts {
 			}
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="path"></param>
+		/// <returns></returns>
 		public static async Task<ListFolderResult> GetFolderContents(string path) {
 			return await client.Files.ListFolderAsync(path);
+		}
+
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="path"></param>
+		/// <param name="name"></param>
+		public static async void AddFolder(string path, string name) {
+			await client.Files.CreateFolderAsync(path + "/" + name);
 		}
 
 	}

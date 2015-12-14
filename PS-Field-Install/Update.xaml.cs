@@ -34,11 +34,13 @@ namespace PS_Field_Install {
 		private int rows;
 
 		public Update() {
+			LogHelper.Log.Debug("Update.Constructor");
 			InitializeComponent();
 			InitializeUploader();
 		}
 
 		private void InitializeUploader() {
+			LogHelper.Log.Debug("Update.InitializeUploader()");
 			radioCICode.Tag = ColTypes.CICodes;
 			radioComment.Tag = ColTypes.Comments;
 			radioDescription.Tag = ColTypes.Descriptions;
@@ -90,6 +92,7 @@ namespace PS_Field_Install {
 
 		#region Databse Update
 		private void btnChooseFile_Click(object sender, RoutedEventArgs e) {
+			LogHelper.Log.Debug("Update.btnChooseFile_Click(object, e)");
 			OpenFileDialog openFileDialog = new OpenFileDialog();
 			openFileDialog.Filter = "Excel Files (*.xls, *.xlsx)|*.xls;*.xlsx|All Files (*.*)|*.*";
 			openFileDialog.FilterIndex = 1;
@@ -113,6 +116,7 @@ namespace PS_Field_Install {
 		}
 
 		private List<string> GetColumnHeadings(string filename) {
+			LogHelper.Log.Debug("Update.GetColumnHeadings(filename)");
 			Excel.Application excelApp;
 			Excel.Workbook excelWorkbook;
 			Excel.Worksheet excelWorksheet;
@@ -147,6 +151,8 @@ namespace PS_Field_Install {
 		}
 
 		private void ReleaseObject(object obj) {
+			LogHelper.Log.Debug("Update.ReleaseObject(obj)");
+
 			try {
 				System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
 				obj = null;
@@ -159,6 +165,7 @@ namespace PS_Field_Install {
 		}
 
 		private void listHeadings_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
+			LogHelper.Log.Debug("Update.listHeadings_MouseLeftButtonUp(sender, e)");
 			if (columnEditMode) {
 				if (listHeadings.SelectedIndex != -1) {
 					itemSelected = true;
@@ -202,6 +209,7 @@ namespace PS_Field_Install {
 		}
 
 		private void radioButtons_Checked(object sender, RoutedEventArgs e) {
+			LogHelper.Log.Debug("Update.radioButtons_Checked(sender, e)");
 			System.Windows.Controls.RadioButton rb = sender as System.Windows.Controls.RadioButton;
 
 			if (itemSelected && columnEditMode) {
@@ -214,6 +222,7 @@ namespace PS_Field_Install {
 		}
 
 		private void btnConfirm_Click(object sender, RoutedEventArgs e) {
+			LogHelper.Log.Debug("Update.btnConfirm_Click(sender, e)");
 			// Confirm with the user that their settings are correct
 			string verifyMe = "";
 
@@ -250,10 +259,12 @@ namespace PS_Field_Install {
 		}
 
 		private void btnCancel_Click(object sender, RoutedEventArgs e) {
+			LogHelper.Log.Debug("Update.btnCancel_Click(sender, e)");
 			linkSearch_MouseLeftButtonDown(null, null);
 		}
 
 		private void btnReset_Click(object sender, RoutedEventArgs e) {
+			LogHelper.Log.Debug("Update.btnReset_Click(sender, e)");
 			radioCICode.IsChecked = false;
 			radioComment.IsChecked = false;
 			radioDescription.IsChecked = false;
@@ -268,6 +279,7 @@ namespace PS_Field_Install {
 
 		#region Image Uploader
 		private void btnOpen_Click(object sender, RoutedEventArgs e) {
+			LogHelper.Log.Debug("Update.btnOpen_Click(sender, e)");
 			OpenFileDialog openFileDialog = new OpenFileDialog();
 			openFileDialog.Filter = "PNG Files(*.png)|*.png";
 			DialogResult dr = openFileDialog.ShowDialog();
@@ -280,6 +292,7 @@ namespace PS_Field_Install {
 		}
 
 		private async void btnUploadImage_Click(object sender, RoutedEventArgs e) {
+			LogHelper.Log.Debug("Update.btnUploadImage_Click(sender, e)");
 			if (txtProduct.Text == null) {
 				System.Windows.MessageBox.Show("Please enter a family or product name before uploading the image file.");
 				return;
@@ -309,8 +322,8 @@ namespace PS_Field_Install {
 			InitializeCurrentImages();  // Reload image list
 		}
 
-		// TODO: Finish retrieving files from "Lithonia" and "Power Sentry" directories and showing them in the listbox
 		private void InitializeCurrentImages() {
+			LogHelper.Log.Debug("Update.InitializeCurrentImages()");
 			IEnumerable<string> imagesLithonia = System.IO.Directory.EnumerateFiles(TextTools.MyRelativePath(@"Temp\Lithonia"));
 			IEnumerable<string> imagesPowerSentry = System.IO.Directory.EnumerateFiles(TextTools.MyRelativePath(@"Temp\Power Sentry"));
 
@@ -346,13 +359,18 @@ namespace PS_Field_Install {
 		}
 
 		private void btnClear_Click(object sender, RoutedEventArgs e) {
+			LogHelper.Log.Debug("Update.btnClear_Click(sender, e)");
 			picPreview.Source = null;
 		}
 
 		private void btnPreview_Click(object sender, RoutedEventArgs e) {
+			LogHelper.Log.Debug("Update.btnPreview_Click(sender, e)");
 			picPreview.Source = new BitmapImage(new Uri(images[listCurrentImageFiles.SelectedIndex].ToString(), UriKind.Absolute));
 		}
 		#endregion
 
+		private async void Page_Unloaded(object sender, RoutedEventArgs e) {
+			await LogHelper.UploadLog();
+		}
 	}
 }

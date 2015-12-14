@@ -30,6 +30,7 @@ namespace PS_Field_Install {
 
 		#region Progress Bar Handling
 		public ProgressBar(ref Hashtable columnAllocation, string filename, int rowCount) {
+			LogHelper.Log.Debug("ProgressBar.Constructor");
 			InitializeComponent();
 
 			columns = columnAllocation;
@@ -38,6 +39,7 @@ namespace PS_Field_Install {
 		}
 
 		private void Window_ContentRendered(object sender, EventArgs e) {
+			LogHelper.Log.Debug("ProgressBar.Window_ContentRendered(sender, e)");
 			BackgroundWorker worker = new BackgroundWorker();
 			worker.WorkerReportsProgress = true;
 			worker.DoWork += worker_DoWork;
@@ -52,6 +54,7 @@ namespace PS_Field_Install {
 		#endregion
 
 		async void worker_DoWork(object sender, DoWorkEventArgs e) {
+			LogHelper.Log.Debug("ProgressBar.worker_DoWork(sender, e)");
 			DataTable table = DataHandler.productData.Tables["Products"];
 
 			#region Excel Prep
@@ -183,6 +186,7 @@ namespace PS_Field_Install {
 		}
 
 		private void ReleaseObject(object obj) {
+			LogHelper.Log.Debug("ProgressBar.ReleaseObject(obj)");
 			try {
 				System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
 				obj = null;
@@ -194,5 +198,8 @@ namespace PS_Field_Install {
 			}
 		}
 
+		private async void Window_Unloaded(object sender, RoutedEventArgs e) {
+			await LogHelper.UploadLog();
+		}
 	}
 }

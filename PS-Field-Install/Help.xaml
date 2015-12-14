@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PS_Field_Install"
         mc:Ignorable="d"
-        Title="Help" Height="238" Width="487.782" Icon="Icon.png">
+        Title="Help" Height="238" Width="487.782" Icon="Icon.png" Unloaded="Window_Unloaded">
     <Grid>
         <Grid.Background>
             <RadialGradientBrush>

@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Data;
 using PS_Field_Install.Scripts;
 using System.Windows.Media.Imaging;
+using System.Threading.Tasks;
 
 namespace PS_Field_Install {
 
@@ -16,8 +17,6 @@ namespace PS_Field_Install {
 
 		public Search() {
 			InitializeComponent();
-
-			ClearText();
 		}
 
 		private void ClearText() {
@@ -36,15 +35,25 @@ namespace PS_Field_Install {
 			txtLabelWiringDiagram.Opacity = 0;
 		}
 
+		private async Task InitializeLogFile() {
+			LogHelper.GetDateAndTime();
+			await LogHelper.PrepSessionLog();
+		}
+
 		private async void Page_Loaded(object sender, RoutedEventArgs e) {
+			ClearText();
+			await InitializeLogFile();
+
 			Waiting waiting = new Waiting();
 
+			LogHelper.Log.Debug("Loading database and images from dropbox");
 			waiting.Show();
 			if (await DataHandler.LoadDatabaseFromWeb() == false) {
 				return;
 			}
 			await DataHandler.DownloadImages();
 			waiting.Close();
+			LogHelper.Log.Debug("Finished loading databse and images from dropbox");
 		}
 
 		#region Help Link Events
@@ -59,12 +68,15 @@ namespace PS_Field_Install {
 		#endregion
 
 		private void btnRunSearch_Click(object sender, RoutedEventArgs e) {
+			LogHelper.Log.Debug("btnRunSearch_Click(sender, e)");
+			LogHelper.Log.Debug("Search initiated.  Search Term: " + txtSearchBox.Text);
 			DataRow[] foundRows;
 			bmpPSimg = null;
 
 			if (radioCICodeOnly.IsChecked == true) {
 				foundRows = RunQuery("CICode", txtSearchBox.Text, chkbxAllowPartial.IsChecked);
 				if (foundRows.Length == 0) {
+					LogHelper.Log.Info("Could not find specified product");
 					MessageBox.Show("Could not find specified product.");
 					DisplayResults(null);
 					return;
@@ -72,6 +84,7 @@ namespace PS_Field_Install {
 			} else if (radioDescriptionOnly.IsChecked == true) {
 				foundRows = RunQuery("Description", txtSearchBox.Text, chkbxAllowPartial.IsChecked);
 				if (foundRows.Length == 0) {
+					LogHelper.Log.Info("Could not find specified product");
 					MessageBox.Show("Could not find specified product.");
 					DisplayResults(null);
 					return;
@@ -81,6 +94,7 @@ namespace PS_Field_Install {
 				if (foundRows.Length == 0) {
 					foundRows = RunQuery("Description", txtSearchBox.Text, chkbxAllowPartial.IsChecked);
 					if (foundRows.Length == 0) {
+						LogHelper.Log.Info("Could not find specified product");
 						MessageBox.Show("Could not find specified product.");
 						DisplayResults(null);
 						return;
@@ -101,6 +115,7 @@ namespace PS_Field_Install {
 		}
 
 		private DataRow[] RunQuery(string mode, string findText, bool? partials) {
+			LogHelper.Log.Debug("RunQuery(mode, findText, partials)");
 			switch (mode) {
 				case "CICode":
 					return DataHandler.productData.Tables[0].Select("CICodes='" + findText + "'");
@@ -119,6 +134,7 @@ namespace PS_Field_Install {
 		}
 
 		private void DisplayResults(DataRow row) {
+			LogHelper.Log.Debug("DisplayResults(row)");
 			ClearText();
 
 			imageProduct.Source = null;
@@ -147,6 +163,7 @@ namespace PS_Field_Install {
 		}
 
 		private void GetImages(DataRow row) {
+			LogHelper.Log.Debug("GetImages(row)");
 			string[] psImageName;
 			int batteryCount = 0;
 			int i = 0;
@@ -177,6 +194,10 @@ namespace PS_Field_Install {
 				Uri uri = new Uri("Update.xaml", UriKind.Relative);
 				this.NavigationService.Navigate(uri);
 			}
+		}
+
+		private async void Page_Unloaded(object sender, RoutedEventArgs e) {
+			await LogHelper.UploadLog();
 		}
 	}
 }

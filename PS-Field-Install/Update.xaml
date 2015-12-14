@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:PS_Field_Install"
       mc:Ignorable="d" 
       d:DesignHeight="595" d:DesignWidth="840"
-      Title="Admin Update">
+      Title="Admin Update" Unloaded="Page_Unloaded">
     <Page.Resources>
         <Storyboard x:Key="OnMouseEnter1">
             <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="linkSearch">
