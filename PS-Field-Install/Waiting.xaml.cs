@@ -7,6 +7,11 @@ namespace PS_Field_Install {
 	public partial class Waiting : Window {
 		public Waiting() {
 			InitializeComponent();
+			txtblkLoading.Text = "";
+		}
+
+		public void ChangeText(string text) {
+			txtblkLoading.Text = text;
 		}
 	}
 }

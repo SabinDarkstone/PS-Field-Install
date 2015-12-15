@@ -12,7 +12,7 @@ namespace PS_Field_Install {
 
 			LogHelper.Log.Debug("MultipleResults.Constructor");
 			foreach (DataRow row in results) {
-				listResults.Items.Add(row["pDescription"]);
+				listResults.Items.Add(row["Descriptions"]);
 			}
 		}
 

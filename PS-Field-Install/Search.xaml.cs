@@ -43,15 +43,17 @@ namespace PS_Field_Install {
 
 		private async void Page_Loaded(object sender, RoutedEventArgs e) {
 			ClearText();
-			await InitializeLogFile();
-
 			Waiting waiting = new Waiting();
-
-			LogHelper.Log.Info("Loading database and images from dropbox");
 			waiting.Show();
+			waiting.ChangeText("Please wait while the web app starts up");
+			await InitializeLogFile();
+			LogHelper.Log.Info("Loading database and images from dropbox");
+			waiting.ChangeText("Loading database...");
 			if (await DataHandler.LoadDatabaseFromWeb() == false) {
+				LogHelper.Log.Error("An error occured while loading the database xml file from dropbox");
 				return;
 			}
+			waiting.ChangeText("Loading assets and wrapping up...");
 			await DataHandler.DownloadImages();
 			waiting.Close();
 			LogHelper.Log.Info("Finished loading databse and images from dropbox");

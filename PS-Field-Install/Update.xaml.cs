@@ -92,7 +92,6 @@ namespace PS_Field_Install {
 
 		#region Databse Update
 		private void btnChooseFile_Click(object sender, RoutedEventArgs e) {
-			LogHelper.Log.Debug("Update.btnChooseFile_Click(object, e)");
 			OpenFileDialog openFileDialog = new OpenFileDialog();
 			openFileDialog.Filter = "Excel Files (*.xls, *.xlsx)|*.xls;*.xlsx|All Files (*.*)|*.*";
 			openFileDialog.FilterIndex = 1;
@@ -100,6 +99,9 @@ namespace PS_Field_Install {
 
 			if (dr == DialogResult.OK) {
 				txtFilename.Text = openFileDialog.FileName;
+				Waiting waiting = new Waiting();
+				waiting.ChangeText("Reading column headings in Excel file");
+				waiting.Show();
 				List<string> headings = GetColumnHeadings(openFileDialog.FileName);
 
 				foreach (string str in headings) {
@@ -112,11 +114,11 @@ namespace PS_Field_Install {
 				foreach (object col in listHeadings.Items) {
 					columnAllocation.Add(col, ColTypes.Do_Not_Use.ToString());
 				}
+				waiting.Close();
 			}
 		}
 
 		private List<string> GetColumnHeadings(string filename) {
-			LogHelper.Log.Debug("Update.GetColumnHeadings(filename)");
 			Excel.Application excelApp;
 			Excel.Workbook excelWorkbook;
 			Excel.Worksheet excelWorksheet;
