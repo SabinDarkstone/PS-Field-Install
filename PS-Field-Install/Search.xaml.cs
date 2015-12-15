@@ -203,5 +203,15 @@ namespace PS_Field_Install {
 		private async void Page_Unloaded(object sender, RoutedEventArgs e) {
 			await LogHelper.UploadLog();
 		}
+
+		private void textblock_RightClick(object sender, MouseButtonEventArgs e) {
+			TextBlock clickedBox = (TextBlock)sender;
+			Clipboard.SetText(clickedBox.Text);
+			MessageBox.Show("Copied to clipboard", "PS Field Install Tool");
+		}
+
+		private void image_RightClick(object sender, MouseButtonEventArgs e) {
+			// throw new NotImplementedException();
+		}
 	}
 }
