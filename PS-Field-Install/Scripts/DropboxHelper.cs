@@ -137,5 +137,23 @@ namespace PS_Field_Install.Scripts {
 			await client.Files.CreateFolderAsync(path + "/" + name);
 		}
 
+		public static async void DeleteFile(string folder, string name) {
+			try {
+				await client.Files.DeleteAsync(folder + "/" + name + ".png");
+			} catch (Exception ex) {
+				MessageBox.Show("An error occured while attempting to delete the selected file.", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+				LogHelper.Log.Error(ex.Message);
+			}
+		}
+
+		public static async Task<bool> CheckRemoteFileExists(string folder, string name) {
+			ListFolderResult results = await GetFolderContents(folder);
+			foreach (var item in results.Entries.Where(i => i.IsFile)) {
+				if (item.Name == name) {
+					return true;
+				}
+			}
+			return false;
+		}
 	}
 }

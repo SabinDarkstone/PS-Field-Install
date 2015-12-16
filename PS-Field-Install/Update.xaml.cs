@@ -318,7 +318,7 @@ namespace PS_Field_Install {
 
 			Waiting waiting = new Waiting();
 			waiting.Show();
-			await DataHandler.DownloadImages();
+			// await DataHandler.DownloadImages();
 			waiting.Close();
 
 			InitializeCurrentImages();  // Reload image list
@@ -373,6 +373,22 @@ namespace PS_Field_Install {
 
 		private async void Page_Unloaded(object sender, RoutedEventArgs e) {
 			await LogHelper.UploadLog();
+		}
+
+		private async void btnDelete_Click(object sender, RoutedEventArgs e) {
+			MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure you want to delete the image for " + listCurrentImageFiles.SelectedItem.ToString() + "?", "Confirm Image Deletion", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
+			if (result == MessageBoxResult.Yes) {
+				if (await DropboxHelper.CheckRemoteFileExists("/Images/Lithonia", listCurrentImageFiles.SelectedItem.ToString())) {
+					DropboxHelper.DeleteFile("/Images/Lithonia", listCurrentImageFiles.SelectedItem.ToString());
+					System.IO.File.Delete(TextTools.MyRelativePath(@"Temp\Lithonia\" + listCurrentImageFiles.SelectedItem.ToString() + ".png"));
+				}
+
+				if (await DropboxHelper.CheckRemoteFileExists("/Images/Power Sentry", listCurrentImageFiles.SelectedItem.ToString())) {
+					DropboxHelper.DeleteFile("/Images/Power Sentry", listCurrentImageFiles.SelectedItem.ToString());
+					System.IO.File.Delete(TextTools.MyRelativePath(@"Temp\Power Sentry\" + listCurrentImageFiles.SelectedItem.ToString() + ".png"));
+
+				}
+			}
 		}
 	}
 }

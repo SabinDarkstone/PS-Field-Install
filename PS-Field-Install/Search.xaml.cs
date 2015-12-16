@@ -6,17 +6,22 @@ using System.Data;
 using PS_Field_Install.Scripts;
 using System.Windows.Media.Imaging;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace PS_Field_Install {
 
 	public partial class Search : Page {
 
-		private BitmapImage[] bmpPSimg;
+		// private BitmapImage[] bmpPSimg;
+		private string[] bmpPSimg;
 
-		private string databaseFilepath = TextTools.MyRelativePath(@"Temp\PowerSearch.xml");
+		private static string lithoniaImages = @"\\cdcsrvr1\Depts\PMD\COMMON\Emergency\Apps\Field Install App\Data\Lithonia";
+		private static string powersentryImages = @"\\cdcsrvr1\Depts\PMD\COMMON\Emergency\Apps\Field Install App\Data\Power Sentry";
 
 		public Search() {
 			InitializeComponent();
+
+			// MessageBox.Show(App.Current.StartupUri.ToString());
 		}
 
 		private void ClearText() {
@@ -35,28 +40,37 @@ namespace PS_Field_Install {
 			txtLabelWiringDiagram.Opacity = 0;
 		}
 
+		/* UNDONE Removed for testing
 		private async Task InitializeLogFile() {
 			LogHelper.dropboxFolder = "/Logs";
 			LogHelper.GetDateAndTime();
 			await LogHelper.PrepSessionLog();
 		}
+		*/
 
 		private async void Page_Loaded(object sender, RoutedEventArgs e) {
 			ClearText();
-			Waiting waiting = new Waiting();
+			Waiting waiting = new Waiting("Updating Database...");
 			waiting.Show();
-			waiting.ChangeText("Please wait while the web app starts up");
-			await InitializeLogFile();
-			LogHelper.Log.Info("Loading database and images from dropbox");
-			waiting.ChangeText("Loading database...");
+			// waiting.ChangeText("Please wait while the web app starts up");
+			// await InitializeLogFile();
+			// LogHelper.Log.Info("Loading database and images from dropbox");
+			// waiting.ChangeText("Loading database...");
+			/* UNDONE Removed for testing
 			if (await DataHandler.LoadDatabaseFromWeb() == false) {
 				LogHelper.Log.Error("An error occured while loading the database xml file from dropbox");
 				return;
 			}
+
 			waiting.ChangeText("Loading assets and wrapping up...");
 			await DataHandler.DownloadImages();
 			waiting.Close();
-			LogHelper.Log.Info("Finished loading databse and images from dropbox");
+			*/
+			// LogHelper.Log.Info("Finished loading databse and images from dropbox");
+
+			DataHandler.LoadDatabaseFromLocal();
+			waiting.Close();
+			MessageBox.Show(DataHandler.productData.Tables[0].Rows.Count.ToString());
 		}
 
 		#region Help Link Events
@@ -118,7 +132,7 @@ namespace PS_Field_Install {
 		}
 
 		private DataRow[] RunQuery(string mode, string findText, bool? partials) {
-			LogHelper.Log.Debug("RunQuery(mode, findText, partials)");
+			// LogHelper.Log.Debug("RunQuery(mode, findText, partials)");
 			switch (mode) {
 				case "CICode":
 					return DataHandler.productData.Tables[0].Select("CICodes='" + findText + "'");
@@ -131,14 +145,14 @@ namespace PS_Field_Install {
 					}
 
 				default:
-					LogHelper.Log.Error("An unknown error occured while attempting to run a query...default path taken is switch statement");
+					// LogHelper.Log.Error("An unknown error occured while attempting to run a query...default path taken is switch statement");
 					MessageBox.Show("An unknown error occured while searching");
 					return null;
 			}
 		}
 
 		private void DisplayResults(DataRow row) {
-			LogHelper.Log.Debug("DisplayResults(row)");
+			// LogHelper.Log.Debug("DisplayResults(row)");
 			ClearText();
 
 			imageProduct.Source = null;
@@ -167,7 +181,7 @@ namespace PS_Field_Install {
 		}
 
 		private void GetImages(DataRow row) {
-			LogHelper.Log.Debug("GetImages(row)");
+			// LogHelper.Log.Debug("GetImages(row)");
 			string[] psImageName;
 			int batteryCount = 0;
 			int i = 0;
@@ -176,10 +190,11 @@ namespace PS_Field_Install {
 			string strPS = row["Power_Sentry_Solutions"].ToString();
 			psImageName = TextTools.SplitToArray(strPS, "and");
 			batteryCount = psImageName.Length;
-			bmpPSimg = new BitmapImage[batteryCount];
+			bmpPSimg = new string[batteryCount];
 
 			foreach (string s in psImageName) {
-				bmpPSimg[i] = new BitmapImage(new Uri(TextTools.MyRelativePath(@"Temp\Power Sentry\" + s + ".png")));
+				// bmpPSimg[i] = new BitmapImage(new Uri(TextTools.MyRelativePath(@"Temp\Power Sentry\" + s + ".png")));
+				bmpPSimg[i] = powersentryImages + @"\" + s + ".png";
 				i++;
 			}
 
@@ -188,11 +203,15 @@ namespace PS_Field_Install {
 			// Next grab the image for the product
 			string strLL = TextTools.GetProductFamily(row["Descriptions"].ToString());
 
+			/* UNDONE for testing
 			try {
-				imageProduct.Source = new BitmapImage(new Uri(TextTools.MyRelativePath(@"Temp\Lithonia\" + TextTools.GetProductFamily(row["Descriptions"].ToString()) + ".png")));
-			} catch (Exception ex) {
+				// imageProduct.Source = new BitmapImage(new Uri(TextTools.MyRelativePath(@"Temp\Lithonia\" + TextTools.GetProductFamily(row["Descriptions"].ToString()) + ".png")));
+				imageProduct.Source = new BitmapImage(new Uri("pack://application:,,,/Data/Images/Lithonia/" + TextTools.GetProductFamily(row["Descriptions"].ToString()) + ".png", UriKind.Relative));
+			} catch (Exception) {
 				// NOOP
 			}
+			*/
+			imageProduct.Source = new BitmapImage(new Uri(lithoniaImages + @"\" + TextTools.GetProductFamily(row["Descriptions"].ToString()) + ".png"));
 		}
 
 		private void linkLogin_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
@@ -205,7 +224,7 @@ namespace PS_Field_Install {
 		}
 
 		private async void Page_Unloaded(object sender, RoutedEventArgs e) {
-			await LogHelper.UploadLog();
+			// await LogHelper.UploadLog();
 		}
 
 		private void textblock_RightClick(object sender, MouseButtonEventArgs e) {
@@ -214,9 +233,9 @@ namespace PS_Field_Install {
 			Clipboard.SetText(clickedBox.Text);
 			MessageBox.Show("Copied to clipboard", "PS Field Install Tool");
 			*/
-		}
+	}
 
-		private void image_RightClick(object sender, MouseButtonEventArgs e) {
+	private void image_RightClick(object sender, MouseButtonEventArgs e) {
 			// throw new NotImplementedException();
 		}
 

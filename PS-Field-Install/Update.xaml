@@ -267,6 +267,7 @@
                     <TextBlock x:Name="textBlock5_Copy" HorizontalAlignment="Left" Margin="28,214,0,0" TextWrapping="Wrap" Text="Current Files" VerticalAlignment="Top"/>
                     <Button x:Name="btnPreview" Content="Preview Image" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="166,260,0,0" Click="btnPreview_Click"/>
                     <Button x:Name="btnClear" Content="Clear Preview" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="166,235,0,0" Click="btnClear_Click"/>
+                    <Button x:Name="btnDelete" Content="Delete Image" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="166,285,0,0" Click="btnDelete_Click"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Database Update">

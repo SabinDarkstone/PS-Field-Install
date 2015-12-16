@@ -9,6 +9,7 @@ namespace PS_Field_Install {
 	/// </summary>
 	public partial class App : Application {
 
+		/*
 		[SecurityPermission(SecurityAction.Demand, Flags=SecurityPermissionFlag.ControlAppDomain)]
 		private void Application_Startup(object sender, StartupEventArgs e) {
 			AppDomain currentDomain = AppDomain.CurrentDomain;
@@ -23,6 +24,7 @@ namespace PS_Field_Install {
 			await Scripts.LogHelper.UploadLog();
 			Environment.Exit(69);
 		}
+		*/
 	}
 
 }
