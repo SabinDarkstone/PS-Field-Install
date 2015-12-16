@@ -188,7 +188,11 @@ namespace PS_Field_Install {
 			// Next grab the image for the product
 			string strLL = TextTools.GetProductFamily(row["Descriptions"].ToString());
 
-			imageProduct.Source = new BitmapImage(new Uri(TextTools.MyRelativePath(@"Temp\Lithonia\" + TextTools.GetProductFamily(row["Descriptions"].ToString()) + ".png")));
+			try {
+				imageProduct.Source = new BitmapImage(new Uri(TextTools.MyRelativePath(@"Temp\Lithonia\" + TextTools.GetProductFamily(row["Descriptions"].ToString()) + ".png")));
+			} catch (Exception ex) {
+				// NOOP
+			}
 		}
 
 		private void linkLogin_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
