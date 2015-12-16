@@ -10,6 +10,11 @@ namespace PS_Field_Install {
 			txtblkLoading.Text = "";
 		}
 
+		public Waiting(string text) {
+			InitializeComponent();
+			txtblkLoading.Text = text;
+		}
+
 		public void ChangeText(string text) {
 			txtblkLoading.Text = text;
 		}

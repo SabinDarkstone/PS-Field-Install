@@ -2,19 +2,25 @@
 using System.Data;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Resources;
 
 namespace PS_Field_Install.Scripts {
 	public static class DataHandler {
 
 		public static DataSet productData;
 
+		// public static StreamResourceInfo databaseFile = Application.GetResourceStream(new Uri(@"pack://siteoforigin:,,,/Data/PowerSearch.xml"));
+		// private static string databaseFile = Path.GetDirectoryName(System.Diagnostics.Process.GetCurrentProcess().MainModule.FileName) + @"\Data\PowerSearch.xml";
+		// private static string databaseFile = new Uri("pack://siteoforigin:,,,/Data/PowerSearch.xml", UriKind.Absolute).AbsolutePath;
+		private static string databaseFile = @"\\cdcsrvr1\Depts\PMD\COMMON\Emergency\Apps\Field Install App\Data\PowerSearch.xml";
+
+		/* UNDONE Removed for testing
 		public static async Task<bool> LoadDatabaseFromWeb() {
 			// Download file for dropbox to local machine
 			try {
-				await DropboxHelper.GetFileFromDropbox("/Data", "PowerSearch.xml", TextTools.MyRelativePath("Temp").ToString(), "PowerSearch.xml");
+				await DropboxHelper.GetFileFromDropbox(" / Data", "PowerSearch.xml", TextTools.MyRelativePath("Temp").ToString(), "PowerSearch.xml");
 			} catch (Exception ex) {
 				MessageBox.Show("An error occured while checking for the latest database file from remote server.\n" + ex.ToString());
 				return false;
@@ -41,9 +47,33 @@ namespace PS_Field_Install.Scripts {
 			// MessageBox.Show("Database successfully loaded.\n\nNumber of tables found: " + productData.Tables.Count + "\nNumber of records found: " + productData.Tables[0].Rows.Count);
 			return true;
 		}
+		*/
+
+		public static void LoadDatabaseFromLocal() {
+			// Read xml file into dataset
+			productData = new DataSet();
+			ReadDatabase();
+
+			if (!productData.Tables.Contains("Products")) {
+				productData.Tables.Add("Products");
+				// productData.Tables["Products"].AcceptChanges();
+				// productData.AcceptChanges();
+				SaveDatabase();
+
+				productData.Tables["Products"].Columns.Add("CICodes", typeof(string));
+				productData.Tables["Products"].Columns.Add("Descriptions", typeof(string));
+				productData.Tables["Products"].Columns.Add("Power_Sentry_Solutions", typeof(string));
+				productData.Tables["Products"].Columns.Add("Mounting_Options", typeof(string));
+				productData.Tables["Products"].Columns.Add("Wiring_Diagrams", typeof(string));
+				productData.Tables["Products"].Columns.Add("Comments", typeof(string));
+			}
+
+			// MessageBox.Show("Database successfully loaded.\n\nNumber of tables found: " + productData.Tables.Count + "\nNumber of records found: " + productData.Tables[0].Rows.Count);
+		}
 
 		public static void ReadDatabase() {
-			productData.ReadXml(TextTools.MyRelativePath(@"Temp\PowerSearch.xml"));
+			// productData.ReadXml(TextTools.MyRelativePath(@"Temp\PowerSearch.xml"));
+			productData.ReadXml(databaseFile);
 		}
 
 		public static void SaveDatabase() {
@@ -52,17 +82,16 @@ namespace PS_Field_Install.Scripts {
 			}
 
 			productData.AcceptChanges();
-			productData.WriteXml(TextTools.MyRelativePath(@"Temp\PowerSearch.xml"));
+			// productData.WriteXml(TextTools.MyRelativePath(@"Temp\PowerSearch.xml"));
+			productData.WriteXml(databaseFile);
 		}
 
 		public static bool CheckFileExists() {
-			if (System.IO.File.Exists(TextTools.MyRelativePath(@"Temp\PowerSearch.xml"))) {
-				return true;
-			} else {
-				return false;
-			}
+			// return System.IO.File.Exists(TextTools.MyRelativePath(@"Temp\PowerSearch.xml"));
+			return true;
 		}
 
+		/* UNDONE Removed for testing
 		public static async Task DownloadImages() {
 			var filesPowerSentry = await DropboxHelper.GetFolderContents("/Images/Power Sentry");
 			var filesLithonia = await DropboxHelper.GetFolderContents("/Images/Lithonia");
@@ -83,6 +112,7 @@ namespace PS_Field_Install.Scripts {
 
 			// MessageBox.Show("Finished updating image database!");
 		}
+		*/
 
 		/* UNDONE
 		private static bool CheckTableForErrors() {

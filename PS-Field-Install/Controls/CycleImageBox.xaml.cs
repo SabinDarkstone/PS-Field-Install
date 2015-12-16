@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
@@ -12,7 +13,7 @@ namespace PS_Field_Install.Controls {
 		private int index = 0;
 		private DispatcherTimer timer;
 
-		public BitmapImage[] Images {
+		public string[] Images {
 			get;
 			set;
 		}
@@ -25,7 +26,8 @@ namespace PS_Field_Install.Controls {
 			index = 0;
 
 			if (Images.Length > 0) {
-				image.Source = Images[index];
+				var uri = new Uri(Images[index]);
+				image.Source = new BitmapImage(uri);
 
 				this.timer = new DispatcherTimer(DispatcherPriority.Render);
 				this.timer.Interval = TimeSpan.FromSeconds(1);
@@ -40,7 +42,8 @@ namespace PS_Field_Install.Controls {
 				return;
 			}
 
-			image.Source = Images[index];
+			var uri = new Uri(Images[index]);
+			image.Source = new BitmapImage(uri);
 			index++;
 
 			if (index > Images.Length - 1) {
