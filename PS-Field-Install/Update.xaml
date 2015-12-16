@@ -278,23 +278,20 @@
                     </LinearGradientBrush>
                 </TabItem.Background>
                 <Grid Background="#00000000">
-                    <Grid Margin="103,20,0,32" HorizontalAlignment="Left" Width="424">
+                    <Grid Margin="83,20,0,32" HorizontalAlignment="Left" Width="470">
                         <TextBlock x:Name="textBlock1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Filename" VerticalAlignment="Bottom" Margin="0,0,0,298"/>
                         <TextBox x:Name="txtFilename" HorizontalAlignment="Left" Height="23" Margin="0,0,0,270" TextWrapping="Wrap" VerticalAlignment="Bottom" Width="265"/>
                         <Button x:Name="btnChooseFile" Content="Choose File" HorizontalAlignment="Left" Margin="270,0,0,271" VerticalAlignment="Bottom" Width="75" Click="btnChooseFile_Click"/>
                         <ListBox x:Name="listHeadings" HorizontalAlignment="Left" Height="135" Margin="0,0,0,60" VerticalAlignment="Bottom" Width="235" MouseLeftButtonUp="listHeadings_MouseLeftButtonUp"/>
-                        <RadioButton x:Name="radioNone" Content="Do Not Use" HorizontalAlignment="Left" Margin="305,0,0,180" VerticalAlignment="Bottom" Checked="radioButtons_Checked" GroupName="columns"/>
-                        <RadioButton x:Name="radioCICode" Content="CI Code" HorizontalAlignment="Left" Margin="305,0,0,160" VerticalAlignment="Bottom" Checked="radioButtons_Checked" GroupName="columns"/>
-                        <RadioButton x:Name="radioDescription" Content="Description" HorizontalAlignment="Left" Margin="305,0,0,140" VerticalAlignment="Bottom" Checked="radioButtons_Checked" GroupName="columns"/>
-                        <RadioButton x:Name="radioPowerSentrySolution" Content="PS Solution" HorizontalAlignment="Left" Margin="305,0,0,120" VerticalAlignment="Bottom" Checked="radioButtons_Checked" GroupName="columns"/>
-                        <RadioButton x:Name="radioMounting" Content="Mounting Option" HorizontalAlignment="Left" Margin="305,0,0,100" VerticalAlignment="Bottom" Checked="radioButtons_Checked" GroupName="columns"/>
-                        <RadioButton x:Name="radioWiringDiagram" Content="Wiring Diagram" HorizontalAlignment="Left" Margin="305,0,0,80" VerticalAlignment="Bottom" Checked="radioButtons_Checked" GroupName="columns"/>
-                        <RadioButton x:Name="radioComment" Content="Comment" HorizontalAlignment="Left" Margin="305,0,0,60" VerticalAlignment="Bottom" Checked="radioButtons_Checked" GroupName="columns"/>
                         <TextBlock x:Name="textBlock2" HorizontalAlignment="Left" Margin="0,0,0,200" TextWrapping="Wrap" Text="Excel Column Headings" VerticalAlignment="Bottom"/>
                         <TextBlock x:Name="textBlock2_Copy" HorizontalAlignment="Left" Margin="288,0,0,200" TextWrapping="Wrap" Text="Map Column To..." VerticalAlignment="Bottom"/>
                         <Button x:Name="btnReset" Content="Reset" HorizontalAlignment="Left" Margin="65,0,0,0" VerticalAlignment="Bottom" Width="75" Click="btnReset_Click"/>
                         <Button x:Name="btnConfirm" Content="Confirm &amp; Upload" HorizontalAlignment="Left" Margin="145,0,0,0" VerticalAlignment="Bottom" Width="110" Click="btnConfirm_Click"/>
                         <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="260,0,0,0" VerticalAlignment="Bottom" Width="75" IsCancel="True" Click="btnCancel_Click"/>
+                        <ComboBox x:Name="comboHeadings" HorizontalAlignment="Left" Margin="288,130,0,0" VerticalAlignment="Top" Width="167"/>
+                        <TextBlock x:Name="textBlock2_Copy1" HorizontalAlignment="Left" Margin="288,0,0,130" TextWrapping="Wrap" Text="New Category" VerticalAlignment="Bottom"/>
+                        <TextBox x:Name="txtNewCategory" HorizontalAlignment="Left" Height="23" Margin="288,200,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="167"/>
+                        <Button x:Name="btnAddCategory" Content="Add Category" HorizontalAlignment="Left" Margin="288,228,0,0" VerticalAlignment="Top" Width="93"/>
                     </Grid>
                 </Grid>
             </TabItem>

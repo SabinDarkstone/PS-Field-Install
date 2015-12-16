@@ -45,6 +45,8 @@ namespace PS_Field_Install {
 
 		private void InitializeUploader() {
 			// LogHelper.Log.Debug("Update.InitializeUploader()");
+
+			/* UNDONE Removed to add flexibility
 			radioCICode.Tag = ColTypes.CICodes;
 			radioComment.Tag = ColTypes.Comments;
 			radioDescription.Tag = ColTypes.Descriptions;
@@ -52,6 +54,14 @@ namespace PS_Field_Install {
 			radioNone.Tag = ColTypes.Do_Not_Use;
 			radioPowerSentrySolution.Tag = ColTypes.Power_Sentry_Solutions;
 			radioWiringDiagram.Tag = ColTypes.Wiring_Diagrams;
+			*/
+
+			comboHeadings.Items.Add("CI Code");
+			comboHeadings.Items.Add("Description");
+			comboHeadings.Items.Add("PS Solution");
+			comboHeadings.Items.Add("Mounting Option");
+			comboHeadings.Items.Add("Wiring Diagram");
+			comboHeadings.Items.Add("Comments");
 
 			InitializeCurrentImages();
 		}
@@ -177,6 +187,7 @@ namespace PS_Field_Install {
 					itemSelected = true;
 					string heading = columnAllocation[listHeadings.SelectedItem].ToString();
 					if (heading != null) {
+						/* UNDONE Removed for added flexibility
 						switch (heading) {
 							case "Do_Not_Use":
 								radioNone.IsChecked = true;
@@ -203,8 +214,9 @@ namespace PS_Field_Install {
 								radioNone.IsChecked = true;
 								break;
 						}
+						*/
 					} else {
-						radioNone.IsChecked = true;
+						// radioNone.IsChecked = true;
 					}
 				} else {
 					itemSelected = false;
@@ -271,6 +283,7 @@ namespace PS_Field_Install {
 
 		private void btnReset_Click(object sender, RoutedEventArgs e) {
 			// LogHelper.Log.Debug("Update.btnReset_Click(sender, e)");
+			/* UNDONE Removed for added flexibility
 			radioCICode.IsChecked = false;
 			radioComment.IsChecked = false;
 			radioDescription.IsChecked = false;
@@ -278,6 +291,8 @@ namespace PS_Field_Install {
 			radioNone.IsChecked = false;
 			radioPowerSentrySolution.IsChecked = false;
 			radioWiringDiagram.IsChecked = false;
+			*/
+			txtNewCategory.Text = "";
 			txtFilename.Text = "";
 			listHeadings.Items.Clear();
 		}
