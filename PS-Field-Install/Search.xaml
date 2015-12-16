@@ -162,17 +162,59 @@
         </Grid>
         <Grid Margin="65,215,0,0" Height="370" VerticalAlignment="Top" HorizontalAlignment="Left" Width="395">
             <TextBlock x:Name="txtLabelCICode" HorizontalAlignment="Left" TextWrapping="Wrap" Text="CI Code:" VerticalAlignment="Top" Width="215" FontSize="14.667" FontWeight="Bold"/>
-            <TextBlock x:Name="txtResultCICode" HorizontalAlignment="Left" Margin="0,20,0,0" TextWrapping="Wrap" Text="txtResultCICode" VerticalAlignment="Top" Height="32" Width="375" MouseRightButtonUp="textblock_RightClick"/>
+            <TextBlock x:Name="txtResultCICode" HorizontalAlignment="Left" Margin="0,20,0,0" TextWrapping="Wrap" Text="txtResultCICode" VerticalAlignment="Top" Height="32" Width="375">
+                <TextBlock.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Copy all for Excel" Click="CopyExcel_Click"/>
+                        <MenuItem Header="Copy this only" Click="CopySingle_Click"/>
+                    </ContextMenu>
+                </TextBlock.ContextMenu>
+            </TextBlock>
             <TextBlock x:Name="txtLabelDescription" HorizontalAlignment="Left" Margin="0,57,0,0" TextWrapping="Wrap" Text="Description:" VerticalAlignment="Top" Width="215" FontSize="14.667" FontWeight="Bold"/>
-            <TextBlock x:Name="txtResultDescription" HorizontalAlignment="Left" Margin="0,77,0,0" TextWrapping="Wrap" Text="txtResultDescription" VerticalAlignment="Top" Height="32" Width="375" MouseRightButtonUp="textblock_RightClick"/>
+            <TextBlock x:Name="txtResultDescription" HorizontalAlignment="Left" Margin="0,77,0,0" TextWrapping="Wrap" Text="txtResultDescription" VerticalAlignment="Top" Height="32" Width="375">
+                <TextBlock.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Copy all for Excel" Click="CopyExcel_Click"/>
+                        <MenuItem Header="Copy this only" Click="CopySingle_Click"/>
+                    </ContextMenu>
+                </TextBlock.ContextMenu>
+            </TextBlock>
             <TextBlock x:Name="txtLabelPowerSentry" HorizontalAlignment="Left" Margin="0,114,0,0" TextWrapping="Wrap" Text="Power Sentry Solution:" VerticalAlignment="Top" Width="215" FontSize="14.667" FontWeight="Bold"/>
-            <TextBlock x:Name="txtResultPowerSentry" HorizontalAlignment="Left" Margin="0,133.507,0,0" TextWrapping="Wrap" Text="txtResultPowerSentry" VerticalAlignment="Top" Height="32" Width="375" MouseRightButtonUp="textblock_RightClick"/>
+            <TextBlock x:Name="txtResultPowerSentry" HorizontalAlignment="Left" Margin="0,133.507,0,0" TextWrapping="Wrap" Text="txtResultPowerSentry" VerticalAlignment="Top" Height="32" Width="375">
+                <TextBlock.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Copy all for Excel" Click="CopyExcel_Click"/>
+                        <MenuItem Header="Copy this only" Click="CopySingle_Click"/>
+                    </ContextMenu>
+                </TextBlock.ContextMenu>
+            </TextBlock>
             <TextBlock x:Name="txtLabelMountingOption" HorizontalAlignment="Left" Margin="0,171,0,0" TextWrapping="Wrap" Text="Mounting Options:" VerticalAlignment="Top" Width="215" FontSize="14.667" FontWeight="Bold"/>
-            <TextBlock x:Name="txtResultMountingOption" HorizontalAlignment="Left" Margin="0,191,0,0" TextWrapping="Wrap" Text="txtResultMountingOption" VerticalAlignment="Top" Height="32" Width="375" MouseRightButtonUp="textblock_RightClick"/>
+            <TextBlock x:Name="txtResultMountingOption" HorizontalAlignment="Left" Margin="0,191,0,0" TextWrapping="Wrap" Text="txtResultMountingOption" VerticalAlignment="Top" Height="32" Width="375">
+                <TextBlock.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Copy all for Excel" Click="CopyExcel_Click"/>
+                        <MenuItem Header="Copy this only" Click="CopySingle_Click"/>
+                    </ContextMenu>
+                </TextBlock.ContextMenu>
+            </TextBlock>
             <TextBlock x:Name="txtLabelWiringDiagram" HorizontalAlignment="Left" Margin="0,228,0,0" TextWrapping="Wrap" Text="Wiring Diagram:" VerticalAlignment="Top" Width="215" FontSize="14.667" FontWeight="Bold"/>
-            <TextBlock x:Name="txtResultWiringDiagram" HorizontalAlignment="Left" Margin="0,248,0,0" TextWrapping="Wrap" Text="txtResultWiringDiagram" VerticalAlignment="Top" Height="32" Width="375" MouseRightButtonUp="textblock_RightClick"/>
+            <TextBlock x:Name="txtResultWiringDiagram" HorizontalAlignment="Left" Margin="0,248,0,0" TextWrapping="Wrap" Text="txtResultWiringDiagram" VerticalAlignment="Top" Height="32" Width="375">
+                <TextBlock.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Copy all for Excel" Click="CopyExcel_Click"/>
+                        <MenuItem Header="Copy this only" Click="CopySingle_Click"/>
+                    </ContextMenu>
+                </TextBlock.ContextMenu>
+            </TextBlock>
             <TextBlock x:Name="txtLabelComments" HorizontalAlignment="Left" Margin="0,285,0,0" TextWrapping="Wrap" Text="Comments" VerticalAlignment="Top" Width="215" FontSize="14.667" FontWeight="Bold"/>
-            <TextBlock x:Name="txtResultComments" HorizontalAlignment="Left" Margin="0,304.507,0,0" TextWrapping="Wrap" Text="txtResultComments" VerticalAlignment="Top" Height="64" Width="375" MouseRightButtonUp="textblock_RightClick"/>
+            <TextBlock x:Name="txtResultComments" HorizontalAlignment="Left" Margin="0,304.507,0,0" TextWrapping="Wrap" Text="txtResultComments" VerticalAlignment="Top" Height="64" Width="375">
+                <TextBlock.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Copy all for Excel" Click="CopyExcel_Click"/>
+                        <MenuItem Header="Copy this only" Click="CopySingle_Click"/>
+                    </ContextMenu>
+                </TextBlock.ContextMenu>
+            </TextBlock>
         </Grid>
         <Image x:Name="imageProduct" HorizontalAlignment="Left" Height="175" Margin="530,187,0,0" VerticalAlignment="Top" Width="175" MouseRightButtonUp="image_RightClick"/>
         <controls:CycleImageBox x:Name="cycleBatteries" Height="200" Margin="515,375,0,20" HorizontalAlignment="Left" Width="200"/>

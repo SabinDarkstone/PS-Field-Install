@@ -184,7 +184,7 @@ namespace PS_Field_Install {
 			}
 
 			cycleBatteries.Images = bmpPSimg;
-       
+
 			// Next grab the image for the product
 			string strLL = TextTools.GetProductFamily(row["Descriptions"].ToString());
 
@@ -205,13 +205,34 @@ namespace PS_Field_Install {
 		}
 
 		private void textblock_RightClick(object sender, MouseButtonEventArgs e) {
+			/* UNDONE
 			TextBlock clickedBox = (TextBlock)sender;
 			Clipboard.SetText(clickedBox.Text);
 			MessageBox.Show("Copied to clipboard", "PS Field Install Tool");
+			*/
 		}
 
 		private void image_RightClick(object sender, MouseButtonEventArgs e) {
 			// throw new NotImplementedException();
+		}
+
+		private void CopyExcel_Click(object sender, RoutedEventArgs e) {
+			string copiedData = "";
+			copiedData += "CI Code: " + "\t" + txtResultCICode.Text + "\n";
+			copiedData += "Description: " + "\t" + txtResultDescription.Text + "\n";
+			copiedData += "Power Sentry Solution: " + "\t" + txtResultPowerSentry.Text + "\n";
+			copiedData += "Mounting Options: " + "\t" + txtResultMountingOption.Text + "\n";
+			copiedData += "Wiring Diagrams: " + "\t" + txtResultWiringDiagram.Text + "\n";
+			if (txtResultComments.Text.Length > 0) {
+				copiedData += "Comments: " + "\t" + txtResultComments.Text + "\n";
+			}
+			Clipboard.SetText(copiedData);
+			MessageBox.Show("Results copied to clipboard", "PS Field Install Tool");
+		}
+
+		private void CopySingle_Click(object sender, RoutedEventArgs e) {
+			// Clipbooard.SetText(clickedBlock.Text);
+			// MessageBox.Show("Copied to clipboard", "PS Field Install Tool");
 		}
 	}
 }
