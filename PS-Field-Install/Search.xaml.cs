@@ -70,7 +70,7 @@ namespace PS_Field_Install {
 
 			DataHandler.LoadDatabaseFromLocal();
 			waiting.Close();
-			MessageBox.Show(DataHandler.productData.Tables[0].Rows.Count.ToString());
+			// MessageBox.Show(DataHandler.productData.Tables[0].Rows.Count.ToString());
 		}
 
 		#region Help Link Events
@@ -85,8 +85,8 @@ namespace PS_Field_Install {
 		#endregion
 
 		private void btnRunSearch_Click(object sender, RoutedEventArgs e) {
-			LogHelper.Log.Debug("btnRunSearch_Click(sender, e)");
-			LogHelper.Log.Debug("Search initiated.  Search Term: " + txtSearchBox.Text);
+			// LogHelper.Log.Debug("btnRunSearch_Click(sender, e)");
+			// LogHelper.Log.Debug("Search initiated.  Search Term: " + txtSearchBox.Text);
 			DataRow[] foundRows;
 			bmpPSimg = null;
 
@@ -211,7 +211,9 @@ namespace PS_Field_Install {
 				// NOOP
 			}
 			*/
-			imageProduct.Source = new BitmapImage(new Uri(lithoniaImages + @"\" + TextTools.GetProductFamily(row["Descriptions"].ToString()) + ".png"));
+			try {
+				imageProduct.Source = new BitmapImage(new Uri(lithoniaImages + @"\" + TextTools.GetProductFamily(row["Descriptions"].ToString()) + ".png"));
+			} catch (Exception) { }
 		}
 
 		private void linkLogin_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {

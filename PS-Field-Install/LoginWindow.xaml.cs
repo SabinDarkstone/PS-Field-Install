@@ -11,13 +11,13 @@ namespace PS_Field_Install {
 		}
 
 		private void btnCancel_Click(object sender, RoutedEventArgs e) {
-			LogHelper.Log.Debug("Login.btnCancel_Click(sender, e)");
+			// LogHelper.Log.Debug("Login.btnCancel_Click(sender, e)");
 			DialogResult = false;
 			this.Close();
 		}
 
 		private void btnLogin_Click(object sender, RoutedEventArgs e) {
-			LogHelper.Log.Debug("Login.btnLogin_Click(sender, e)");
+			// LogHelper.Log.Debug("Login.btnLogin_Click(sender, e)");
 			if (txtPassword.Password == "Lithonia" && txtUsername.Text == "Admin") {
 				DialogResult = true;
 				this.Close();
@@ -27,7 +27,7 @@ namespace PS_Field_Install {
 		}
 
 		private async void Window_Unloaded(object sender, RoutedEventArgs e) {
-			await LogHelper.UploadLog();
+			// await LogHelper.UploadLog();
 		}
 	}
 }
