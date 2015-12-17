@@ -1,68 +1,49 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Forms;
 using System.Windows.Input;
-using Excel = Microsoft.Office.Interop.Excel;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Forms;
+
 using PS_Field_Install.Scripts;
-using System.IO;
+
+using Excel = Microsoft.Office.Interop.Excel;
+
+
 
 namespace PS_Field_Install {
 
 	public partial class Update : Page {
 
 		// FLAGS
-		private bool columnEditMode = false;
-		private bool itemSelected = false;
+		private bool manualChangeFlag = true;
 
 		private Hashtable columnAllocation;
 		private Hashtable images;
 
-		private static string lithoniaImages = @"\\cdcsrvr1\Depts\PMD\COMMON\Emergency\Apps\Field Install App\Data\Lithonia";
-		private static string powersentryImages = @"\\cdcsrvr1\Depts\PMD\COMMON\Emergency\Apps\Field Install App\Data\Power Sentry";
+		/// <summary>
+		/// List of categories that will be in the final datatable of database
+		/// </summary>
+		private List<string> categories;
 
-		private enum ColTypes {
-			Do_Not_Use,
-			CICodes,
-			Descriptions,
-			Power_Sentry_Solutions,
-			Mounting_Options,
-			Wiring_Diagrams,
-			Comments
-		};
+		/// <summary>
+		/// List of column headings in excel file
+		/// </summary>
+		private List<string> headings;
 
 		private int rows;
 
 		public Update() {
-			// LogHelper.Log.Debug("Update.Constructor");
 			InitializeComponent();
 			InitializeUploader();
 		}
 
 		private void InitializeUploader() {
-			// LogHelper.Log.Debug("Update.InitializeUploader()");
-
-			/* UNDONE Removed to add flexibility
-			radioCICode.Tag = ColTypes.CICodes;
-			radioComment.Tag = ColTypes.Comments;
-			radioDescription.Tag = ColTypes.Descriptions;
-			radioMounting.Tag = ColTypes.Mounting_Options;
-			radioNone.Tag = ColTypes.Do_Not_Use;
-			radioPowerSentrySolution.Tag = ColTypes.Power_Sentry_Solutions;
-			radioWiringDiagram.Tag = ColTypes.Wiring_Diagrams;
-			*/
-
-			comboHeadings.Items.Add("CI Code");
-			comboHeadings.Items.Add("Description");
-			comboHeadings.Items.Add("PS Solution");
-			comboHeadings.Items.Add("Mounting Option");
-			comboHeadings.Items.Add("Wiring Diagram");
-			comboHeadings.Items.Add("Comments");
-
+			UpdateCategories();
 			InitializeCurrentImages();
 		}
 
@@ -113,25 +94,29 @@ namespace PS_Field_Install {
 
 			if (dr == DialogResult.OK) {
 				txtFilename.Text = openFileDialog.FileName;
-				Waiting waiting = new Waiting();
-				waiting.ChangeText("Reading column headings in Excel file");
-				waiting.Show();
-				List<string> headings = GetColumnHeadings(openFileDialog.FileName);
+				headings = GetColumnHeadings(openFileDialog.FileName);
 
 				foreach (string str in headings) {
 					listHeadings.Items.Add(str);
 				}
 
-				columnEditMode = true;
-				columnAllocation = new Hashtable();
-
-				foreach (object col in listHeadings.Items) {
-					columnAllocation.Add(col, ColTypes.Do_Not_Use.ToString());
+				if (columnAllocation != null) {
+					columnAllocation.Clear();
+				} else {
+					columnAllocation = new Hashtable();
 				}
-				waiting.Close();
+
+				foreach (var col in listHeadings.Items) {
+					columnAllocation.Add(col, headings[0]);
+				}
 			}
 		}
 
+		/// <summary>
+		/// Reads the excel file given by filename for the headings of each column
+		/// </summary>
+		/// <param name="filename">The fully qualified filepath of the excel file</param>
+		/// <returns>A list of strings that represents each column heading in the excel file</returns>
 		private List<string> GetColumnHeadings(string filename) {
 			Excel.Application excelApp;
 			Excel.Workbook excelWorkbook;
@@ -142,7 +127,7 @@ namespace PS_Field_Install {
 			int rCnt, cCnt;
 			rCnt = cCnt = 0;
 
-			List<string> headings = new List<string>();
+			headings = new List<string>();
 
 			excelApp = new Excel.Application();
 			excelWorkbook = excelApp.Workbooks.Open(filename);
@@ -163,12 +148,20 @@ namespace PS_Field_Install {
 			ReleaseObject(excelWorkbook);
 			ReleaseObject(excelApp);
 
+			string headingList = "";
+			foreach (var item in headings) {
+				headingList += item.ToString() + "\n";
+			}
+			System.Windows.MessageBox.Show(headingList);
+
 			return headings;
 		}
 
+		/// <summary>
+		/// Releases resources
+		/// </summary>
+		/// <param name="obj"></param>
 		private void ReleaseObject(object obj) {
-			// LogHelper.Log.Debug("Update.ReleaseObject(obj)");
-
 			try {
 				System.Runtime.InteropServices.Marshal.ReleaseComObject(obj);
 				obj = null;
@@ -181,92 +174,44 @@ namespace PS_Field_Install {
 		}
 
 		private void listHeadings_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
-			// LogHelper.Log.Debug("Update.listHeadings_MouseLeftButtonUp(sender, e)");
-			if (columnEditMode) {
-				if (listHeadings.SelectedIndex != -1) {
-					itemSelected = true;
-					string heading = columnAllocation[listHeadings.SelectedItem].ToString();
-					if (heading != null) {
-						/* UNDONE Removed for added flexibility
-						switch (heading) {
-							case "Do_Not_Use":
-								radioNone.IsChecked = true;
-								break;
-							case "CICodes":
-								radioCICode.IsChecked = true;
-								break;
-							case "Descriptions":
-								radioDescription.IsChecked = true;
-								break;
-							case "Power_Sentry_Solutions":
-								radioPowerSentrySolution.IsChecked = true;
-								break;
-							case "Mounting_Options":
-								radioMounting.IsChecked = true;
-								break;
-							case "Wiring_Diagrams":
-								radioWiringDiagram.IsChecked = true;
-								break;
-							case "Comments":
-								radioComment.IsChecked = true;
-								break;
-							default:
-								radioNone.IsChecked = true;
-								break;
+			if (listHeadings.SelectedIndex != -1) {
+				string currHeading = columnAllocation[listHeadings.SelectedItem].ToString();
+				if (headings != null) {
+					foreach (var item in categories) {
+						if (currHeading == item.ToString()) {
+							manualChangeFlag = false;
+							comboHeadings.SelectedItem = item.ToString();
+							manualChangeFlag = true;
+							return;
 						}
-						*/
-					} else {
-						// radioNone.IsChecked = true;
 					}
-				} else {
-					itemSelected = false;
+					manualChangeFlag = false;
+					comboHeadings.SelectedIndex = -1;
+					manualChangeFlag = true;
 				}
 			}
-
-			return;
-		}
-
-		private void radioButtons_Checked(object sender, RoutedEventArgs e) {
-			// LogHelper.Log.Debug("Update.radioButtons_Checked(sender, e)");
-			System.Windows.Controls.RadioButton rb = sender as System.Windows.Controls.RadioButton;
-
-			if (itemSelected && columnEditMode) {
-				object heading = listHeadings.SelectedItem;
-				columnAllocation[heading] = rb.Tag;
-			} else {
-				return;
-			}
-
 		}
 
 		private void btnConfirm_Click(object sender, RoutedEventArgs e) {
-			// LogHelper.Log.Debug("Update.btnConfirm_Click(sender, e)");
-			// Confirm with the user that their settings are correct
 			string verifyMe = "";
 
-			/* UNDONE to make this easier for user
-			foreach (DictionaryEntry de in columnAllocation) {
-				verifyMe += string.Format("Column {0} is a {1}\n", de.Key, de.Value);
-			}
-			*/
-
-			// Builds verifyMe string
-			var coltypes = TextTools.GetValues<ColTypes>();
-			foreach (ColTypes type in coltypes) {
-				verifyMe += type.ToString() + ":\n";
+			foreach (var item in categories) {
+				verifyMe += item.ToString() + ":\n";
 				if (columnAllocation == null) {
 					System.Windows.MessageBox.Show("An error occured while building column allocation list.");
 					return;
 				}
+
 				foreach (DictionaryEntry de in columnAllocation) {
-					if (de.Value.ToString() == type.ToString()) {
-						verifyMe += "     " + de.Key + "\n";
+					if (de.Value.ToString() == item.ToString()) {
+						verifyMe += "     " + de.Key.ToString() + "\n";
 					}
 				}
+
 				verifyMe += "\n";
 			}
 
-			MessageBoxResult result = System.Windows.MessageBox.Show("Please verfiy the settings you chose are correct:\n\n" + verifyMe, "Verify Information", MessageBoxButton.YesNo);
+			MessageBoxResult result = System.Windows.MessageBox.Show("Please verify that the settings you chose are correct:\n\n" + verifyMe, "Verify Information", MessageBoxButton.YesNo);
 
 			if (result == MessageBoxResult.Yes) {
 				ProgressBar pBar = new ProgressBar(ref columnAllocation, txtFilename.Text, rows);
@@ -277,28 +222,80 @@ namespace PS_Field_Install {
 		}
 
 		private void btnCancel_Click(object sender, RoutedEventArgs e) {
-			// LogHelper.Log.Debug("Update.btnCancel_Click(sender, e)");
 			linkSearch_MouseLeftButtonDown(null, null);
 		}
 
 		private void btnReset_Click(object sender, RoutedEventArgs e) {
-			// LogHelper.Log.Debug("Update.btnReset_Click(sender, e)");
-			/* UNDONE Removed for added flexibility
-			radioCICode.IsChecked = false;
-			radioComment.IsChecked = false;
-			radioDescription.IsChecked = false;
-			radioMounting.IsChecked = false;
-			radioNone.IsChecked = false;
-			radioPowerSentrySolution.IsChecked = false;
-			radioWiringDiagram.IsChecked = false;
-			*/
 			txtNewCategory.Text = "";
 			txtFilename.Text = "";
 			listHeadings.Items.Clear();
 		}
+
+		private void comboHeadings_SelectionChanged(object sender, SelectionChangedEventArgs e) {
+			if (manualChangeFlag) {
+				var currHeading = listHeadings.SelectedItem;
+				columnAllocation[currHeading] = e.AddedItems[0].ToString();
+			}
+		}
+
+		private void UpdateCategories() {
+			comboHeadings.Items.Clear();
+
+			if (categories == null) {
+				categories = new List<string>();
+			}
+
+			StreamReader sr = new StreamReader(Settings.SavedCategories);
+			string line;
+			while ((line = sr.ReadLine()) != null) {
+				if (!categories.Contains(line)) {
+					categories.Add(line);
+				}
+			}
+			sr.Close();
+
+			foreach (var item in categories) {
+				comboHeadings.Items.Add(item.ToString());
+			}
+		}
+
+		/// <summary>
+		/// Adds category name in txtNew Category to list of available categories for use
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void btnAddCategory_Click(object sender, RoutedEventArgs e) {
+			var newCat = txtNewCategory.Text;
+			if (categories == null) {
+				categories = new List<string>();
+			}
+
+			categories.Add(newCat);
+
+			StreamReader sr = new StreamReader(Settings.SavedCategories);
+			string line;
+			while ((line = sr.ReadLine()) != null) {
+				if (newCat == line) {
+					System.Windows.MessageBox.Show("Category already exists!");
+					return;
+				}
+			}
+			sr.Close();
+
+			StreamWriter sw = File.AppendText(Settings.SavedCategories);
+			sw.WriteLine(newCat);
+			sw.Close();
+			txtNewCategory.Text = "";
+			UpdateCategories();
+		}
 		#endregion
 
 		#region Image Uploader
+		/// <summary>
+		/// Opens the file dialogs to allow user to navigate to image location for uploading
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void btnOpen_Click(object sender, RoutedEventArgs e) {
 			// LogHelper.Log.Debug("Update.btnOpen_Click(sender, e)");
 			OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -312,8 +309,12 @@ namespace PS_Field_Install {
 			}
 		}
 
-		private async void btnUploadImage_Click(object sender, RoutedEventArgs e) {
-			// LogHelper.Log.Debug("Update.btnUploadImage_Click(sender, e)");
+		/// <summary>
+		/// Uploads the image to directory for use in the database
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
+		private void btnUploadImage_Click(object sender, RoutedEventArgs e) {
 			if (txtProduct.Text == null) {
 				System.Windows.MessageBox.Show("Please enter a family or product name before uploading the image file.");
 				return;
@@ -321,11 +322,9 @@ namespace PS_Field_Install {
 
 			if (txtImageFile.Text != null) {
 				if (radioLuminaire.IsChecked == true) {
-					// await DropboxHelper.SendFileToDropbox(txtImageFile.Text, "/Images/Lithonia", txtProduct.Text + ".png");
-					File.Copy(txtImageFile.Text, lithoniaImages + @"\" + txtProduct.Text + ".png");
+					File.Copy(txtImageFile.Text, Settings.ImagesFolder_Lithonia + @"\" + txtProduct.Text + ".png");
 				} else if (radioPowerSentry.IsChecked == true) {
-					// await DropboxHelper.SendFileToDropbox(txtImageFile.Text, "/Images/Power Sentry", txtProduct.Text + ".png");
-					File.Copy(txtImageFile.Text, lithoniaImages + @"\" + txtProduct.Text + ".png");
+					File.Copy(txtImageFile.Text, Settings.ImagesFolder_PowerSentry + @"\" + txtProduct.Text + ".png");
 				} else {
 					System.Windows.MessageBox.Show("Please select the type of product.");
 					return;
@@ -337,20 +336,15 @@ namespace PS_Field_Install {
 
 			System.Windows.MessageBox.Show("Image successfully uploaded");
 
-			/* UNDONE Removed for testing
-			Waiting waiting = new Waiting();
-			waiting.Show();
-			// await DataHandler.DownloadImages();
-			waiting.Close();
-			*/
-
 			InitializeCurrentImages();  // Reload image list
 		}
 
+		/// <summary>
+		/// Initializes the current images stored for the database.
+		/// </summary>
 		private void InitializeCurrentImages() {
-			// LogHelper.Log.Debug("Update.InitializeCurrentImages()");
-			IEnumerable<string> imagesLithonia = System.IO.Directory.EnumerateFiles(lithoniaImages);
-			IEnumerable<string> imagesPowerSentry = System.IO.Directory.EnumerateFiles(powersentryImages);
+			IEnumerable<string> imagesLithonia = Directory.EnumerateFiles(Settings.ImagesFolder_PowerSentry);
+			IEnumerable<string> imagesPowerSentry = Directory.EnumerateFiles(Settings.ImagesFolder_PowerSentry);
 
 			if (images == null) {
 				images = new Hashtable();
@@ -383,35 +377,24 @@ namespace PS_Field_Install {
 			}
 		}
 
+		/// <summary>
+		/// Clears the image currently shown in preview
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void btnClear_Click(object sender, RoutedEventArgs e) {
-			// LogHelper.Log.Debug("Update.btnClear_Click(sender, e)");
 			picPreview.Source = null;
 		}
 
+		/// <summary>
+		/// Shows selected product image (from listbox) in preview
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void btnPreview_Click(object sender, RoutedEventArgs e) {
-			// LogHelper.Log.Debug("Update.btnPreview_Click(sender, e)");
 			picPreview.Source = new BitmapImage(new Uri(images[listCurrentImageFiles.SelectedIndex].ToString(), UriKind.Absolute));
 		}
 		#endregion
 
-		private async void Page_Unloaded(object sender, RoutedEventArgs e) {
-			// await LogHelper.UploadLog();
-		}
-
-		private async void btnDelete_Click(object sender, RoutedEventArgs e) {
-			MessageBoxResult result = System.Windows.MessageBox.Show("Are you sure you want to delete the image for " + listCurrentImageFiles.SelectedItem.ToString() + "?", "Confirm Image Deletion", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No);
-			if (result == MessageBoxResult.Yes) {
-				if (await DropboxHelper.CheckRemoteFileExists("/Images/Lithonia", listCurrentImageFiles.SelectedItem.ToString())) {
-					DropboxHelper.DeleteFile("/Images/Lithonia", listCurrentImageFiles.SelectedItem.ToString());
-					System.IO.File.Delete(TextTools.MyRelativePath(@"Temp\Lithonia\" + listCurrentImageFiles.SelectedItem.ToString() + ".png"));
-				}
-
-				if (await DropboxHelper.CheckRemoteFileExists("/Images/Power Sentry", listCurrentImageFiles.SelectedItem.ToString())) {
-					DropboxHelper.DeleteFile("/Images/Power Sentry", listCurrentImageFiles.SelectedItem.ToString());
-					System.IO.File.Delete(TextTools.MyRelativePath(@"Temp\Power Sentry\" + listCurrentImageFiles.SelectedItem.ToString() + ".png"));
-
-				}
-			}
-		}
 	}
 }

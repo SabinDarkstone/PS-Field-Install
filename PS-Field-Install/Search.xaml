@@ -7,7 +7,7 @@
       xmlns:controls="clr-namespace:PS_Field_Install.Controls"
       mc:Ignorable="d" 
       d:DesignHeight="595" d:DesignWidth="840"
-      Title="Product Search" Loaded="Page_Loaded" Unloaded="Page_Unloaded">
+      Title="Product Search" Loaded="Page_Loaded">
     <Page.Resources>
         <Storyboard x:Key="OnMouseEnter1">
             <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="linkLogin">

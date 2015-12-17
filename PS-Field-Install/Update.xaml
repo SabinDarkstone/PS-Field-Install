@@ -6,7 +6,7 @@
       xmlns:local="clr-namespace:PS_Field_Install"
       mc:Ignorable="d" 
       d:DesignHeight="595" d:DesignWidth="840"
-      Title="Admin Update" Unloaded="Page_Unloaded">
+      Title="Admin Update">
     <Page.Resources>
         <Storyboard x:Key="OnMouseEnter1">
             <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="linkSearch">
@@ -267,7 +267,7 @@
                     <TextBlock x:Name="textBlock5_Copy" HorizontalAlignment="Left" Margin="28,214,0,0" TextWrapping="Wrap" Text="Current Files" VerticalAlignment="Top"/>
                     <Button x:Name="btnPreview" Content="Preview Image" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="166,260,0,0" Click="btnPreview_Click"/>
                     <Button x:Name="btnClear" Content="Clear Preview" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="166,235,0,0" Click="btnClear_Click"/>
-                    <Button x:Name="btnDelete" Content="Delete Image" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="166,285,0,0" Click="btnDelete_Click"/>
+                    <Button x:Name="btnDelete" Content="Delete Image" HorizontalAlignment="Left" VerticalAlignment="Top" Width="90" Margin="166,285,0,0"/>
                 </Grid>
             </TabItem>
             <TabItem Header="Database Update">
@@ -288,10 +288,10 @@
                         <Button x:Name="btnReset" Content="Reset" HorizontalAlignment="Left" Margin="65,0,0,0" VerticalAlignment="Bottom" Width="75" Click="btnReset_Click"/>
                         <Button x:Name="btnConfirm" Content="Confirm &amp; Upload" HorizontalAlignment="Left" Margin="145,0,0,0" VerticalAlignment="Bottom" Width="110" Click="btnConfirm_Click"/>
                         <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="260,0,0,0" VerticalAlignment="Bottom" Width="75" IsCancel="True" Click="btnCancel_Click"/>
-                        <ComboBox x:Name="comboHeadings" HorizontalAlignment="Left" Margin="288,130,0,0" VerticalAlignment="Top" Width="167"/>
+                        <ComboBox x:Name="comboHeadings" HorizontalAlignment="Left" Margin="288,130,0,0" VerticalAlignment="Top" Width="167" SelectionChanged="comboHeadings_SelectionChanged"/>
                         <TextBlock x:Name="textBlock2_Copy1" HorizontalAlignment="Left" Margin="288,0,0,130" TextWrapping="Wrap" Text="New Category" VerticalAlignment="Bottom"/>
                         <TextBox x:Name="txtNewCategory" HorizontalAlignment="Left" Height="23" Margin="288,200,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="167"/>
-                        <Button x:Name="btnAddCategory" Content="Add Category" HorizontalAlignment="Left" Margin="288,228,0,0" VerticalAlignment="Top" Width="93"/>
+                        <Button x:Name="btnAddCategory" Content="Add Category" HorizontalAlignment="Left" Margin="288,228,0,0" VerticalAlignment="Top" Width="93" Click="btnAddCategory_Click"/>
                     </Grid>
                 </Grid>
             </TabItem>

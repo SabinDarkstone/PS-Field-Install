@@ -1,27 +1,20 @@
 ﻿using System;
+using System.Data;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Data;
-using PS_Field_Install.Scripts;
 using System.Windows.Media.Imaging;
-using System.Threading.Tasks;
-using System.Windows.Media;
+
+using PS_Field_Install.Scripts;
 
 namespace PS_Field_Install {
 
 	public partial class Search : Page {
 
-		// private BitmapImage[] bmpPSimg;
 		private string[] bmpPSimg;
-
-		private static string lithoniaImages = @"\\cdcsrvr1\Depts\PMD\COMMON\Emergency\Apps\Field Install App\Data\Lithonia";
-		private static string powersentryImages = @"\\cdcsrvr1\Depts\PMD\COMMON\Emergency\Apps\Field Install App\Data\Power Sentry";
 
 		public Search() {
 			InitializeComponent();
-
-			// MessageBox.Show(App.Current.StartupUri.ToString());
 		}
 
 		private void ClearText() {
@@ -40,37 +33,14 @@ namespace PS_Field_Install {
 			txtLabelWiringDiagram.Opacity = 0;
 		}
 
-		/* UNDONE Removed for testing
-		private async Task InitializeLogFile() {
-			LogHelper.dropboxFolder = "/Logs";
-			LogHelper.GetDateAndTime();
-			await LogHelper.PrepSessionLog();
-		}
-		*/
-
-		private async void Page_Loaded(object sender, RoutedEventArgs e) {
+		private void Page_Loaded(object sender, RoutedEventArgs e) {
 			ClearText();
+
 			Waiting waiting = new Waiting("Updating Database...");
 			waiting.Show();
-			// waiting.ChangeText("Please wait while the web app starts up");
-			// await InitializeLogFile();
-			// LogHelper.Log.Info("Loading database and images from dropbox");
-			// waiting.ChangeText("Loading database...");
-			/* UNDONE Removed for testing
-			if (await DataHandler.LoadDatabaseFromWeb() == false) {
-				LogHelper.Log.Error("An error occured while loading the database xml file from dropbox");
-				return;
-			}
-
-			waiting.ChangeText("Loading assets and wrapping up...");
-			await DataHandler.DownloadImages();
-			waiting.Close();
-			*/
-			// LogHelper.Log.Info("Finished loading databse and images from dropbox");
 
 			DataHandler.LoadDatabaseFromLocal();
 			waiting.Close();
-			// MessageBox.Show(DataHandler.productData.Tables[0].Rows.Count.ToString());
 		}
 
 		#region Help Link Events
@@ -85,8 +55,6 @@ namespace PS_Field_Install {
 		#endregion
 
 		private void btnRunSearch_Click(object sender, RoutedEventArgs e) {
-			// LogHelper.Log.Debug("btnRunSearch_Click(sender, e)");
-			// LogHelper.Log.Debug("Search initiated.  Search Term: " + txtSearchBox.Text);
 			DataRow[] foundRows;
 			bmpPSimg = null;
 
@@ -132,7 +100,6 @@ namespace PS_Field_Install {
 		}
 
 		private DataRow[] RunQuery(string mode, string findText, bool? partials) {
-			// LogHelper.Log.Debug("RunQuery(mode, findText, partials)");
 			switch (mode) {
 				case "CICode":
 					return DataHandler.productData.Tables[0].Select("CICodes='" + findText + "'");
@@ -145,7 +112,6 @@ namespace PS_Field_Install {
 					}
 
 				default:
-					// LogHelper.Log.Error("An unknown error occured while attempting to run a query...default path taken is switch statement");
 					MessageBox.Show("An unknown error occured while searching");
 					return null;
 			}
@@ -181,7 +147,6 @@ namespace PS_Field_Install {
 		}
 
 		private void GetImages(DataRow row) {
-			// LogHelper.Log.Debug("GetImages(row)");
 			string[] psImageName;
 			int batteryCount = 0;
 			int i = 0;
@@ -193,8 +158,7 @@ namespace PS_Field_Install {
 			bmpPSimg = new string[batteryCount];
 
 			foreach (string s in psImageName) {
-				// bmpPSimg[i] = new BitmapImage(new Uri(TextTools.MyRelativePath(@"Temp\Power Sentry\" + s + ".png")));
-				bmpPSimg[i] = powersentryImages + @"\" + s + ".png";
+				bmpPSimg[i] = Settings.ImagesFolder_PowerSentry + @"\" + s + ".png";
 				i++;
 			}
 
@@ -203,16 +167,8 @@ namespace PS_Field_Install {
 			// Next grab the image for the product
 			string strLL = TextTools.GetProductFamily(row["Descriptions"].ToString());
 
-			/* UNDONE for testing
 			try {
-				// imageProduct.Source = new BitmapImage(new Uri(TextTools.MyRelativePath(@"Temp\Lithonia\" + TextTools.GetProductFamily(row["Descriptions"].ToString()) + ".png")));
-				imageProduct.Source = new BitmapImage(new Uri("pack://application:,,,/Data/Images/Lithonia/" + TextTools.GetProductFamily(row["Descriptions"].ToString()) + ".png", UriKind.Relative));
-			} catch (Exception) {
-				// NOOP
-			}
-			*/
-			try {
-				imageProduct.Source = new BitmapImage(new Uri(lithoniaImages + @"\" + TextTools.GetProductFamily(row["Descriptions"].ToString()) + ".png"));
+				imageProduct.Source = new BitmapImage(new Uri(Settings.ImagesFolder_Lithonia + @"\" + TextTools.GetProductFamily(row["Descriptions"].ToString()) + ".png"));
 			} catch (Exception) { }
 		}
 
@@ -225,20 +181,12 @@ namespace PS_Field_Install {
 			}
 		}
 
-		private async void Page_Unloaded(object sender, RoutedEventArgs e) {
-			// await LogHelper.UploadLog();
+		private void textblock_RightClick(object sender, MouseButtonEventArgs e) {
+
 		}
 
-		private void textblock_RightClick(object sender, MouseButtonEventArgs e) {
-			/* UNDONE
-			TextBlock clickedBox = (TextBlock)sender;
-			Clipboard.SetText(clickedBox.Text);
-			MessageBox.Show("Copied to clipboard", "PS Field Install Tool");
-			*/
-	}
+		private void image_RightClick(object sender, MouseButtonEventArgs e) {
 
-	private void image_RightClick(object sender, MouseButtonEventArgs e) {
-			// throw new NotImplementedException();
 		}
 
 		private void CopyExcel_Click(object sender, RoutedEventArgs e) {
@@ -256,8 +204,8 @@ namespace PS_Field_Install {
 		}
 
 		private void CopySingle_Click(object sender, RoutedEventArgs e) {
-			// Clipbooard.SetText(clickedBlock.Text);
-			// MessageBox.Show("Copied to clipboard", "PS Field Install Tool");
+
 		}
+
 	}
 }

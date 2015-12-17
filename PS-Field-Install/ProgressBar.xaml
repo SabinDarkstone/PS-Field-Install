@@ -25,6 +25,5 @@
         <ProgressBar Minimum="0" Maximum="100" Name="pbStatus" Foreground="#FF00C1B0" Background="#FFF1F1F1"/>
         <TextBlock x:Name="textBlock" HorizontalAlignment="Left" Margin="0,39,0,-25.96" TextWrapping="Wrap" Text="Current Record:" VerticalAlignment="Top"/>
         <TextBlock x:Name="txtCurrRecordCICode" Margin="87.503,39,124.879,-25.96" TextWrapping="Wrap" VerticalAlignment="Top"/>
-        <!--<TextBlock x:Name="txtCurrRecordDescription" HorizontalAlignment="Left" Margin="0,82,0,-69" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="306"/>-->
     </Grid>
 </Window>
