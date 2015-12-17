@@ -16,16 +16,6 @@ namespace PS_Field_Install {
 		#region Objects
 		Hashtable columns;
 		string filename;
-
-		private enum ColTypes {
-			Do_Not_Use,
-			CICodes,
-			Descriptions,
-			Power_Sentry_Solutions,
-			Mounting_Options,
-			Wiring_Diagrams,
-			Comments
-		};
 		#endregion
 
 		#region Progress Bar Handling
@@ -53,8 +43,7 @@ namespace PS_Field_Install {
 		}
 		#endregion
 
-		async void worker_DoWork(object sender, DoWorkEventArgs e) {
-			// LogHelper.Log.Debug("ProgressBar.worker_DoWork(sender, e)");
+		public async void worker_DoWork(object sender, DoWorkEventArgs e) {
 			DataTable table = DataHandler.productData.Tables["Products"];
 
 			#region Excel Prep
@@ -78,56 +67,23 @@ namespace PS_Field_Install {
 			table.AcceptChanges();
 
 			// Assign columns to table
-			table.Columns.Add("CICodes", typeof(string));
-			table.Columns.Add("Descriptions", typeof(string));
-			table.Columns.Add("Power_Sentry_Solutions", typeof(string));
-			table.Columns.Add("Mounting_Options", typeof(string));
-			table.Columns.Add("Wiring_Diagrams", typeof(string));
-			table.Columns.Add("Comments", typeof(string));
+			foreach (DictionaryEntry de in columns) {
+				table.Columns.Add(de.Key.ToString());
+				MessageBox.Show(de.Key.ToString());
+			}
 			table.AcceptChanges();
 
 			for (rCnt = 2; rCnt < range.Rows.Count + 1; rCnt++) {
 				DataRow dr = table.NewRow();
 				for (cCnt = 1; cCnt < range.Columns.Count + 1; cCnt++) {
-					object currColType = columns[(string)(range.Cells[1, cCnt] as Excel.Range).Value];
-					// MessageBox.Show(currColType.ToString());
-					if (currColType.ToString() != ColTypes.Do_Not_Use.ToString()) {
-						object currCell = (range.Cells[rCnt, cCnt] as Excel.Range).Value2;
-						if (currCell != null) {
-							#region Switch Stuff
-							switch (currColType.ToString()) {
-								case "CICodes":
-									dr[ColTypes.CICodes.ToString()] = currCell;
-									break;
-								case "Descriptions":
-									var desc = (string)currCell;
-									desc = desc.Substring(0, desc.IndexOf("(CI-") - 1);
-									dr[ColTypes.Descriptions.ToString()] = desc;
-									break;
-								case "Power_Sentry_Solutions":
-									dr[ColTypes.Power_Sentry_Solutions.ToString()] += ((range.Cells[1, cCnt] as Excel.Range).Value2).ToString() + ", ";
-									break;
-								case "Mounting_Options":
-									dr[ColTypes.Mounting_Options.ToString()] += ((range.Cells[1, cCnt] as Excel.Range).Value2).ToString() + ", ";
-									break;
-								case "Wiring_Diagrams":
-									dr[ColTypes.Wiring_Diagrams.ToString()] += ((range.Cells[1, cCnt] as Excel.Range).Value2).ToString() + ", ";
-									break;
-								case "Comments":
-									dr[ColTypes.Comments.ToString()] += currCell.ToString();
-									break;
-								default:
-									break;
-							}
-							#endregion
-						}
-					}
+					var myCat = columns[(string)(range.Cells[1, cCnt] as Excel.Range).Value];
 				}
+
 				table.Rows.Add(dr);
 
 				(sender as BackgroundWorker).ReportProgress(rCnt);
 				this.Dispatcher.Invoke((Action)(() => {
-					txtCurrRecordCICode.Text = dr[ColTypes.CICodes.ToString()].ToString();
+					txtCurrRecordCICode.Text = dr["CI Code"].ToString();
 				}));
 			} // End reading excel file
 

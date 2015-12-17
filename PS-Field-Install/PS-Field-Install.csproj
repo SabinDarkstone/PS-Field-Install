@@ -123,6 +123,7 @@
       <DependentUpon>CustomDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Scripts\LogHelper.cs" />
+    <Compile Include="Scripts\Settings.cs" />
     <Compile Include="Waiting.xaml.cs">
       <DependentUpon>Waiting.xaml</DependentUpon>
     </Compile>
