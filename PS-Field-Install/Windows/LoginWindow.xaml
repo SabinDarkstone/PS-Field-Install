@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PS_Field_Install"
         mc:Ignorable="d"
-        Title="Login" Height="167" Width="249" Icon="Icon.png" WindowStartupLocation="CenterScreen" Unloaded="Window_Unloaded">
+        Title="Login" Height="167" Width="249" Icon="/PS-Field-Install;component/Assets/AcuityLogo.png" WindowStartupLocation="CenterScreen">
     <Grid>
         <Grid.Background>
             <RadialGradientBrush>

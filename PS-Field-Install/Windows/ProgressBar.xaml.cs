@@ -67,23 +67,20 @@ namespace PS_Field_Install {
 			table.AcceptChanges();
 
 			// Assign columns to table
-			foreach (DictionaryEntry de in columns) {
-				table.Columns.Add(de.Key.ToString());
-				MessageBox.Show(de.Key.ToString());
-			}
+
 			table.AcceptChanges();
 
 			for (rCnt = 2; rCnt < range.Rows.Count + 1; rCnt++) {
 				DataRow dr = table.NewRow();
 				for (cCnt = 1; cCnt < range.Columns.Count + 1; cCnt++) {
-					var myCat = columns[(string)(range.Cells[1, cCnt] as Excel.Range).Value];
+					
 				}
 
 				table.Rows.Add(dr);
 
 				(sender as BackgroundWorker).ReportProgress(rCnt);
 				this.Dispatcher.Invoke((Action)(() => {
-					txtCurrRecordCICode.Text = dr["CI Code"].ToString();
+					txtCurrRecordCICode.Text = dr["CI_Code"].ToString();
 				}));
 			} // End reading excel file
 
@@ -120,16 +117,7 @@ namespace PS_Field_Install {
 			#endregion
 
 			table.AcceptChanges();
-
-			/* UNDONE Removed for testing
-			if (!Directory.Exists(TextTools.MyRelativePath(@"Temp\"))) {
-				Directory.CreateDirectory(TextTools.MyRelativePath(@"Temp\"));
-			}
-			*/
-
 			DataHandler.SaveDatabase();
-
-			// string rev = await DropboxHelper.SendFileToDropbox(TextTools.MyRelativePath(@"Temp\PowerSearch.xml"), "/Data", "PowerSearch.xml");
 
 			MessageBoxResult result = MessageBox.Show("Database updating complete!");
 

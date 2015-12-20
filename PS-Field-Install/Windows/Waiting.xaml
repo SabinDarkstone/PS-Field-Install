@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PS_Field_Install"
         xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing" x:Class="PS_Field_Install.Waiting"
         mc:Ignorable="d"
-        Title="Updating Database" Height="164.7" Width="469" ResizeMode="NoResize" Topmost="True" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" Icon="Icon.png">
+        Title="Updating Database" Height="164.7" Width="469" ResizeMode="NoResize" Topmost="True" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" Icon="/PS-Field-Install;component/Assets/AcuityLogo.png">
     <Window.Resources>
         <Storyboard x:Key="Spinning" RepeatBehavior="Forever">
             <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(TransformGroup.Children)[2].(RotateTransform.Angle)" Storyboard.TargetName="arc">

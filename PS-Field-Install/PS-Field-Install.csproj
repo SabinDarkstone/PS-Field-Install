@@ -119,19 +119,22 @@
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
-    <Compile Include="CustomDialog.xaml.cs">
+    <Compile Include="Controls\ColumnResult.xaml.cs">
+      <DependentUpon>ColumnResult.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Windows\CustomDialog.xaml.cs">
       <DependentUpon>CustomDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Scripts\LogHelper.cs" />
     <Compile Include="Scripts\Settings.cs" />
-    <Compile Include="Waiting.xaml.cs">
+    <Compile Include="Windows\Waiting.xaml.cs">
       <DependentUpon>Waiting.xaml</DependentUpon>
     </Compile>
     <None Include="app.config" />
     <Compile Include="Controls\CycleImageBox.xaml.cs">
       <DependentUpon>CycleImageBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ProgressBar.xaml.cs">
+    <Compile Include="Windows\ProgressBar.xaml.cs">
       <DependentUpon>ProgressBar.xaml</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
@@ -139,44 +142,48 @@
     <Compile Include="Scripts\DropboxHelper.cs" />
     <Compile Include="Scripts\ImageHandler.cs" />
     <Compile Include="Scripts\TextTools.cs" />
-    <Compile Include="Update.xaml.cs">
+    <Compile Include="Pages\Update.xaml.cs">
       <DependentUpon>Update.xaml</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Page Include="Controls\ColumnResult.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\CycleImageBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="CustomDialog.xaml">
+    <Page Include="Windows\CustomDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Help.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Page>
-    <Page Include="LoginWindow.xaml">
+    <Page Include="Windows\Help.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Page>
-    <Page Include="MultipleResults.xaml">
+    <Page Include="Windows\LoginWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Page>
-    <Page Include="ProgressBar.xaml">
+    <Page Include="Windows\MultipleResults.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Page>
-    <Page Include="Update.xaml">
+    <Page Include="Windows\ProgressBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
+    <Page Include="Pages\Update.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Page>
-    <Page Include="Search.xaml">
+    <Page Include="Pages\Search.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -185,24 +192,24 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Help.xaml.cs">
+    <Compile Include="Windows\Help.xaml.cs">
       <DependentUpon>Help.xaml</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="LoginWindow.xaml.cs">
+    <Compile Include="Windows\LoginWindow.xaml.cs">
       <DependentUpon>LoginWindow.xaml</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="MultipleResults.xaml.cs">
+    <Compile Include="Windows\MultipleResults.xaml.cs">
       <DependentUpon>MultipleResults.xaml</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="Search.xaml.cs">
+    <Compile Include="Pages\Search.xaml.cs">
       <DependentUpon>Search.xaml</DependentUpon>
       <SubType>Code</SubType>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Page Include="Waiting.xaml">
+    <Page Include="Windows\Waiting.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -234,8 +241,7 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Icon.png" />
-    <Resource Include="AcuityLogo.png" />
+    <Resource Include="Assets\AcuityLogo.png" />
   </ItemGroup>
   <ItemGroup>
     <COMReference Include="Microsoft.Office.Core">
@@ -471,11 +477,6 @@
       <IncludeHash>True</IncludeHash>
       <FileType>Satellite</FileType>
     </PublishFile>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Error.png" />
-    <Resource Include="Info.png" />
-    <Resource Include="Warning.png" />
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup>

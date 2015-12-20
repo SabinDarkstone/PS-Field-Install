@@ -1,4 +1,6 @@
-﻿using System;
+﻿#define TEST
+
+using System;
 using System.Data;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,19 +20,7 @@ namespace PS_Field_Install {
 		}
 
 		private void ClearText() {
-			txtResultCICode.Text = "";
-			txtResultComments.Text = "";
-			txtResultDescription.Text = "";
-			txtResultMountingOption.Text = "";
-			txtResultPowerSentry.Text = "";
-			txtResultWiringDiagram.Text = "";
-
-			txtLabelCICode.Opacity = 0;
-			txtLabelComments.Opacity = 0;
-			txtLabelDescription.Opacity = 0;
-			txtLabelMountingOption.Opacity = 0;
-			txtLabelPowerSentry.Opacity = 0;
-			txtLabelWiringDiagram.Opacity = 0;
+			
 		}
 
 		private void Page_Loaded(object sender, RoutedEventArgs e) {
@@ -41,6 +31,8 @@ namespace PS_Field_Install {
 
 			DataHandler.LoadDatabaseFromLocal();
 			waiting.Close();
+
+			DisplayResult(null);
 		}
 
 		#region Help Link Events
@@ -61,17 +53,15 @@ namespace PS_Field_Install {
 			if (radioCICodeOnly.IsChecked == true) {
 				foundRows = RunQuery("CICode", txtSearchBox.Text, chkbxAllowPartial.IsChecked);
 				if (foundRows.Length == 0) {
-					LogHelper.Log.Info("Could not find specified product");
 					MessageBox.Show("Could not find specified product.");
-					DisplayResults(null);
+					DisplayResult(null);
 					return;
 				}
 			} else if (radioDescriptionOnly.IsChecked == true) {
 				foundRows = RunQuery("Description", txtSearchBox.Text, chkbxAllowPartial.IsChecked);
 				if (foundRows.Length == 0) {
-					LogHelper.Log.Info("Could not find specified product");
 					MessageBox.Show("Could not find specified product.");
-					DisplayResults(null);
+					DisplayResult(null);
 					return;
 				}
 			} else {
@@ -79,21 +69,20 @@ namespace PS_Field_Install {
 				if (foundRows.Length == 0) {
 					foundRows = RunQuery("Description", txtSearchBox.Text, chkbxAllowPartial.IsChecked);
 					if (foundRows.Length == 0) {
-						LogHelper.Log.Info("Could not find specified product");
 						MessageBox.Show("Could not find specified product.");
-						DisplayResults(null);
+						DisplayResult(null);
 						return;
 					}
 				}
 			}
 
 			if (chkbxAllowPartial.IsChecked == false) {
-				DisplayResults(foundRows[0]);
+				DisplayResult(foundRows[0]);
 			} else {
 				MultipleResults multi = new MultipleResults(ref foundRows);
 				multi.ShowDialog();
 				if (multi.DialogResult == true) {
-					DisplayResults(foundRows[multi.GetResult()]);
+					DisplayResult(foundRows[multi.GetResult()]);
 				}
 			}
 
@@ -102,48 +91,19 @@ namespace PS_Field_Install {
 		private DataRow[] RunQuery(string mode, string findText, bool? partials) {
 			switch (mode) {
 				case "CICode":
-					return DataHandler.productData.Tables[0].Select("CICodes='" + findText + "'");
+					return DataHandler.productData.Tables["Products"].Select("CI_Code='" + findText + "'");
 
 				case "Description":
 					if (partials == true) {
-						return DataHandler.productData.Tables[0].Select("Descriptions LIKE '%" + findText + "%'");
+						return DataHandler.productData.Tables["Products"].Select("Description LIKE '%" + findText + "%'");
 					} else {
-						return DataHandler.productData.Tables[0].Select("Descriptions='" + findText + "'");
+						return DataHandler.productData.Tables["Products"].Select("Description='" + findText + "'");
 					}
 
 				default:
 					MessageBox.Show("An unknown error occured while searching");
 					return null;
 			}
-		}
-
-		private void DisplayResults(DataRow row) {
-			// LogHelper.Log.Debug("DisplayResults(row)");
-			ClearText();
-
-			imageProduct.Source = null;
-			cycleBatteries.Images = null;
-
-			if (row == null) {
-				return;
-			}
-
-			txtLabelCICode.Opacity = 100;
-			txtLabelComments.Opacity = 100;
-			txtLabelDescription.Opacity = 100;
-			txtLabelMountingOption.Opacity = 100;
-			txtLabelPowerSentry.Opacity = 100;
-			txtLabelWiringDiagram.Opacity = 100;
-
-			txtResultCICode.Text = row["CICodes"].ToString();
-			txtResultDescription.Text = row["Descriptions"].ToString();
-			txtResultMountingOption.Text = row["Mounting_Options"].ToString();
-			txtResultPowerSentry.Text = row["Power_Sentry_Solutions"].ToString();
-			txtResultWiringDiagram.Text = row["Wiring_Diagrams"].ToString();
-			txtResultComments.Text = row["Comments"].ToString();
-
-			GetImages(row);
-			cycleBatteries.Initiate();
 		}
 
 		private void GetImages(DataRow row) {
@@ -172,13 +132,31 @@ namespace PS_Field_Install {
 			} catch (Exception) { }
 		}
 
+		private void DisplayResult(DataRow row) {
+			gridResults.Children.RemoveRange(0, gridResults.Children.Count);
+
+			foreach (DataColumn dc in DataHandler.productData.Tables["Products"].Columns) {
+				if (row == null) {
+					Controls.ColumnResult colResult = new Controls.ColumnResult("", "");
+					gridResults.Children.Add(colResult);
+				} else {
+					Controls.ColumnResult colResult = new Controls.ColumnResult(dc.ColumnName, row[dc].ToString());
+					gridResults.Children.Add(colResult);
+				}
+			}
+		}
+
 		private void linkLogin_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
+#if TEST
+			this.NavigationService.Navigate(new Uri("Pages/Update.xaml", UriKind.Relative));
+#else
 			Login login = new Login();
 			login.ShowDialog();
 			if (login.DialogResult == true) {
-				Uri uri = new Uri("Update.xaml", UriKind.Relative);
+				Uri uri = new Uri("Pages/Update.xaml", UriKind.Relative);
 				this.NavigationService.Navigate(uri);
 			}
+#endif
 		}
 
 		private void textblock_RightClick(object sender, MouseButtonEventArgs e) {
@@ -190,17 +168,7 @@ namespace PS_Field_Install {
 		}
 
 		private void CopyExcel_Click(object sender, RoutedEventArgs e) {
-			string copiedData = "";
-			copiedData += "CI Code: " + "\t" + txtResultCICode.Text + "\n";
-			copiedData += "Description: " + "\t" + txtResultDescription.Text + "\n";
-			copiedData += "Power Sentry Solution: " + "\t" + txtResultPowerSentry.Text + "\n";
-			copiedData += "Mounting Options: " + "\t" + txtResultMountingOption.Text + "\n";
-			copiedData += "Wiring Diagrams: " + "\t" + txtResultWiringDiagram.Text + "\n";
-			if (txtResultComments.Text.Length > 0) {
-				copiedData += "Comments: " + "\t" + txtResultComments.Text + "\n";
-			}
-			Clipboard.SetText(copiedData);
-			MessageBox.Show("Results copied to clipboard", "PS Field Install Tool");
+
 		}
 
 		private void CopySingle_Click(object sender, RoutedEventArgs e) {
