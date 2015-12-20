@@ -5,9 +5,8 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:PS_Field_Install" 
       xmlns:controls="clr-namespace:PS_Field_Install.Controls"
-      mc:Ignorable="d" 
-      d:DesignHeight="595" d:DesignWidth="840"
-      Title="Product Search" Loaded="Page_Loaded">
+      mc:Ignorable="d" d:DesignWidth="840"
+      Title="Product Search" Loaded="Page_Loaded" Height="890">
     <Page.Resources>
         <Storyboard x:Key="OnMouseEnter1">
             <PointAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransformOrigin)" Storyboard.TargetName="linkLogin">
@@ -110,7 +109,7 @@
                 <BlurEffect Radius="10"/>
             </Rectangle.Effect>
             <Rectangle.Fill>
-                <ImageBrush ImageSource="AcuityLogo.png" Stretch="UniformToFill"/>
+                <ImageBrush Stretch="UniformToFill" ImageSource="/PS-Field-Install;component/Assets/AcuityLogo.png"/>
             </Rectangle.Fill>
         </Rectangle>
         <Grid Margin="0,0,0,555">
@@ -130,7 +129,7 @@
                     </LinearGradientBrush>
                 </Rectangle.Fill>
             </Rectangle>
-            <Image x:Name="image" HorizontalAlignment="Left" Height="36" Margin="10,2,0,0" VerticalAlignment="Top" Width="35" Source="AcuityLogo.png" Stretch="UniformToFill"/>
+            <Image x:Name="image" HorizontalAlignment="Left" Height="36" Margin="10,2,0,0" VerticalAlignment="Top" Width="35" Stretch="UniformToFill" Source="/PS-Field-Install;component/Assets/AcuityLogo.png"/>
             <TextBlock x:Name="textBlock" Margin="50,9,359,-13.2" TextWrapping="Wrap" Text="Power Sentry Field Install Tool" VerticalAlignment="Top" FontSize="21.333" Foreground="White" FontFamily="BankGothic" TextDecorations="{x:Null}">
                 <TextBlock.Effect>
                     <DropShadowEffect ShadowDepth="2"/>
@@ -160,63 +159,8 @@
             <CheckBox x:Name="chkbxAutoComplete" Content="Enable Suggestions" Margin="294,87,0,20" IsEnabled="False" HorizontalAlignment="Left" Width="123"/>
             <TextBox x:Name="txtSearchBox" HorizontalAlignment="Left" Height="23" Margin="89,1,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375"/>
         </Grid>
-        <Grid Margin="65,215,0,0" Height="370" VerticalAlignment="Top" HorizontalAlignment="Left" Width="395">
-            <TextBlock x:Name="txtLabelCICode" HorizontalAlignment="Left" TextWrapping="Wrap" Text="CI Code:" VerticalAlignment="Top" Width="215" FontSize="14.667" FontWeight="Bold"/>
-            <TextBlock x:Name="txtResultCICode" HorizontalAlignment="Left" Margin="0,20,0,0" TextWrapping="Wrap" Text="txtResultCICode" VerticalAlignment="Top" Height="32" Width="375">
-                <TextBlock.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Copy all for Excel" Click="CopyExcel_Click"/>
-                        <MenuItem Header="Copy this only" Click="CopySingle_Click"/>
-                    </ContextMenu>
-                </TextBlock.ContextMenu>
-            </TextBlock>
-            <TextBlock x:Name="txtLabelDescription" HorizontalAlignment="Left" Margin="0,57,0,0" TextWrapping="Wrap" Text="Description:" VerticalAlignment="Top" Width="215" FontSize="14.667" FontWeight="Bold"/>
-            <TextBlock x:Name="txtResultDescription" HorizontalAlignment="Left" Margin="0,77,0,0" TextWrapping="Wrap" Text="txtResultDescription" VerticalAlignment="Top" Height="32" Width="375">
-                <TextBlock.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Copy all for Excel" Click="CopyExcel_Click"/>
-                        <MenuItem Header="Copy this only" Click="CopySingle_Click"/>
-                    </ContextMenu>
-                </TextBlock.ContextMenu>
-            </TextBlock>
-            <TextBlock x:Name="txtLabelPowerSentry" HorizontalAlignment="Left" Margin="0,114,0,0" TextWrapping="Wrap" Text="Power Sentry Solution:" VerticalAlignment="Top" Width="215" FontSize="14.667" FontWeight="Bold"/>
-            <TextBlock x:Name="txtResultPowerSentry" HorizontalAlignment="Left" Margin="0,133.507,0,0" TextWrapping="Wrap" Text="txtResultPowerSentry" VerticalAlignment="Top" Height="32" Width="375">
-                <TextBlock.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Copy all for Excel" Click="CopyExcel_Click"/>
-                        <MenuItem Header="Copy this only" Click="CopySingle_Click"/>
-                    </ContextMenu>
-                </TextBlock.ContextMenu>
-            </TextBlock>
-            <TextBlock x:Name="txtLabelMountingOption" HorizontalAlignment="Left" Margin="0,171,0,0" TextWrapping="Wrap" Text="Mounting Options:" VerticalAlignment="Top" Width="215" FontSize="14.667" FontWeight="Bold"/>
-            <TextBlock x:Name="txtResultMountingOption" HorizontalAlignment="Left" Margin="0,191,0,0" TextWrapping="Wrap" Text="txtResultMountingOption" VerticalAlignment="Top" Height="32" Width="375">
-                <TextBlock.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Copy all for Excel" Click="CopyExcel_Click"/>
-                        <MenuItem Header="Copy this only" Click="CopySingle_Click"/>
-                    </ContextMenu>
-                </TextBlock.ContextMenu>
-            </TextBlock>
-            <TextBlock x:Name="txtLabelWiringDiagram" HorizontalAlignment="Left" Margin="0,228,0,0" TextWrapping="Wrap" Text="Wiring Diagram:" VerticalAlignment="Top" Width="215" FontSize="14.667" FontWeight="Bold"/>
-            <TextBlock x:Name="txtResultWiringDiagram" HorizontalAlignment="Left" Margin="0,248,0,0" TextWrapping="Wrap" Text="txtResultWiringDiagram" VerticalAlignment="Top" Height="32" Width="375">
-                <TextBlock.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Copy all for Excel" Click="CopyExcel_Click"/>
-                        <MenuItem Header="Copy this only" Click="CopySingle_Click"/>
-                    </ContextMenu>
-                </TextBlock.ContextMenu>
-            </TextBlock>
-            <TextBlock x:Name="txtLabelComments" HorizontalAlignment="Left" Margin="0,285,0,0" TextWrapping="Wrap" Text="Comments" VerticalAlignment="Top" Width="215" FontSize="14.667" FontWeight="Bold"/>
-            <TextBlock x:Name="txtResultComments" HorizontalAlignment="Left" Margin="0,304.507,0,0" TextWrapping="Wrap" Text="txtResultComments" VerticalAlignment="Top" Height="64" Width="375">
-                <TextBlock.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Copy all for Excel" Click="CopyExcel_Click"/>
-                        <MenuItem Header="Copy this only" Click="CopySingle_Click"/>
-                    </ContextMenu>
-                </TextBlock.ContextMenu>
-            </TextBlock>
-        </Grid>
+        <StackPanel x:Name="gridResults" HorizontalAlignment="Left" Height="615" Margin="65,215,0,0" Grid.Row="1" VerticalAlignment="Top" Width="395" />
         <Image x:Name="imageProduct" HorizontalAlignment="Left" Height="175" Margin="530,187,0,0" VerticalAlignment="Top" Width="175" MouseRightButtonUp="image_RightClick"/>
-        <controls:CycleImageBox x:Name="cycleBatteries" Height="200" Margin="515,375,0,20" HorizontalAlignment="Left" Width="200"/>
+        <controls:CycleImageBox x:Name="cycleBatteries" Height="200" Margin="515,375,0,0" HorizontalAlignment="Left" Width="200" VerticalAlignment="Top"/>
     </Grid>
 </Page>

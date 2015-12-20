@@ -194,7 +194,7 @@
                 <BlurEffect Radius="10"/>
             </Rectangle.Effect>
             <Rectangle.Fill>
-                <ImageBrush ImageSource="AcuityLogo.png" Stretch="UniformToFill"/>
+                <ImageBrush ImageSource="/PS-Field-Install;component/Assets/AcuityLogo.png" Stretch="UniformToFill"/>
             </Rectangle.Fill>
         </Rectangle>
         <Rectangle Height="40" VerticalAlignment="Top" d:LayoutOverrides="VerticalAlignment">
@@ -219,8 +219,12 @@
             </TextBlock.Effect>
         </TextBlock>
         <Grid Margin="0,0,0,306">
-            <Image x:Name="image" HorizontalAlignment="Left" Height="36" Margin="10,2,0,0" VerticalAlignment="Top" Width="35" Source="AcuityLogo.png" Stretch="UniformToFill"/>
-            <Label x:Name="linkSearch" Content="Search" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="White" Margin="630,6,0,0" MouseLeave="linkSearch_MouseLeave" MouseLeftButtonDown="linkSearch_MouseLeftButtonDown" MouseLeftButtonUp="linkSearch_MouseLeftButtonUp" MouseEnter="linkSearch_MouseEnter">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="13*"/>
+                <ColumnDefinition Width="11*"/>
+            </Grid.ColumnDefinitions>
+            <Image x:Name="image" HorizontalAlignment="Left" Height="36" Margin="10,2,0,0" VerticalAlignment="Top" Width="35" Stretch="UniformToFill" Source="/PS-Field-Install;component/Assets/AcuityLogo.png"/>
+            <Label x:Name="linkSearch" Content="Search" HorizontalAlignment="Left" VerticalAlignment="Top" Background="#00000000" Foreground="White" Margin="175,6,0,0" MouseLeave="linkSearch_MouseLeave" MouseLeftButtonDown="linkSearch_MouseLeftButtonDown" MouseLeftButtonUp="linkSearch_MouseLeftButtonUp" MouseEnter="linkSearch_MouseEnter" Grid.Column="1">
                 <Label.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -230,8 +234,8 @@
                     </TransformGroup>
                 </Label.RenderTransform>
             </Label>
-            <Label x:Name="linkLogin" Content="Admin Settings" HorizontalAlignment="Left" Margin="687,6,0,0" VerticalAlignment="Top" Background="#00000000" Foreground="#FFFFD100"/>
-            <Label x:Name="linkHelp" Content="Help" HorizontalAlignment="Left" Margin="790,6,0,0" VerticalAlignment="Top" Background="#00000000" Foreground="White" MouseEnter="linkHelp_MouseEnter" MouseLeave="linkHelp_MouseLeave" MouseLeftButtonDown="linkHelp_MouseLeftButtonDown" MouseLeftButtonUp="linkHelp_MouseLeftButtonUp">
+            <Label x:Name="linkLogin" Content="Admin Settings" HorizontalAlignment="Left" Margin="232,6,0,0" VerticalAlignment="Top" Background="#00000000" Foreground="#FFFFD100" Grid.Column="1"/>
+            <Label x:Name="linkHelp" Content="Help" HorizontalAlignment="Left" Margin="335,6,0,0" VerticalAlignment="Top" Background="#00000000" Foreground="White" MouseEnter="linkHelp_MouseEnter" MouseLeave="linkHelp_MouseLeave" MouseLeftButtonDown="linkHelp_MouseLeftButtonDown" MouseLeftButtonUp="linkHelp_MouseLeftButtonUp" Grid.Column="1">
                 <Label.RenderTransform>
                     <TransformGroup>
                         <ScaleTransform/>
@@ -290,7 +294,7 @@
                         <Button x:Name="btnCancel" Content="Cancel" HorizontalAlignment="Left" Margin="260,0,0,0" VerticalAlignment="Bottom" Width="75" IsCancel="True" Click="btnCancel_Click"/>
                         <ComboBox x:Name="comboHeadings" HorizontalAlignment="Left" Margin="288,130,0,0" VerticalAlignment="Top" Width="167" SelectionChanged="comboHeadings_SelectionChanged"/>
                         <TextBlock x:Name="textBlock2_Copy1" HorizontalAlignment="Left" Margin="288,0,0,130" TextWrapping="Wrap" Text="New Category" VerticalAlignment="Bottom"/>
-                        <TextBox x:Name="txtNewCategory" HorizontalAlignment="Left" Height="23" Margin="288,200,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="167"/>
+                        <TextBox x:Name="txtNewCategory" HorizontalAlignment="Left" Height="23" Margin="288,200,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="167"/>
                         <Button x:Name="btnAddCategory" Content="Add Category" HorizontalAlignment="Left" Margin="288,228,0,0" VerticalAlignment="Top" Width="93" Click="btnAddCategory_Click"/>
                     </Grid>
                 </Grid>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
@@ -19,23 +20,14 @@ namespace PS_Field_Install {
 
 	public partial class Update : Page {
 
-		// FLAGS
 		private bool manualChangeFlag = true;
-
-		private Hashtable columnAllocation;
 		private Hashtable images;
-
-		/// <summary>
-		/// List of categories that will be in the final datatable of database
-		/// </summary>
-		private List<string> categories;
-
-		/// <summary>
-		/// List of column headings in excel file
-		/// </summary>
-		private List<string> headings;
-
 		private int rows;
+
+		private Hashtable databaseTransform = new Hashtable();
+
+		private List<string> headings;
+		private List<string> categories;
 
 		public Update() {
 			InitializeComponent();
@@ -93,22 +85,15 @@ namespace PS_Field_Install {
 			DialogResult dr = openFileDialog.ShowDialog();
 
 			if (dr == DialogResult.OK) {
-				txtFilename.Text = openFileDialog.FileName;
-				headings = GetColumnHeadings(openFileDialog.FileName);
+				var filename = openFileDialog.FileName;
+				txtFilename.Text = filename;
+				GetColumnHeadings(filename);
 
-				foreach (string str in headings) {
-					listHeadings.Items.Add(str);
+				foreach (var item in headings) {
+					listHeadings.Items.Add(item);
 				}
 
-				if (columnAllocation != null) {
-					columnAllocation.Clear();
-				} else {
-					columnAllocation = new Hashtable();
-				}
-
-				foreach (var col in listHeadings.Items) {
-					columnAllocation.Add(col, headings[0]);
-				}
+				UpdateCategories();
 			}
 		}
 
@@ -117,7 +102,11 @@ namespace PS_Field_Install {
 		/// </summary>
 		/// <param name="filename">The fully qualified filepath of the excel file</param>
 		/// <returns>A list of strings that represents each column heading in the excel file</returns>
-		private List<string> GetColumnHeadings(string filename) {
+		private void GetColumnHeadings(string filename) {
+			if (headings == null) {
+				headings = new List<string>();
+			}
+
 			Excel.Application excelApp;
 			Excel.Workbook excelWorkbook;
 			Excel.Worksheet excelWorksheet;
@@ -126,8 +115,6 @@ namespace PS_Field_Install {
 			string str;
 			int rCnt, cCnt;
 			rCnt = cCnt = 0;
-
-			headings = new List<string>();
 
 			excelApp = new Excel.Application();
 			excelWorkbook = excelApp.Workbooks.Open(filename);
@@ -147,14 +134,6 @@ namespace PS_Field_Install {
 			ReleaseObject(excelWorksheet);
 			ReleaseObject(excelWorkbook);
 			ReleaseObject(excelApp);
-
-			string headingList = "";
-			foreach (var item in headings) {
-				headingList += item.ToString() + "\n";
-			}
-			System.Windows.MessageBox.Show(headingList);
-
-			return headings;
 		}
 
 		/// <summary>
@@ -175,16 +154,12 @@ namespace PS_Field_Install {
 
 		private void listHeadings_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
 			if (listHeadings.SelectedIndex != -1) {
-				string currHeading = columnAllocation[listHeadings.SelectedItem].ToString();
-				if (headings != null) {
-					foreach (var item in categories) {
-						if (currHeading == item.ToString()) {
-							manualChangeFlag = false;
-							comboHeadings.SelectedItem = item.ToString();
-							manualChangeFlag = true;
-							return;
-						}
-					}
+				var selectedHeading = listHeadings.SelectedItem.ToString();
+				if (databaseTransform.ContainsKey(selectedHeading)) {
+					manualChangeFlag = false;
+					comboHeadings.SelectedItem = databaseTransform[selectedHeading];
+					manualChangeFlag = true;
+				} else {
 					manualChangeFlag = false;
 					comboHeadings.SelectedIndex = -1;
 					manualChangeFlag = true;
@@ -193,18 +168,18 @@ namespace PS_Field_Install {
 		}
 
 		private void btnConfirm_Click(object sender, RoutedEventArgs e) {
-			string verifyMe = "";
+			var verifyMe = "";
 
 			foreach (var item in categories) {
 				verifyMe += item.ToString() + ":\n";
-				if (columnAllocation == null) {
-					System.Windows.MessageBox.Show("An error occured while building column allocation list.");
+				if (databaseTransform == null) {
+					System.Windows.MessageBox.Show("An error occured while transforming the database");
 					return;
-				}
-
-				foreach (DictionaryEntry de in columnAllocation) {
-					if (de.Value.ToString() == item.ToString()) {
-						verifyMe += "     " + de.Key.ToString() + "\n";
+				} else {
+					foreach (DictionaryEntry de in databaseTransform) {
+						if (de.Value.ToString() == item.ToString()) {
+							verifyMe += "     " + de.Key.ToString() + "\n";
+						}
 					}
 				}
 
@@ -214,17 +189,23 @@ namespace PS_Field_Install {
 			MessageBoxResult result = System.Windows.MessageBox.Show("Please verify that the settings you chose are correct:\n\n" + verifyMe, "Verify Information", MessageBoxButton.YesNo);
 
 			if (result == MessageBoxResult.Yes) {
-				ProgressBar pBar = new ProgressBar(ref columnAllocation, txtFilename.Text, rows);
-				pBar.Show();
+				ProgressBar bar = new ProgressBar(ref databaseTransform, txtFilename.Text, rows);
+				bar.Show();
 			} else {
 				return;
 			}
+
 		}
 
 		private void btnCancel_Click(object sender, RoutedEventArgs e) {
 			linkSearch_MouseLeftButtonDown(null, null);
 		}
 
+		/// <summary>
+		/// Resets the information displayed in the database update tab
+		/// </summary>
+		/// <param name="sender"></param>
+		/// <param name="e"></param>
 		private void btnReset_Click(object sender, RoutedEventArgs e) {
 			txtNewCategory.Text = "";
 			txtFilename.Text = "";
@@ -233,16 +214,19 @@ namespace PS_Field_Install {
 
 		private void comboHeadings_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 			if (manualChangeFlag) {
-				var currHeading = listHeadings.SelectedItem;
-				columnAllocation[currHeading] = e.AddedItems[0].ToString();
+				var selectedHeading = listHeadings.SelectedItem.ToString();
+				databaseTransform.Add(selectedHeading, comboHeadings.SelectedItem.ToString());
 			}
 		}
 
+		/// <summary>
+		/// Handles the reading of the category file to check for existing and previously used categories
+		/// </summary>
 		private void UpdateCategories() {
-			comboHeadings.Items.Clear();
-
 			if (categories == null) {
 				categories = new List<string>();
+			} else {
+				categories.Clear();
 			}
 
 			StreamReader sr = new StreamReader(Settings.SavedCategories);
@@ -252,11 +236,13 @@ namespace PS_Field_Install {
 					categories.Add(line);
 				}
 			}
-			sr.Close();
 
+			comboHeadings.Items.Clear();
 			foreach (var item in categories) {
-				comboHeadings.Items.Add(item.ToString());
+				comboHeadings.Items.Add(item);
 			}
+
+			sr.Close();
 		}
 
 		/// <summary>
@@ -265,28 +251,27 @@ namespace PS_Field_Install {
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void btnAddCategory_Click(object sender, RoutedEventArgs e) {
-			var newCat = txtNewCategory.Text;
 			if (categories == null) {
 				categories = new List<string>();
 			}
 
-			categories.Add(newCat);
-
 			StreamReader sr = new StreamReader(Settings.SavedCategories);
 			string line;
 			while ((line = sr.ReadLine()) != null) {
-				if (newCat == line) {
-					System.Windows.MessageBox.Show("Category already exists!");
+				if (line == txtNewCategory.Text) {
+					System.Windows.MessageBox.Show("Category already exists.");
+					sr.Close();
 					return;
 				}
 			}
-			sr.Close();
 
+			sr.Close();
 			StreamWriter sw = File.AppendText(Settings.SavedCategories);
-			sw.WriteLine(newCat);
+			sw.WriteLine(txtNewCategory.Text);
 			sw.Close();
 			txtNewCategory.Text = "";
 			UpdateCategories();
+			
 		}
 		#endregion
 
