@@ -20,7 +20,7 @@ namespace PS_Field_Install {
 		}
 
 		private void ClearText() {
-			
+
 		}
 
 		private void Page_Loaded(object sender, RoutedEventArgs e) {
@@ -33,6 +33,18 @@ namespace PS_Field_Install {
 			waiting.Close();
 
 			DisplayResult(null);
+
+			foreach (DataColumn dc in DataHandler.productData.Tables["Products"].Columns) {
+				if (dc.ToString().Contains("CI")) {
+					DataHandler.CICodeColumn = dc.ToString();
+					// MessageBox.Show("CI Code column found: " + dc.ToString());
+				}
+
+				if (dc.ToString().Contains("Desc")) {
+					DataHandler.DescriptionColumn = dc.ToString();
+					// MessageBox.Show("Description column found: " + dc.ToString());
+				}
+			}
 		}
 
 		#region Help Link Events
@@ -85,19 +97,18 @@ namespace PS_Field_Install {
 					DisplayResult(foundRows[multi.GetResult()]);
 				}
 			}
-
 		}
 
 		private DataRow[] RunQuery(string mode, string findText, bool? partials) {
 			switch (mode) {
 				case "CICode":
-					return DataHandler.productData.Tables["Products"].Select("CI_Code='" + findText + "'");
+					return DataHandler.productData.Tables["Products"].Select(DataHandler.CICodeColumn + "='" + findText + "'");
 
 				case "Description":
 					if (partials == true) {
-						return DataHandler.productData.Tables["Products"].Select("Description LIKE '%" + findText + "%'");
+						return DataHandler.productData.Tables["Products"].Select(DataHandler.DescriptionColumn + " LIKE '%" + findText + "%'");
 					} else {
-						return DataHandler.productData.Tables["Products"].Select("Description='" + findText + "'");
+						return DataHandler.productData.Tables["Products"].Select(DataHandler.DescriptionColumn + "='" + findText + "'");
 					}
 
 				default:
@@ -107,12 +118,16 @@ namespace PS_Field_Install {
 		}
 
 		private void GetImages(DataRow row) {
+			if (row == null) {
+				return;
+			}
+
 			string[] psImageName;
 			int batteryCount = 0;
 			int i = 0;
 
 			// Start with the Power Sentry product image
-			string strPS = row["Power_Sentry_Solutions"].ToString();
+			string strPS = row["PS_Solution"].ToString();
 			psImageName = TextTools.SplitToArray(strPS, "and");
 			batteryCount = psImageName.Length;
 			bmpPSimg = new string[batteryCount];
@@ -125,25 +140,36 @@ namespace PS_Field_Install {
 			cycleBatteries.Images = bmpPSimg;
 
 			// Next grab the image for the product
-			string strLL = TextTools.GetProductFamily(row["Descriptions"].ToString());
+			string strLL = TextTools.GetProductFamily(row[DataHandler.DescriptionColumn].ToString());
 
 			try {
-				imageProduct.Source = new BitmapImage(new Uri(Settings.ImagesFolder_Lithonia + @"\" + TextTools.GetProductFamily(row["Descriptions"].ToString()) + ".png"));
+				imageProduct.Source = new BitmapImage(new Uri(Settings.ImagesFolder_Lithonia + @"\" + TextTools.GetProductFamily(row[DataHandler.DescriptionColumn].ToString()) + ".png"));
 			} catch (Exception) { }
 		}
 
 		private void DisplayResult(DataRow row) {
 			gridResults.Children.RemoveRange(0, gridResults.Children.Count);
 
-			foreach (DataColumn dc in DataHandler.productData.Tables["Products"].Columns) {
+			imageProduct.Source = null;
+			cycleBatteries.Images = null;
+
+			if (row == null) {
+				return;
+			}
+
+			foreach (var item in DataHandler.resultsOrder) {
 				if (row == null) {
 					Controls.ColumnResult colResult = new Controls.ColumnResult("", "");
 					gridResults.Children.Add(colResult);
 				} else {
-					Controls.ColumnResult colResult = new Controls.ColumnResult(dc.ColumnName, row[dc].ToString());
+					Controls.ColumnResult colResult = new Controls.ColumnResult(item, row[item].ToString());
 					gridResults.Children.Add(colResult);
 				}
 			}
+
+			GetImages(row);
+			cycleBatteries.Initiate();
+
 		}
 
 		private void linkLogin_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {

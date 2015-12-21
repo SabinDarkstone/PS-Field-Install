@@ -160,7 +160,7 @@
             <TextBox x:Name="txtSearchBox" HorizontalAlignment="Left" Height="23" Margin="89,1,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="375"/>
         </Grid>
         <StackPanel x:Name="gridResults" HorizontalAlignment="Left" Height="615" Margin="65,215,0,0" Grid.Row="1" VerticalAlignment="Top" Width="395" />
-        <Image x:Name="imageProduct" HorizontalAlignment="Left" Height="175" Margin="530,187,0,0" VerticalAlignment="Top" Width="175" MouseRightButtonUp="image_RightClick"/>
-        <controls:CycleImageBox x:Name="cycleBatteries" Height="200" Margin="515,375,0,0" HorizontalAlignment="Left" Width="200" VerticalAlignment="Top"/>
+        <Image x:Name="imageProduct" HorizontalAlignment="Left" Height="225" Margin="515,200,0,0" VerticalAlignment="Top" Width="225" MouseRightButtonUp="image_RightClick"/>
+        <controls:CycleImageBox x:Name="cycleBatteries" Height="225" Margin="515,430,0,0" HorizontalAlignment="Left" Width="225" VerticalAlignment="Top"/>
     </Grid>
 </Page>

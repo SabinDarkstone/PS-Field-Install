@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows;
@@ -23,6 +22,13 @@ namespace PS_Field_Install {
 		private bool manualChangeFlag = true;
 		private Hashtable images;
 		private int rows;
+
+		private enum Direction {
+			UP,
+			DOWN,
+			TOP,
+			BOTTOM
+		};
 
 		private Hashtable databaseTransform = new Hashtable();
 
@@ -64,7 +70,7 @@ namespace PS_Field_Install {
 		}
 
 		private void linkSearch_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
-			Uri uri = new Uri("Search.xaml", UriKind.Relative);
+			Uri uri = new Uri("Pages/Search.xaml", UriKind.Relative);
 			this.NavigationService.Navigate(uri);
 		}
 
@@ -182,19 +188,15 @@ namespace PS_Field_Install {
 						}
 					}
 				}
-
 				verifyMe += "\n";
 			}
 
 			MessageBoxResult result = System.Windows.MessageBox.Show("Please verify that the settings you chose are correct:\n\n" + verifyMe, "Verify Information", MessageBoxButton.YesNo);
 
 			if (result == MessageBoxResult.Yes) {
-				ProgressBar bar = new ProgressBar(ref databaseTransform, txtFilename.Text, rows);
+				ProgressBar bar = new ProgressBar(databaseTransform, txtFilename.Text, rows);
 				bar.Show();
-			} else {
-				return;
 			}
-
 		}
 
 		private void btnCancel_Click(object sender, RoutedEventArgs e) {
@@ -215,6 +217,9 @@ namespace PS_Field_Install {
 		private void comboHeadings_SelectionChanged(object sender, SelectionChangedEventArgs e) {
 			if (manualChangeFlag) {
 				var selectedHeading = listHeadings.SelectedItem.ToString();
+				if (databaseTransform.ContainsKey(selectedHeading)) {
+					databaseTransform.Remove(selectedHeading);
+				}
 				databaseTransform.Add(selectedHeading, comboHeadings.SelectedItem.ToString());
 			}
 		}
@@ -241,8 +246,20 @@ namespace PS_Field_Install {
 			foreach (var item in categories) {
 				comboHeadings.Items.Add(item);
 			}
-
 			sr.Close();
+
+			StreamReader sr2 = new StreamReader(Settings.ResultsDisplayOrder);
+			string line2;
+			while ((line2 = sr2.ReadLine()) != null) {
+				if (line2.Contains("CI")) {
+					DataHandler.CICodeColumn = line2.Replace(" ", "_");
+				}
+
+				if (line2.Contains("Desc")) {
+					DataHandler.DescriptionColumn = line2.Replace(" ", "_");
+				}
+			}
+			sr2.Close();
 		}
 
 		/// <summary>
@@ -271,7 +288,7 @@ namespace PS_Field_Install {
 			sw.Close();
 			txtNewCategory.Text = "";
 			UpdateCategories();
-			
+
 		}
 		#endregion
 
@@ -328,7 +345,7 @@ namespace PS_Field_Install {
 		/// Initializes the current images stored for the database.
 		/// </summary>
 		private void InitializeCurrentImages() {
-			IEnumerable<string> imagesLithonia = Directory.EnumerateFiles(Settings.ImagesFolder_PowerSentry);
+			IEnumerable<string> imagesLithonia = Directory.EnumerateFiles(Settings.ImagesFolder_Lithonia);
 			IEnumerable<string> imagesPowerSentry = Directory.EnumerateFiles(Settings.ImagesFolder_PowerSentry);
 
 			if (images == null) {
@@ -340,7 +357,7 @@ namespace PS_Field_Install {
 			int i = 0;
 			foreach (string s in imagesLithonia) {
 				images.Add(i, s);
-					i++;
+				i++;
 			}
 			foreach (string s in imagesPowerSentry) {
 				images.Add(i, s);
@@ -379,6 +396,149 @@ namespace PS_Field_Install {
 		private void btnPreview_Click(object sender, RoutedEventArgs e) {
 			picPreview.Source = new BitmapImage(new Uri(images[listCurrentImageFiles.SelectedIndex].ToString(), UriKind.Absolute));
 		}
+		#endregion
+
+		#region Display Settings
+		private void listboxAvailCats_Loaded(object sender, RoutedEventArgs e) {
+			InitializeDisplaySettings();
+		}
+
+		private void InitializeDisplaySettings() {
+			ClearDisplaySettings();
+
+			StreamReader sr = new StreamReader(Settings.SavedCategories);
+			List<string> fileCats = new List<string>();
+			string line;
+			while ((line = sr.ReadLine()) != null) {
+				fileCats.Add(line);
+			}
+			sr.Close();
+
+			foreach (var item in categories) {
+				if (!fileCats.Contains(line)) {
+					// Nothing to see here for the moment
+				}
+				listboxAvailCats.Items.Add(item);
+			}
+
+			StreamReader sr2 = new StreamReader(Settings.ResultsDisplayOrder);
+			string line2;
+			while ((line2 = sr2.ReadLine()) != null) {
+				listboxShownCats.Items.Add(line2);
+			}
+			sr2.Close();
+
+			for (int i = 0; i < listboxShownCats.Items.Count; i++) {
+				if (listboxAvailCats.Items.Contains(listboxShownCats.Items[i])) {
+					listboxAvailCats.Items.Remove(listboxShownCats.Items[i]);
+				}
+			}
+		}
+
+		private void ClearDisplaySettings() {
+			listboxAvailCats.Items.Clear();
+			listboxShownCats.Items.Clear();
+		}
+
+		private void btnDisplayAdd_Click(object sender, RoutedEventArgs e) {
+			if (listboxAvailCats.SelectedIndex != -1) {
+				listboxShownCats.Items.Add(listboxAvailCats.SelectedItem);
+				listboxAvailCats.Items.Remove(listboxAvailCats.SelectedItem);
+			}
+		}
+
+		private void btnDisplayRemove_Click(object sender, RoutedEventArgs e) {
+			if (listboxShownCats.SelectedIndex != -1) {
+				listboxAvailCats.Items.Add(listboxShownCats.SelectedItem);
+				listboxShownCats.Items.Remove(listboxShownCats.SelectedItem);
+			}
+		}
+
+		private void btnDisplayCancel_Click(object sender, RoutedEventArgs e) {
+			linkSearch_MouseLeftButtonDown(null, null);
+		}
+
+		private void btnDisplayApply_Click(object sender, RoutedEventArgs e) {
+			StreamWriter sw = new StreamWriter(Settings.ResultsDisplayOrder);
+			for (int i = 0; i < listboxShownCats.Items.Count; i++) {
+				sw.WriteLine(listboxShownCats.Items[i].ToString());
+			}
+			sw.Close();
+
+			System.Windows.MessageBox.Show("Categories list saved.");
+
+			DataHandler.ReorderColumns();
+		}
+
+		#region Listbox Moving
+		/// <summary>
+		/// Reorders the listbox that represents what is being shown in the results view
+		/// </summary>
+		/// <param name="selectedItem">The selected item in the listbox</param>
+		/// <param name="direction">The direction of which  to move the item</param>
+		private void MoveListItem(object selectedItem, Direction direction) {
+			List<object> list = new List<object>();
+			for (int i = 0; i < listboxShownCats.Items.Count; i++) {
+				list.Add(listboxShownCats.Items[i]);
+			}
+			var index = listboxShownCats.Items.IndexOf(selectedItem);
+			switch (direction) {
+				case Direction.DOWN:
+					if (index != list.Count - 1) {
+						list.Insert(index + 2, selectedItem);
+						list.RemoveAt(index);
+					}
+					break;
+				case Direction.UP:
+					if (index != 0) {
+						list.Insert(index - 1, selectedItem);
+						list.RemoveAt(index + 1);
+					}
+					break;
+				case Direction.TOP:
+					if (index != 0) {
+						list.Insert(0, selectedItem);
+						list.RemoveAt(index + 1);
+					}
+					break;
+				case Direction.BOTTOM:
+					if (index != list.Count - 1) {
+						list.Insert(list.Count, selectedItem);
+						list.RemoveAt(index);
+					}
+					break;
+				default:
+					break;
+			}
+
+			listboxShownCats.Items.Clear();
+			foreach (var item in list) {
+				listboxShownCats.Items.Add(item);
+			}
+
+			listboxShownCats.SelectedItem = selectedItem;
+
+		}
+
+		private void btnDisplayMoveUp_Click(object sender, RoutedEventArgs e) {
+			MoveListItem(listboxShownCats.SelectedItem, Direction.UP);
+		}
+
+		private void btnDisplayMoveDown_Click(object sender, RoutedEventArgs e) {
+			MoveListItem(listboxShownCats.SelectedItem, Direction.DOWN);
+
+		}
+
+		private void btnDisplayMoveTop_Click(object sender, RoutedEventArgs e) {
+			MoveListItem(listboxShownCats.SelectedItem, Direction.TOP);
+
+		}
+
+		private void btnDisplayMoveBottom_Click(object sender, RoutedEventArgs e) {
+			MoveListItem(listboxShownCats.SelectedItem, Direction.BOTTOM);
+
+		}
+		#endregion
 		#endregion
 
 	}
