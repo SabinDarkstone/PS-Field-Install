@@ -152,6 +152,11 @@ namespace PS_Field_Install {
 			gridResults.Children.RemoveRange(0, gridResults.Children.Count);
 
 			imageProduct.Source = null;
+			if (cycleBatteries.Images != null) {
+				for (int i = 0; i < cycleBatteries.Images.Length; i++) {
+					cycleBatteries.Images[i] = "";
+				}
+			}
 			cycleBatteries.Images = null;
 
 			if (row == null) {
@@ -169,27 +174,20 @@ namespace PS_Field_Install {
 			}
 
 			GetImages(row);
+			cycleBatteries.Stop();
 			cycleBatteries.Initiate();
-
-		}
-
-		#region Copy Results
-		private void textblock_RightClick(object sender, MouseButtonEventArgs e) {
-
-		}
-
-		private void image_RightClick(object sender, MouseButtonEventArgs e) {
-
 		}
 
 		private void CopyExcel_Click(object sender, RoutedEventArgs e) {
+			string copiedData = "";
+			foreach (var item in gridResults.Children) {
+				Controls.ColumnResult thisResult = (Controls.ColumnResult)item;
+				copiedData += thisResult.GetData();
+			}
 
+			Clipboard.SetText(copiedData);
+			MessageBox.Show("Results copied to clipboard for Excel", "PS Field Install Tool");
 		}
-
-		private void CopySingle_Click(object sender, RoutedEventArgs e) {
-
-		}
-		#endregion
 
 	}
 }
