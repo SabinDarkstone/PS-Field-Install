@@ -299,6 +299,28 @@
                     </Grid>
                 </Grid>
             </TabItem>
+            <TabItem Header="Display Settings" HorizontalAlignment="Left" VerticalAlignment="Top" Width="100" Margin="-2,-2,-2,0">
+                <TabItem.Background>
+                    <LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
+                        <GradientStop Color="#FFF0F0F0"/>
+                        <GradientStop Color="#00E5E5E5" Offset="1"/>
+                    </LinearGradientBrush>
+                </TabItem.Background>
+                <Grid>
+                    <ListBox x:Name="listboxAvailCats" HorizontalAlignment="Left" Height="265" Margin="88,41,0,0" VerticalAlignment="Top" Width="150" Loaded="listboxAvailCats_Loaded"/>
+                    <TextBlock x:Name="textBlock6" HorizontalAlignment="Left" Margin="88,20,0,0" TextWrapping="Wrap" Text="Available Categories:" VerticalAlignment="Top"/>
+                    <Button x:Name="btnDisplayAdd" Content="&gt;&gt;" HorizontalAlignment="Left" Margin="250,146,0,0" VerticalAlignment="Top" Width="25" Click="btnDisplayAdd_Click"/>
+                    <Button x:Name="btnDisplayRemove" Content="&lt;&lt;" HorizontalAlignment="Left" Margin="250,171,0,0" VerticalAlignment="Top" Width="25" Click="btnDisplayRemove_Click"/>
+                    <ListBox x:Name="listboxShownCats" HorizontalAlignment="Left" Height="265" Margin="293,41,0,0" VerticalAlignment="Top" Width="150"/>
+                    <TextBlock x:Name="textBlock6_Copy" HorizontalAlignment="Left" Margin="293,20,0,0" TextWrapping="Wrap" Text="Categories to Display:" VerticalAlignment="Top"/>
+                    <Button x:Name="btnDisplayMoveUp" Content="Move Up" HorizontalAlignment="Left" Margin="448,121,0,0" VerticalAlignment="Top" Width="100" Click="btnDisplayMoveUp_Click"/>
+                    <Button x:Name="btnDisplayMoveDown" Content="Move Down" HorizontalAlignment="Left" Margin="448,146,0,0" VerticalAlignment="Top" Width="100" Click="btnDisplayMoveDown_Click"/>
+                    <Button x:Name="btnDisplayMoveTop" Content="Move To Top" HorizontalAlignment="Left" Margin="448,176,0,0" VerticalAlignment="Top" Width="100" Click="btnDisplayMoveTop_Click"/>
+                    <Button x:Name="btnDisplayMoveBottom" Content="Move To Bottom" HorizontalAlignment="Left" Margin="448,201,0,0" VerticalAlignment="Top" Width="100" Click="btnDisplayMoveBottom_Click"/>
+                    <Button x:Name="btnDisplayApply" Content="Apply" HorizontalAlignment="Left" Margin="203,335,0,0" VerticalAlignment="Top" Width="70" Click="btnDisplayApply_Click"/>
+                    <Button x:Name="btnDisplayCancel" Content="Cancel" HorizontalAlignment="Left" Margin="278,335,0,0" VerticalAlignment="Top" Width="70" Click="btnDisplayCancel_Click"/>
+                </Grid>
+            </TabItem>
         </TabControl>
     </Grid>
 </Page>

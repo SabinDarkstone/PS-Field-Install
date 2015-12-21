@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PS_Field_Install"
         mc:Ignorable="d"
         Title="Data Import Progress" Height="125.064" Width="354"
-        ContentRendered="Window_ContentRendered" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" Icon="Icon.png" Unloaded="Window_Unloaded">
+        ContentRendered="Window_ContentRendered" ResizeMode="NoResize" ShowInTaskbar="False" WindowStartupLocation="CenterScreen" Icon="/PS-Field-Install;component/Assets/AcuityLogo.png" Topmost="True">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <LinearGradientBrush.RelativeTransform>

@@ -6,6 +6,7 @@ using System.Data;
 using Excel = Microsoft.Office.Interop.Excel;
 using PS_Field_Install.Scripts;
 using System.IO;
+using System.Collections.Generic;
 
 namespace PS_Field_Install {
 	/// <summary>
@@ -14,13 +15,12 @@ namespace PS_Field_Install {
 	public partial class ProgressBar : Window {
 
 		#region Objects
-		Hashtable columns;
-		string filename;
+		private Hashtable columns;
+		private string filename;
 		#endregion
 
 		#region Progress Bar Handling
-		public ProgressBar(ref Hashtable columnAllocation, string filename, int rowCount) {
-			// LogHelper.Log.Debug("ProgressBar.Constructor");
+		public ProgressBar(Hashtable columnAllocation, string filename, int rowCount) {
 			InitializeComponent();
 
 			columns = columnAllocation;
@@ -29,7 +29,6 @@ namespace PS_Field_Install {
 		}
 
 		private void Window_ContentRendered(object sender, EventArgs e) {
-			// LogHelper.Log.Debug("ProgressBar.Window_ContentRendered(sender, e)");
 			BackgroundWorker worker = new BackgroundWorker();
 			worker.WorkerReportsProgress = true;
 			worker.DoWork += worker_DoWork;
@@ -43,7 +42,7 @@ namespace PS_Field_Install {
 		}
 		#endregion
 
-		public async void worker_DoWork(object sender, DoWorkEventArgs e) {
+		public void worker_DoWork(object sender, DoWorkEventArgs e) {
 			DataTable table = DataHandler.productData.Tables["Products"];
 
 			#region Excel Prep
@@ -61,26 +60,76 @@ namespace PS_Field_Install {
 			range = excelWorksheet.UsedRange;
 			#endregion
 
-			table.Columns.Clear();
-			table.Rows.Clear();
-			table.Clear();
-			table.AcceptChanges();
-
 			// Assign columns to table
+			DataHandler.AddSavedColumns();
 
-			table.AcceptChanges();
+			var savedCats = new List<string>();
+			var columnsNeeded = new List<string>();
+			foreach (DictionaryEntry de in columns) {
+				if (table.Columns.Contains(de.Value.ToString().Replace(" ", "_"))) {
+					savedCats.Add(de.Value.ToString());
+					columnsNeeded.Add(de.Key.ToString());
+
+					// MessageBox.Show("Category: " + de.Value.ToString() + "\nColumn: " + de.Key.ToString());
+
+					if (de.Value.ToString().Contains("CI")) {
+						DataHandler.CICodeColumn = de.Value.ToString();
+					}
+
+					if (de.Value.ToString().Contains("Desc")) {
+						DataHandler.DescriptionColumn = de.Value.ToString();
+					}
+				}
+			}
 
 			for (rCnt = 2; rCnt < range.Rows.Count + 1; rCnt++) {
 				DataRow dr = table.NewRow();
 				for (cCnt = 1; cCnt < range.Columns.Count + 1; cCnt++) {
-					
+					var thisHeading = (range.Cells[1, cCnt] as Excel.Range).Value;
+					var thisCategory = columns[thisHeading].ToString().Replace(" ", "_");
+					var thisCell = (range.Cells[rCnt, cCnt] as Excel.Range).Value;
+
+					if (thisCell == null) {
+						continue;
+					} else if (thisHeading == null) {
+						continue;
+					}
+
+					// MessageBox.Show("Heading: " + thisHeading + "\nCategory: " + thisCategory + "\nCell: " + thisCell);
+
+					thisHeading = thisHeading.ToString();
+					thisCategory = thisCategory.ToString();
+					thisCell = thisCell.ToString();
+
+					if (thisCategory == "Not Used") {
+						continue;
+					} else if (columnsNeeded.Contains(thisHeading)) {
+						if (thisCell.Contains("(CI-") && thisCell.Length > 7) {
+							// Cell contains a CI code with other information.  CI code needs to be removed for use in the database
+							thisCell = thisCell.Substring(0, thisCell.IndexOf("(CI") - 1);
+							dr[thisCategory] = thisCell;
+						} else if (thisCell.Contains("//*")) {
+							// Cell contains a CI code only, remove the asterisk and keep the rest
+							thisCell = thisCell.Substring(1, thisCell.Length);
+							dr[thisCategory] = thisCell;
+						} else if (thisCell == "1") {
+							// Cell contains only the number one, use the column heading as the value for database
+							dr[thisCategory] += thisHeading + ", ";
+						} else {
+							// If all else fails, the cell is likely a comment cell or another type of cell that contains
+							// information that will be in the database, not the heading
+							dr[thisCategory] = thisCell;
+						}
+					} else {
+						// MessageBox.Show("Cell not added with column of: " + thisHeading + " and a category of: " + thisCategory);
+					}
 				}
 
 				table.Rows.Add(dr);
 
 				(sender as BackgroundWorker).ReportProgress(rCnt);
 				this.Dispatcher.Invoke((Action)(() => {
-					txtCurrRecordCICode.Text = dr["CI_Code"].ToString();
+					txtCurrRecordCICode.Text = dr[DataHandler.CICodeColumn.ToString().Replace(" ", "_")].ToString();
 				}));
 			} // End reading excel file
 
@@ -142,10 +191,6 @@ namespace PS_Field_Install {
 			} finally {
 				GC.Collect();
 			}
-		}
-
-		private async void Window_Unloaded(object sender, RoutedEventArgs e) {
-			// await LogHelper.UploadLog();
 		}
 	}
 }

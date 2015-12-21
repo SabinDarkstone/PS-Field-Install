@@ -18,6 +18,7 @@ namespace PS_Field_Install.Scripts {
 		public static string DatabaseFile = @"C:\Users\sabin\Desktop\PS FIT\Data\PowerSearch.xml";
 
 		public static string SavedCategories = @"C:\Users\sabin\Desktop\PS FIT\Data\Categories.txt";
+		public static string ResultsDisplayOrder = @"C:\Users\sabin\Desktop\PS FIT\Data\DisplayOrder.txt";
 #else
 
 #endif
