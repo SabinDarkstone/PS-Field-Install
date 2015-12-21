@@ -138,7 +138,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Scripts\DataHandler.cs" />
-    <Compile Include="Scripts\ImageHandler.cs" />
     <Compile Include="Scripts\TextTools.cs" />
     <Compile Include="Pages\Update.xaml.cs">
       <DependentUpon>Update.xaml</DependentUpon>
