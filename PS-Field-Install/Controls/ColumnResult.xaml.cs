@@ -30,5 +30,9 @@ namespace PS_Field_Install.Controls {
 			TextBlock block = (TextBlock)sender;
 			System.Windows.MessageBox.Show(this.Name);
 		}
+
+		public string GetData() {
+			return txtLabel.Text + "\t" + txtResult.Text + "\n";
+		}
 	}
 }
