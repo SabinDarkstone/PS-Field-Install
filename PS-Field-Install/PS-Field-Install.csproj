@@ -125,7 +125,6 @@
     <Compile Include="Windows\CustomDialog.xaml.cs">
       <DependentUpon>CustomDialog.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Scripts\LogHelper.cs" />
     <Compile Include="Scripts\Settings.cs" />
     <Compile Include="Windows\Waiting.xaml.cs">
       <DependentUpon>Waiting.xaml</DependentUpon>
@@ -139,7 +138,6 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Scripts\DataHandler.cs" />
-    <Compile Include="Scripts\DropboxHelper.cs" />
     <Compile Include="Scripts\ImageHandler.cs" />
     <Compile Include="Scripts\TextTools.cs" />
     <Compile Include="Pages\Update.xaml.cs">

@@ -1,4 +1,4 @@
-﻿#define TEST
+﻿// #define TEST
 
 using System;
 using System.Data;
@@ -19,13 +19,7 @@ namespace PS_Field_Install {
 			InitializeComponent();
 		}
 
-		private void ClearText() {
-
-		}
-
 		private void Page_Loaded(object sender, RoutedEventArgs e) {
-			ClearText();
-
 			Waiting waiting = new Waiting("Updating Database...");
 			waiting.Show();
 
@@ -34,27 +28,34 @@ namespace PS_Field_Install {
 
 			DisplayResult(null);
 
-			foreach (DataColumn dc in DataHandler.productData.Tables["Products"].Columns) {
-				if (dc.ToString().Contains("CI")) {
+			foreach (DataColumn dc in DataHandler.productData.Tables[Settings.DataTableName].Columns) {
+				if (dc.ToString().Contains(Settings.CICodeTest)) {
 					DataHandler.CICodeColumn = dc.ToString();
-					// MessageBox.Show("CI Code column found: " + dc.ToString());
 				}
 
-				if (dc.ToString().Contains("Desc")) {
+				if (dc.ToString().Contains(Settings.DescriptionTest)) {
 					DataHandler.DescriptionColumn = dc.ToString();
-					// MessageBox.Show("Description column found: " + dc.ToString());
 				}
 			}
 		}
 
-		#region Help Link Events
+		#region Link Events
 		private void linkHelp_MouseLeftButtonDown(object sender, MouseButtonEventArgs e) {
 			Help helpWindow = new Help();
 			helpWindow.ShowDialog();
 		}
 
-		private void linkHelp_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
-
+		private void linkLogin_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
+#if TEST
+			this.NavigationService.Navigate(new Uri("Pages/Update.xaml", UriKind.Relative));
+#else
+			Login login = new Login();
+			login.ShowDialog();
+			if (login.DialogResult == true) {
+				Uri uri = new Uri("Pages/Update.xaml", UriKind.Relative);
+				this.NavigationService.Navigate(uri);
+			}
+#endif
 		}
 		#endregion
 
@@ -172,19 +173,7 @@ namespace PS_Field_Install {
 
 		}
 
-		private void linkLogin_MouseLeftButtonUp(object sender, MouseButtonEventArgs e) {
-#if TEST
-			this.NavigationService.Navigate(new Uri("Pages/Update.xaml", UriKind.Relative));
-#else
-			Login login = new Login();
-			login.ShowDialog();
-			if (login.DialogResult == true) {
-				Uri uri = new Uri("Pages/Update.xaml", UriKind.Relative);
-				this.NavigationService.Navigate(uri);
-			}
-#endif
-		}
-
+		#region Copy Results
 		private void textblock_RightClick(object sender, MouseButtonEventArgs e) {
 
 		}
@@ -200,6 +189,7 @@ namespace PS_Field_Install {
 		private void CopySingle_Click(object sender, RoutedEventArgs e) {
 
 		}
+		#endregion
 
 	}
 }

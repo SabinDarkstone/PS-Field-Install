@@ -234,32 +234,15 @@ namespace PS_Field_Install {
 				categories.Clear();
 			}
 
-			StreamReader sr = new StreamReader(Settings.SavedCategories);
-			string line;
-			while ((line = sr.ReadLine()) != null) {
-				if (!categories.Contains(line)) {
-					categories.Add(line);
-				}
-			}
+			categories = TextTools.ReadFileLines(Settings.SavedCategories, false);
 
 			comboHeadings.Items.Clear();
 			foreach (var item in categories) {
 				comboHeadings.Items.Add(item);
 			}
-			sr.Close();
 
-			StreamReader sr2 = new StreamReader(Settings.ResultsDisplayOrder);
-			string line2;
-			while ((line2 = sr2.ReadLine()) != null) {
-				if (line2.Contains("CI")) {
-					DataHandler.CICodeColumn = line2.Replace(" ", "_");
-				}
+			DataHandler.GetSearchColumns();
 
-				if (line2.Contains("Desc")) {
-					DataHandler.DescriptionColumn = line2.Replace(" ", "_");
-				}
-			}
-			sr2.Close();
 		}
 
 		/// <summary>
@@ -299,7 +282,6 @@ namespace PS_Field_Install {
 		/// <param name="sender"></param>
 		/// <param name="e"></param>
 		private void btnOpen_Click(object sender, RoutedEventArgs e) {
-			// LogHelper.Log.Debug("Update.btnOpen_Click(sender, e)");
 			OpenFileDialog openFileDialog = new OpenFileDialog();
 			openFileDialog.Filter = "PNG Files(*.png)|*.png";
 			DialogResult dr = openFileDialog.ShowDialog();

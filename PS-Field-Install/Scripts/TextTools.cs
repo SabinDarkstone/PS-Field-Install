@@ -1,7 +1,6 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 
 namespace PS_Field_Install.Scripts {
@@ -114,6 +113,28 @@ namespace PS_Field_Install.Scripts {
 
 		public static IEnumerable<T> GetValues<T>() {
 			return Enum.GetValues(typeof(T)).Cast<T>();
+		}
+
+		/// <summary>
+		/// Reads a text file and returns lines in a List
+		/// </summary>
+		/// <param name="filepath">The absolute path of the text file to read</param>
+		/// <param name="removeSpaces">Replaces spaces with underscores</param>
+		/// <returns></returns>
+		public static List<string> ReadFileLines(string filepath, bool removeSpaces) {
+			StreamReader sr = new StreamReader(filepath);
+			string line;
+			List<string> data = new List<string>();
+
+			while ((line = sr.ReadLine()) != null) {
+				if (removeSpaces) {
+					line = line.Replace(" ", "_");
+				}
+				data.Add(line);
+			}
+
+			sr.Close();
+			return data;
 		}
 
 	}
