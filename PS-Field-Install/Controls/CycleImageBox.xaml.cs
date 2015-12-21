@@ -35,6 +35,13 @@ namespace PS_Field_Install.Controls {
 			}
 		}
 
+		public void Stop() {
+			if (this.timer != null) {
+				this.timer.Stop();
+				this.timer = null;
+			}
+		}
+
 		private void image_UpdateImage(object sender, EventArgs e) {
 			if (Images == null) {
 				image.Source = null;
