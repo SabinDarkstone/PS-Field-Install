@@ -10,24 +10,21 @@ namespace PS_Field_Install {
 		public MultipleResults(ref DataRow[] results) {
 			InitializeComponent();
 
-			// LogHelper.Log.Debug("MultipleResults.Constructor");
 			foreach (DataRow row in results) {
-				listResults.Items.Add(row["Descriptions"]);
+				listResults.Items.Add(row[DataHandler.DescriptionColumn]);
 			}
 		}
 
 		private void btnConfirm_Click(object sender, RoutedEventArgs e) {
-			// LogHelper.Log.Debug("MultipleResults.btnConfirm.Click(sender, e)");
 			DialogResult = true;
 		}
 
 		public int GetResult() {
-			// LogHelper.Log.Debug("MultipleResults.GetResults()");
 			return listResults.SelectedIndex;
 		}
 
-		private async void Window_Unloaded(object sender, RoutedEventArgs e) {
-			// await LogHelper.UploadLog();
+		private void Window_Unloaded(object sender, RoutedEventArgs e) {
+
 		}
 	}
 }
