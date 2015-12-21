@@ -23,5 +23,8 @@ namespace PS_Field_Install.Scripts {
 
 #endif
 
+		public static string DataTableName = "Products";
+		public static string CICodeTest = "CI";
+		public static string DescriptionTest = "Desc";
 	}
 }

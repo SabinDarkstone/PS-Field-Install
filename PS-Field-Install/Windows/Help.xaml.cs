@@ -11,7 +11,7 @@ namespace PS_Field_Install {
 		}
 
 		private async void Window_Unloaded(object sender, RoutedEventArgs e) {
-			await LogHelper.UploadLog();
+
 		}
 	}
 }
