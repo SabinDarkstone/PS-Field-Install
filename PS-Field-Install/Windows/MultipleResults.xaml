@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PS_Field_Install"
         mc:Ignorable="d"
-        Title="MultipleResults" Height="316" Width="474" ResizeMode="NoResize" Topmost="True" WindowStartupLocation="CenterScreen" ShowInTaskbar="False" Icon="Icon.png" Unloaded="Window_Unloaded">
+        Title="MultipleResults" Height="316" Width="474" ResizeMode="NoResize" Topmost="True" WindowStartupLocation="CenterScreen" ShowInTaskbar="False" Icon="/PS-Field-Install;component/Assets/AcuityLogo.png" Unloaded="Window_Unloaded">
     <Window.Background>
         <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
             <GradientStop Color="#FFD6D6D6" Offset="0"/>
